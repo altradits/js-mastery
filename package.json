@@ -1,0 +1,21 @@
+{
+  "name": "js-mastery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "solution.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altradits/js-mastery.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/altradits/js-mastery/issues"
+  },
+  "homepage": "https://github.com/altradits/js-mastery#readme"
+}
