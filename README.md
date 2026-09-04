@@ -241,18 +241,29 @@ An interactive, zero-dependency, native JavaScript practice drill engine designe
 ## Practice & Study Workflow
 
 ### 1. Step-by-Step Interactive Drill
-Start the drill engine:
+Check progress and current challenge status:
 ```bash
-npm run drill
+npm start
+# or: npm run drill
 ```
 
-### 2. Live Test Watch Mode
-While editing `challenges/<dir>/solution.js`:
+### 2. Auto-Detecting Live Watch Mode
+Automatically watches your active challenge and re-runs on save (`Cmd + S`):
 ```bash
-node --test --watch challenges/01-constant-variable/solution.test.js
+npm run watch
+```
+*(You can also watch any specific challenge by number or name: `npm run watch 05`)*
+
+### 3. Test Current Challenge
+Run tests for your active challenge:
+```bash
+npm test
+# or: npm run current
+# or test a specific challenge: npm run current 01
 ```
 
-### 3. Reset Workspace to Starter Stubs
+### 4. Reset Workspace to Starter Stubs
 ```bash
 npm run reset
 ```
+

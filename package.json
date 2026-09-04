@@ -4,9 +4,12 @@
   "description": "",
   "main": "solution.js",
   "scripts": {
-    "test": "node --test",
-    "test:watch": "node --test --watch",
+    "start": "node runner.js",
     "drill": "node runner.js",
+    "watch": "node watch.js",
+    "current": "node current.js",
+    "test": "node current.js",
+    "test:all": "node --test",
     "reset": "node reset.js"
   },
   "repository": {
