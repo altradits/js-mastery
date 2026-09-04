@@ -5,14 +5,12 @@ import { evaluateSubmission } from "./engine/sandbox.js";
 import { CHALLENGE_BANK } from "./engine/challenges.js";
 
 // DOM Elements
+const appNavbar = document.getElementById("app-navbar");
 const appRoot = document.getElementById("app-root");
-const navWalletEl = document.getElementById("nav-wallet");
-const navMmrEl = document.getElementById("nav-mmr");
-const navNameEl = document.getElementById("nav-name");
-const navAvatarEl = document.getElementById("nav-avatar");
-const btnSoundEl = document.getElementById("btn-sound");
-const btnFreeCoinsEl = document.getElementById("btn-free-coins");
-const profilePillEl = document.querySelector(".profile-pill");
+
+// Active test and submit handlers for navbar integration
+let activeTestHandler = null;
+let activeSubmitHandler = null;
 
 // Time Formatter Utility
 function formatDuration(sec) {
@@ -60,28 +58,6 @@ async function formatJavaScriptCode(code) {
   return code;
 }
 
-// Sound Toggle
-btnSoundEl.addEventListener("click", () => {
-  const isMuted = sound.toggleMute();
-  btnSoundEl.textContent = isMuted ? "🔇" : "🔊";
-});
-
-// Free Coins Faucet
-if (btnFreeCoinsEl) {
-  btnFreeCoinsEl.addEventListener("click", () => {
-    store.addCoins(500);
-    sound.playCoin();
-  });
-}
-
-// Profile Modal Trigger
-if (profilePillEl) {
-  profilePillEl.addEventListener("click", () => {
-    sound.playClick();
-    store.setState({ isLoginModalOpen: true });
-  });
-}
-
 // Selected Wagers for Modes
 let selectedWagers = {
   royale: 100,
@@ -91,14 +67,14 @@ let selectedWagers = {
 
 // Curriculum Tiers Definition
 const CURRICULUM_MODULES = [
-  { name: "Foundations & Control Flow", range: [1, 20], icon: "🌱" },
-  { name: "Data Structures & Algorithms", range: [21, 50], icon: "📊" },
-  { name: "Functional & String Engineering", range: [51, 80], icon: "⚡" },
-  { name: "Object Mechanics & Prototypes", range: [81, 110], icon: "🧩" },
-  { name: "RegEx, Parsing & Dates", range: [111, 140], icon: "🔍" },
-  { name: "Async, Promises & Streams", range: [141, 170], icon: "⏱️" },
-  { name: "Real-World Modules & Utilities", range: [171, 200], icon: "🛠️" },
-  { name: "Advanced CS Data Structures", range: [201, 216], icon: "🌲" }
+  { name: "Foundations & Control Flow", range: [1, 20] },
+  { name: "Data Structures & Algorithms", range: [21, 50] },
+  { name: "Functional & String Engineering", range: [51, 80] },
+  { name: "Object Mechanics & Prototypes", range: [81, 110] },
+  { name: "RegEx, Parsing & Dates", range: [111, 140] },
+  { name: "Async, Promises & Streams", range: [141, 170] },
+  { name: "Real-World Modules & Utilities", range: [171, 200] },
+  { name: "Advanced CS Data Structures", range: [201, 216] }
 ];
 
 // View Tracking State
@@ -107,44 +83,127 @@ let activeChallengeId = null;
 
 // Global Store State Subscription
 store.subscribe((state) => {
-  renderNavUser(state);
+  renderNavbar(state);
   renderView(state);
   renderModal(state);
 });
 
 // Initial View Render
-renderNavUser(store.getState());
+renderNavbar(store.getState());
 renderView(store.getState());
 
 // -------------------------------------------------------------
-// TOP BAR HUD & NAVIGATION
+// SINGLE UNIFIED TOP MENU BAR
 // -------------------------------------------------------------
-function renderNavUser(state) {
-  const { user } = state;
-  navWalletEl.textContent = `🪙 ${user.coins.toLocaleString()}`;
-  navMmrEl.textContent = `LVL ${user.level} • ${user.mmr} MMR`;
-  navNameEl.textContent = user.username;
-  navAvatarEl.textContent = user.avatar;
+function renderNavbar(state) {
+  if (!appNavbar) return;
+
+  const { currentView, match, user } = state;
+  const isArena = (currentView === "arena" && match);
+  const isMuted = sound.isMuted;
+
+  if (isArena) {
+    const challenge = match.currentChallenge;
+    const human = match.players.find(p => p.isHuman);
+    const hasSubmitted = human && human.hasSubmitted;
+    const levelNumber = match.isSequential ? (match.challengeIdx + 1) : challenge.id;
+    const cleanTitle = challenge.title.replace(/^\d+\s*—\s*/, '');
+
+    appNavbar.innerHTML = `
+      <div class="nav-group-left">
+        <button class="nav-btn" id="btn-arena-back" title="Return to Lobby">Lobby</button>
+        <span class="nav-badge" id="hud-level-badge">Level ${levelNumber}</span>
+        <span class="nav-challenge-title">${escapeHtml(cleanTitle)}</span>
+      </div>
+
+      <div class="nav-group-right">
+        <button class="nav-btn-action test" id="btn-nav-test" title="Run assertions in terminal (Cmd + ')">Test</button>
+        <button class="nav-btn-action submit" id="btn-nav-submit" title="Submit solution (Cmd + Enter)" ${hasSubmitted ? 'disabled' : ''}>
+          ${hasSubmitted ? 'Submitted' : 'Submit'}
+        </button>
+        <span class="nav-stat-item" id="nav-coins">Coins ${user.coins.toLocaleString()}</span>
+        <button class="nav-btn-icon" id="btn-nav-sound" title="Toggle Sound">${isMuted ? 'Muted' : 'Sound'}</button>
+      </div>
+    `;
+
+    document.getElementById("btn-arena-back")?.addEventListener("click", () => {
+      sound.playClick();
+      arena.stopTimers();
+      activeTestHandler = null;
+      activeSubmitHandler = null;
+      store.setState({ currentView: "lobby", match: null });
+    });
+
+    document.getElementById("btn-nav-test")?.addEventListener("click", () => {
+      if (activeTestHandler) activeTestHandler();
+    });
+
+    document.getElementById("btn-nav-submit")?.addEventListener("click", () => {
+      if (activeSubmitHandler) activeSubmitHandler();
+    });
+
+    document.getElementById("btn-nav-sound")?.addEventListener("click", () => {
+      const muted = sound.toggleMute();
+      const btn = document.getElementById("btn-nav-sound");
+      if (btn) btn.textContent = muted ? "Muted" : "Sound";
+    });
+
+  } else {
+    // Lobby or Victory view
+    const completedCount = (user.completedChallenges || []).length;
+
+    appNavbar.innerHTML = `
+      <div class="nav-group-left">
+        <span class="nav-brand-text">Mastery</span>
+        <span class="nav-badge">Progress ${completedCount}/${CHALLENGE_BANK.length}</span>
+      </div>
+
+      <div class="nav-group-right">
+        <button class="nav-btn" id="btn-free-coins" title="Claim 500 Coins">Faucet</button>
+        <span class="nav-stat-item" id="nav-coins">Coins ${user.coins.toLocaleString()}</span>
+        <span class="nav-stat-item" id="nav-level">Level ${user.level}</span>
+        <button class="nav-btn-icon" id="btn-nav-sound" title="Toggle Sound">${isMuted ? 'Muted' : 'Sound'}</button>
+      </div>
+    `;
+
+    document.getElementById("btn-free-coins")?.addEventListener("click", () => {
+      store.addCoins(500);
+      sound.playCoin();
+    });
+
+    document.getElementById("btn-nav-sound")?.addEventListener("click", () => {
+      const muted = sound.toggleMute();
+      const btn = document.getElementById("btn-nav-sound");
+      if (btn) btn.textContent = muted ? "Muted" : "Sound";
+    });
+  }
 }
 
+// -------------------------------------------------------------
+// MAIN VIEW ROUTER
+// -------------------------------------------------------------
 function renderView(state) {
   const { currentView, match } = state;
 
   if (currentView === "lobby") {
     activeView = "lobby";
     activeChallengeId = null;
+    activeTestHandler = null;
+    activeSubmitHandler = null;
     renderLobbyView(state);
   } else if (currentView === "arena") {
     renderArenaView(match);
   } else if (currentView === "victory") {
     activeView = "victory";
     activeChallengeId = null;
+    activeTestHandler = null;
+    activeSubmitHandler = null;
     renderVictoryView(match);
   }
 }
 
 // -------------------------------------------------------------
-// LOBBY VIEW (Compact Zero-Scroll Fit)
+// LOBBY VIEW (Compact Zero-Scroll Layout)
 // -------------------------------------------------------------
 function renderLobbyView(state) {
   const { user, activeLobbyTab } = state;
@@ -154,7 +213,7 @@ function renderLobbyView(state) {
 
   appRoot.innerHTML = `
     <div class="lobby-hero">
-      <div class="hero-pill">⚡ PISCINE ARENA • 216 ATOMIC CHALLENGES</div>
+      <div class="hero-pill">PISCINE ARENA • 216 ATOMIC CHALLENGES</div>
       <h1 class="hero-title">MASTER JAVASCRIPT. <span>LEVEL BY LEVEL.</span></h1>
       <p class="hero-subtitle">Focus on clean, atomic coding challenges with instant validation and accumulating bounties.</p>
     </div>
@@ -162,13 +221,13 @@ function renderLobbyView(state) {
     <!-- Navigation Tabs -->
     <div class="view-tabs">
       <button class="tab-btn ${activeLobbyTab === 'modes' ? 'active' : ''}" data-tab="modes">
-        ⚔️ ARENA MODES
+        Modes
       </button>
       <button class="tab-btn ${activeLobbyTab === 'curriculum' ? 'active' : ''}" data-tab="curriculum">
-        🗺️ CURRICULUM (${completedCount}/${CHALLENGE_BANK.length})
+        Curriculum (${completedCount}/${CHALLENGE_BANK.length})
       </button>
       <button class="tab-btn ${activeLobbyTab === 'rules' ? 'active' : ''}" data-tab="rules">
-        📜 ARENA RULES
+        Rules
       </button>
     </div>
 
@@ -192,7 +251,7 @@ function renderLobbyView(state) {
 }
 
 // -------------------------------------------------------------
-// MODES TAB (Sequential Gauntlet + Battle Royale + 1v1 Duel)
+// MODES TAB (Gauntlet + Battle Royale + 1v1 Duel)
 // -------------------------------------------------------------
 function renderModesTab(user, activeChallenge, currentChallengeIdx) {
   return `
@@ -200,12 +259,12 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
     <div class="gauntlet-card">
       <div class="gauntlet-info">
         <span class="gauntlet-level">NEXT LEVEL • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
-        <h2 class="gauntlet-title">${activeChallenge.title}</h2>
-        <p class="gauntlet-desc">${activeChallenge.task}</p>
+        <h2 class="gauntlet-title">${escapeHtml(activeChallenge.title)}</h2>
+        <p class="gauntlet-desc">${escapeHtml(activeChallenge.task)}</p>
       </div>
 
       <button class="btn-gauntlet-play" id="btn-start-gauntlet">
-        ▶ PLAY LEVEL #${currentChallengeIdx + 1}
+        Play Level #${currentChallengeIdx + 1}
       </button>
     </div>
 
@@ -215,10 +274,9 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
       <div class="mode-card" style="--card-accent: var(--accent-cyan); --btn-color-1: var(--accent-cyan); --btn-color-2: #0088FF;">
         <div>
           <div class="mode-header">
-            <span class="mode-icon">⚔️</span>
+            <span class="mode-title" style="margin-bottom: 0;">Battle Royale</span>
             <span class="mode-badge" style="border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">8 Players</span>
           </div>
-          <h2 class="mode-title">Battle Royale</h2>
           <p class="mode-desc">8 coders enter. Multi-round sudden death elimination bracket. Winner takes the 8x jackpot pot!</p>
           
           <div class="wager-selector">
@@ -232,7 +290,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         </div>
 
         <button class="btn-play" id="btn-start-royale">
-          ENTER ARENA (🪙 ${(selectedWagers.royale * 8).toLocaleString()} POT)
+          Enter Arena (${(selectedWagers.royale * 8).toLocaleString()} Pot)
         </button>
       </div>
 
@@ -240,10 +298,9 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
       <div class="mode-card" style="--card-accent: var(--accent-purple); --btn-color-1: #A855F7; --btn-color-2: #6366F1;">
         <div>
           <div class="mode-header">
-            <span class="mode-icon">🎯</span>
+            <span class="mode-title" style="margin-bottom: 0;">1v1 Code Duel</span>
             <span class="mode-badge" style="border: 1px solid #A855F7; color: #A855F7;">1v1 Duel</span>
           </div>
-          <h2 class="mode-title">1v1 Code Duel</h2>
           <p class="mode-desc">Direct sudden-death duel. First programmer to pass all challenge assertions wins the double stake.</p>
           
           <div class="wager-selector">
@@ -257,7 +314,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         </div>
 
         <button class="btn-play" id="btn-start-duel" style="background: linear-gradient(135deg, #A855F7, #6366F1); box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);">
-          DUEL NOW (🪙 ${(selectedWagers.duel * 2).toLocaleString()} POT)
+          Duel Now (${(selectedWagers.duel * 2).toLocaleString()} Pot)
         </button>
       </div>
     </div>
@@ -276,17 +333,17 @@ function attachModesListeners() {
     });
   });
 
-  document.getElementById("btn-start-gauntlet").addEventListener("click", () => {
+  document.getElementById("btn-start-gauntlet")?.addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "gauntlet", wager: 0 });
   });
 
-  document.getElementById("btn-start-royale").addEventListener("click", () => {
+  document.getElementById("btn-start-royale")?.addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "royale", wager: selectedWagers.royale });
   });
 
-  document.getElementById("btn-start-duel").addEventListener("click", () => {
+  document.getElementById("btn-start-duel")?.addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "duel", wager: selectedWagers.duel });
   });
@@ -310,11 +367,10 @@ function renderCurriculumTab(user) {
           <div class="curriculum-module">
             <div class="module-header">
               <div class="module-title">
-                <span>${mod.icon}</span>
                 <span>${mod.name} (Challenges ${start} – ${end})</span>
               </div>
               <div class="module-progress">
-                ${moduleDone} / ${moduleChallenges.length} COMPLETED
+                ${moduleDone} / ${moduleChallenges.length} Done
               </div>
             </div>
 
@@ -330,10 +386,10 @@ function renderCurriculumTab(user) {
                     <div class="node-top">
                       <span class="node-idx">#${String(c.id).padStart(2, '0')}</span>
                       <span class="node-status">
-                        ${isCompleted ? '✔ DONE' : isCurrent ? '⚡ PLAY' : isUnlocked ? '🔓 OPEN' : '🔒 LOCKED'}
+                        ${isCompleted ? 'Done' : isCurrent ? 'Play' : isUnlocked ? 'Open' : 'Locked'}
                       </span>
                     </div>
-                    <div class="node-title" title="${c.title}">${c.title.replace(/^\d+\s*—\s*/, '')}</div>
+                    <div class="node-title" title="${c.title}">${escapeHtml(c.title.replace(/^\d+\s*—\s*/, ''))}</div>
                   </div>
                 `;
               }).join('')}
@@ -365,12 +421,12 @@ function attachCurriculumListeners() {
 function renderRulesTab() {
   return `
     <div class="rules-card">
-      <h2>🏆 Piscine Gauntlet & Code Royale Rules</h2>
+      <h2>Piscine Gauntlet & Code Royale Rules</h2>
       <ul>
-        <li><strong>Piscine Gauntlet</strong>: Master JavaScript through 216 atomic levels. Timers are lenient benchmarks allowing you to learn and improve at your own speed.</li>
-        <li><strong>Play / Test Button</strong>: Test your code in the bottom terminal as many times as you like without penalties or risk.</li>
-        <li><strong>Instant Submission</strong>: Use <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>) to submit. When the Victory popup appears, press <code>Enter</code> to instantly advance to the next level.</li>
-        <li><strong>Battle Royale & Duels</strong>: Sudden death elimination wager matches against intelligent AIs. The last surviving programmer claims the entire jackpot bounty.</li>
+        <li><strong>Piscine Gauntlet</strong>: Master JavaScript through 216 atomic levels. Practice at your own pace with instant test validation.</li>
+        <li><strong>Test Action</strong>: Run tests in the bottom terminal as many times as you like without penalties (shortcut: <code>Cmd + '</code> or <code>Ctrl + '</code>).</li>
+        <li><strong>Submission</strong>: Submit your final code via the top menu bar or with <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>). On the victory popup, press <code>Enter</code> to immediately advance to the next level.</li>
+        <li><strong>Battle Royale & Duels</strong>: Sudden death elimination wager matches against competitive AIs. The last surviving programmer claims the entire jackpot bounty.</li>
       </ul>
     </div>
   `;
@@ -396,45 +452,37 @@ function renderArenaView(match) {
       .trim();
 
     appRoot.innerHTML = `
-      <div class="arena-topbar">
-        <div class="arena-topbar-left">
-          <button class="btn-back-lobby" id="btn-arena-back" title="Return to Lobby">← LOBBY</button>
-          <span class="arena-level-pill" id="hud-round">
-            ${match.isSequential ? `LEVEL ${match.challengeIdx + 1}: ${challenge.title}` : `ROUND ${match.round}: ${challenge.title}`}
-          </span>
-        </div>
-        <div class="arena-topbar-right">
-          <span style="color: var(--accent-gold);" id="hud-pot">💰 Bounty: +🪙 ${match.pot.toLocaleString()}</span>
-        </div>
-      </div>
-
       <div class="arena-split-layout">
+        <!-- Left: Instructions Panel -->
         <div class="instructions-panel">
           <div class="task-box">
-            <span class="section-label task-label">🎯 REQUIRED TASK</span>
+            <span class="section-label task-label">Task</span>
             <div class="task-text">${formatMarkdown(challenge.task)}</div>
           </div>
           <div class="panel-section">
-            <div class="section-label">💡 CONCEPT</div>
+            <div class="section-label">Concept</div>
             <div class="concept-box">${formatMarkdown(challenge.concept)}</div>
           </div>
-          <div class="radar-compact">
-            <div class="radar-compact-header">
-              <span>CONTENDERS</span>
-              <span id="hud-alive-count">${match.players.filter(p => p.alive).length} ACTIVE</span>
+          ${match.mode !== 'gauntlet' ? `
+            <div class="radar-compact">
+              <div class="radar-compact-header">
+                <span>Contenders</span>
+                <span id="hud-alive-count">${match.players.filter(p => p.alive).length} Active</span>
+              </div>
+              <div id="hud-player-list">
+                ${renderPlayerTiles(match.players)}
+              </div>
             </div>
-            <div id="hud-player-list">
-              ${renderPlayerTiles(match.players)}
-            </div>
-          </div>
+          ` : ''}
         </div>
 
+        <!-- Right: Dominant Code Editor & Interactive Terminal -->
         <div class="editor-workspace">
           <div class="editor-container">
             <div class="editor-header">
               <div class="editor-title">
                 <span>solution.js</span>
-                <span class="editor-badge">ESM JavaScript</span>
+                <span class="editor-badge">ESM</span>
               </div>
               <div class="editor-controls">
                 <span>Challenge #${challenge.id}</span>
@@ -447,43 +495,21 @@ function renderArenaView(match) {
             </div>
           </div>
 
-          <div class="editor-separator-bar">
-            <div class="separator-left">
-              <button class="btn-action-test" id="btn-test-code" title="Run tests in terminal without submitting (Cmd + ')">
-                <span class="play-icon">▶</span> TEST CODE
-              </button>
-              <span class="test-hint-text">Run tests & print output below</span>
-            </div>
-
-            <div class="separator-right">
-              <button class="btn-action-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
-                <span>${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 SUBMIT'}</span>
-                <span class="btn-kbd-badge">⌘ ↵</span>
-              </button>
-            </div>
-          </div>
-
           <div class="terminal-container">
             <div class="terminal-header">
               <div class="terminal-header-left">
-                <span class="terminal-title">⚡ TERMINAL / TEST RUNNER</span>
-                <span class="terminal-status-pill idle" id="terminal-status-pill">IDLE</span>
+                <span class="terminal-title">Terminal</span>
+                <span class="terminal-status-pill idle" id="terminal-status-pill">Idle</span>
               </div>
-              <button class="btn-terminal-clear" id="btn-clear-terminal" title="Clear Terminal">⌫ Clear</button>
+              <button class="btn-terminal-clear" id="btn-clear-terminal" title="Clear Terminal">Clear</button>
             </div>
             <div class="terminal-body" id="terminal-output">
-              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "▶ TEST CODE" to run assertions or press Cmd+Enter to submit.</div>
+              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "Test" or press Cmd+' to run assertions. Press Cmd+Enter to submit.</div>
             </div>
           </div>
         </div>
       </div>
     `;
-
-    document.getElementById("btn-arena-back").addEventListener("click", () => {
-      sound.playClick();
-      arena.stopTimers();
-      store.setState({ currentView: "lobby", match: null });
-    });
 
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
@@ -501,19 +527,19 @@ function renderArenaView(match) {
       }
 
       const userCode = textarea.value;
-      const btnTest = document.getElementById("btn-test-code");
+      const btnNavTest = document.getElementById("btn-nav-test");
 
-      if (btnTest) btnTest.disabled = true;
+      if (btnNavTest) btnNavTest.disabled = true;
       if (terminalStatusPill) {
         terminalStatusPill.className = "terminal-status-pill running";
-        terminalStatusPill.textContent = "RUNNING...";
+        terminalStatusPill.textContent = "Running";
       }
 
       sound.playClick();
 
       const evalResult = await evaluateSubmission(userCode, challenge);
 
-      let linesHtml = `<div class="terminal-line cmd">$ test-runner --challenge=#${challenge.id} "${escapeHtml(challenge.title)}"</div>`;
+      let linesHtml = `<div class="terminal-line cmd">$ test --challenge=#${challenge.id} "${escapeHtml(challenge.title)}"</div>`;
 
       if (evalResult.logs && evalResult.logs.length > 0) {
         linesHtml += `<div class="terminal-line" style="color: var(--text-muted); margin-top: 4px;">--- console.log output ---</div>`;
@@ -525,9 +551,9 @@ function renderArenaView(match) {
 
       evalResult.results.forEach((res, i) => {
         if (res.pass) {
-          linesHtml += `<div class="terminal-line pass">✔ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
+          linesHtml += `<div class="terminal-line pass">PASS [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
         } else {
-          linesHtml += `<div class="terminal-line fail">✖ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
+          linesHtml += `<div class="terminal-line fail">FAIL [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
         }
       });
 
@@ -536,13 +562,13 @@ function renderArenaView(match) {
           terminalStatusPill.className = "terminal-status-pill pass";
           terminalStatusPill.textContent = `PASS (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-pass">✨ All ${evalResult.results.length} assertions passed cleanly! Press Cmd + Enter to submit.</div>`;
+        linesHtml += `<div class="terminal-line summary-pass">All ${evalResult.results.length} assertions passed cleanly. Ready to submit!</div>`;
       } else {
         if (terminalStatusPill) {
           terminalStatusPill.className = "terminal-status-pill fail";
           terminalStatusPill.textContent = `FAIL (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-fail">⚠️ Test failed. Review your code and click ▶ TEST CODE again.</div>`;
+        linesHtml += `<div class="terminal-line summary-fail">Test failed. Review your code and run Test again.</div>`;
       }
 
       if (terminalBody) {
@@ -550,7 +576,7 @@ function renderArenaView(match) {
         terminalBody.scrollTop = terminalBody.scrollHeight;
       }
 
-      if (btnTest) btnTest.disabled = false;
+      if (btnNavTest) btnNavTest.disabled = false;
     }
 
     async function handleSubmit() {
@@ -562,16 +588,16 @@ function renderArenaView(match) {
       }
 
       const userCode = textarea.value;
-      const btnSubmit = document.getElementById("btn-submit-code");
+      const btnNavSubmit = document.getElementById("btn-nav-submit");
 
-      if (btnSubmit) {
-        btnSubmit.disabled = true;
-        btnSubmit.textContent = "SUBMITTING...";
+      if (btnNavSubmit) {
+        btnNavSubmit.disabled = true;
+        btnNavSubmit.textContent = "Submitting";
       }
 
       if (terminalStatusPill) {
         terminalStatusPill.className = "terminal-status-pill running";
-        terminalStatusPill.textContent = "SUBMITTING...";
+        terminalStatusPill.textContent = "Submitting";
       }
 
       const evalResult = await evaluateSubmission(userCode, challenge);
@@ -586,18 +612,18 @@ function renderArenaView(match) {
 
       evalResult.results.forEach((res, i) => {
         if (res.pass) {
-          linesHtml += `<div class="terminal-line pass">✔ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
+          linesHtml += `<div class="terminal-line pass">PASS [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
         } else {
-          linesHtml += `<div class="terminal-line fail">✖ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
+          linesHtml += `<div class="terminal-line fail">FAIL [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
         }
       });
 
       if (evalResult.success) {
         if (terminalStatusPill) {
           terminalStatusPill.className = "terminal-status-pill pass";
-          terminalStatusPill.textContent = `LEVEL PASSED (${evalResult.duration}ms)`;
+          terminalStatusPill.textContent = `PASS (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-pass">🏆 VICTORY: Solution accepted! Advancing to rewards...</div>`;
+        linesHtml += `<div class="terminal-line summary-pass">Solution accepted! Advancing to rewards...</div>`;
         if (terminalBody) {
           terminalBody.innerHTML = linesHtml;
           terminalBody.scrollTop = terminalBody.scrollHeight;
@@ -606,23 +632,24 @@ function renderArenaView(match) {
       } else {
         if (terminalStatusPill) {
           terminalStatusPill.className = "terminal-status-pill fail";
-          terminalStatusPill.textContent = `SUBMISSION FAILED (${evalResult.duration}ms)`;
+          terminalStatusPill.textContent = `FAIL (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-fail">✖ Submission failed assertion checks. Fix your code and retry!</div>`;
+        linesHtml += `<div class="terminal-line summary-fail">Submission failed assertions. Fix your code and retry.</div>`;
         if (terminalBody) {
           terminalBody.innerHTML = linesHtml;
           terminalBody.scrollTop = terminalBody.scrollHeight;
         }
-        if (btnSubmit) {
-          btnSubmit.disabled = false;
-          btnSubmit.innerHTML = `<span>🚀 SUBMIT</span><span class="btn-kbd-badge">⌘ ↵</span>`;
+        if (btnNavSubmit) {
+          btnNavSubmit.disabled = false;
+          btnNavSubmit.textContent = "Submit";
         }
         arena.submitUserSolution(false);
       }
     }
 
-    document.getElementById("btn-test-code").addEventListener("click", handleTestRun);
-    document.getElementById("btn-submit-code").addEventListener("click", handleSubmit);
+    // Bind active handlers so navbar buttons can trigger them
+    activeTestHandler = handleTestRun;
+    activeSubmitHandler = handleSubmit;
 
     const btnClear = document.getElementById("btn-clear-terminal");
     if (btnClear) {
@@ -632,7 +659,7 @@ function renderArenaView(match) {
         }
         if (terminalStatusPill) {
           terminalStatusPill.className = "terminal-status-pill idle";
-          terminalStatusPill.textContent = "IDLE";
+          terminalStatusPill.textContent = "Idle";
         }
       });
     }
@@ -645,7 +672,7 @@ function renderArenaView(match) {
   } else {
     const aliveCountEl = document.getElementById("hud-alive-count");
     if (aliveCountEl) {
-      aliveCountEl.textContent = `${match.players.filter(p => p.alive).length} ACTIVE`;
+      aliveCountEl.textContent = `${match.players.filter(p => p.alive).length} Active`;
     }
 
     const playerListEl = document.getElementById("hud-player-list");
@@ -653,10 +680,10 @@ function renderArenaView(match) {
       playerListEl.innerHTML = renderPlayerTiles(match.players);
     }
 
-    const btnSubmit = document.getElementById("btn-submit-code");
-    if (btnSubmit && human && human.hasSubmitted && !btnSubmit.disabled) {
-      btnSubmit.disabled = true;
-      btnSubmit.textContent = "SUBMITTED";
+    const btnNavSubmit = document.getElementById("btn-nav-submit");
+    if (btnNavSubmit && human && human.hasSubmitted && !btnNavSubmit.disabled) {
+      btnNavSubmit.disabled = true;
+      btnNavSubmit.textContent = "Submitted";
     }
   }
 }
@@ -817,9 +844,9 @@ function insertTextAtCursor(textarea, text) {
 function renderPlayerTiles(players) {
   return players.map(p => `
     <div class="player-tile-mini ${p.isHuman ? 'is-human' : ''}">
-      <span>${p.avatar} ${p.name} ${p.isHuman ? '(YOU)' : ''}</span>
+      <span>${escapeHtml(p.name)} ${p.isHuman ? '(You)' : ''}</span>
       <span style="font-family: var(--font-code); font-size: 10px; font-weight: 700; color: ${!p.alive ? 'var(--accent-crimson)' : p.solvedTime !== null ? 'var(--accent-emerald)' : 'var(--text-muted)'};">
-        ${!p.alive ? '💀 OUT' : p.solvedTime !== null ? `✔ ${formatDuration(p.solvedTime)}` : p.hasSubmitted ? '⏳' : '💻'}
+        ${!p.alive ? 'Out' : p.solvedTime !== null ? `Pass (${formatDuration(p.solvedTime)})` : p.hasSubmitted ? 'Waiting' : 'Coding'}
       </span>
     </div>
   `).join('');
@@ -844,15 +871,15 @@ function renderVictoryView(match) {
   if (isWin && hasNext) {
     primaryButtonHtml = `
       <button class="modal-btn-primary" id="btn-next-level">
-        <span>▶ NEXT LEVEL (CHALLENGE #${nextChallengeIdx + 1})</span>
-        <span class="btn-kbd-badge">↵ Enter</span>
+        <span>Next Level (Challenge #${nextChallengeIdx + 1})</span>
+        <span class="btn-kbd-badge">Enter</span>
       </button>
     `;
   } else if (!isWin) {
     primaryButtonHtml = `
       <button class="modal-btn-primary" id="btn-retry-level" style="background: linear-gradient(135deg, var(--accent-cyan), #0284c7); box-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 0 2px #FFFFFF;">
-        <span>🔄 RETRY CHALLENGE #${match.currentChallenge.id}</span>
-        <span class="btn-kbd-badge">↵ Enter</span>
+        <span>Retry Challenge #${match.currentChallenge.id}</span>
+        <span class="btn-kbd-badge">Enter</span>
       </button>
     `;
   }
@@ -860,32 +887,31 @@ function renderVictoryView(match) {
   appRoot.innerHTML = `
     <div class="modal-overlay">
       <div class="modal-card">
-        <div class="modal-icon">${isWin ? '🏆' : '💀'}</div>
-        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'LEVEL MASTERED!' : 'ELIMINATED!'}</h2>
+        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'Level Mastered' : 'Eliminated'}</h2>
         
         <p style="color: var(--text-secondary); font-size: 13px;">
-          ${isWin ? `Great work! Challenge #${match.currentChallenge.id} conquered.` : 'Challenge failed. Review the concept and try again!'}
+          ${isWin ? `Challenge #${match.currentChallenge.id} conquered.` : 'Challenge failed. Review the concept and try again.'}
         </p>
 
         ${isWin && summary ? `
           <div class="payout-box">
-            <div class="payout-amount">+🪙 ${summary.totalWon.toLocaleString()}</div>
+            <div class="payout-amount">+${summary.totalWon.toLocaleString()} Coins</div>
             <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
-              Streak: 🔥 ${summary.newStreak} in a row • Wallet: 🪙 ${summary.newCoins.toLocaleString()}
+              Streak: ${summary.newStreak} • Balance: ${summary.newCoins.toLocaleString()} Coins
             </div>
           </div>
         ` : ''}
 
         ${isWin && solvedTime !== null ? `
           <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-bottom: 12px;">
-            ⏱️ Solved in ${formatDuration(solvedTime)} ${beatTarget ? '(Speed Bonus Earned!)' : ''}
+            Solved in ${formatDuration(solvedTime)} ${beatTarget ? '(Speed Bonus)' : ''}
           </div>
         ` : ''}
 
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
           ${primaryButtonHtml}
           <button class="modal-btn-secondary" id="btn-return-lobby">
-            RETURN TO LOBBY
+            Return to Lobby
           </button>
         </div>
       </div>
@@ -952,7 +978,7 @@ function renderVictoryView(match) {
 }
 
 // -------------------------------------------------------------
-// PLAYER LOGIN & PROFILE MODAL
+// PLAYER PROFILE MODAL
 // -------------------------------------------------------------
 function renderModal(state) {
   const existingModal = document.getElementById("profile-modal-overlay");
@@ -964,8 +990,6 @@ function renderModal(state) {
   if (existingModal) return;
 
   const { user } = state;
-  const avatars = ["⚡", "🥷", "👑", "🧙‍♂️", "🐺", "🦀", "🤖", "🚀", "🎯", "💎"];
-  let selectedAvatar = user.avatar || "⚡";
 
   const modalOverlay = document.createElement("div");
   modalOverlay.id = "profile-modal-overlay";
@@ -974,7 +998,7 @@ function renderModal(state) {
   modalOverlay.innerHTML = `
     <div class="modal-card profile-modal">
       <div class="profile-modal-header">
-        <h2>👤 Player Profile & Account Login</h2>
+        <h2>Player Profile</h2>
         <button class="icon-btn" id="btn-close-modal">✕</button>
       </div>
 
@@ -984,7 +1008,7 @@ function renderModal(state) {
           <div class="stat-label">Mastered</div>
         </div>
         <div class="stat-box">
-          <div class="stat-number">LVL ${user.level}</div>
+          <div class="stat-number">Level ${user.level}</div>
           <div class="stat-label">Level</div>
         </div>
         <div class="stat-box">
@@ -992,27 +1016,20 @@ function renderModal(state) {
           <div class="stat-label">MMR</div>
         </div>
         <div class="stat-box">
-          <div class="stat-number" style="color: var(--accent-gold);">🪙 ${(user.coins || 0).toLocaleString()}</div>
-          <div class="stat-label">Wallet</div>
+          <div class="stat-number" style="color: var(--accent-gold);">${(user.coins || 0).toLocaleString()}</div>
+          <div class="stat-label">Coins</div>
         </div>
       </div>
 
-      <label class="input-label">Choose Cyber Avatar</label>
-      <div class="avatar-grid" id="modal-avatar-grid">
-        ${avatars.map(a => `
-          <button class="avatar-choice ${a === selectedAvatar ? 'selected' : ''}" data-avatar="${a}">${a}</button>
-        `).join('')}
-      </div>
-
-      <label class="input-label">Hacker Handle / Username</label>
-      <input type="text" class="text-input" id="modal-username-input" value="${user.username}" placeholder="Enter username..." />
+      <label class="input-label">Username</label>
+      <input type="text" class="text-input" id="modal-username-input" value="${escapeHtml(user.username)}" placeholder="Enter username..." />
 
       <div style="display: flex; gap: 10px; margin-top: 10px;">
         <button class="btn-play" id="btn-save-profile" style="flex: 2;">
-          💾 SAVE & LOGIN
+          Save
         </button>
         <button class="btn-play" id="btn-reset-user" style="flex: 1; background: rgba(255, 42, 95, 0.15); border: 1px solid var(--accent-crimson); color: var(--accent-crimson); box-shadow: none;">
-          RESET
+          Reset
         </button>
       </div>
     </div>
@@ -1020,25 +1037,17 @@ function renderModal(state) {
 
   document.body.appendChild(modalOverlay);
 
-  modalOverlay.querySelectorAll(".avatar-choice").forEach(btn => {
-    btn.addEventListener("click", () => {
-      selectedAvatar = btn.dataset.avatar;
-      modalOverlay.querySelectorAll(".avatar-choice").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-    });
-  });
-
-  document.getElementById("btn-close-modal").addEventListener("click", () => {
+  document.getElementById("btn-close-modal")?.addEventListener("click", () => {
     store.setState({ isLoginModalOpen: false });
   });
 
-  document.getElementById("btn-save-profile").addEventListener("click", () => {
+  document.getElementById("btn-save-profile")?.addEventListener("click", () => {
     const inputVal = document.getElementById("modal-username-input").value;
-    store.login(inputVal, selectedAvatar);
+    store.login(inputVal, "⚡");
     sound.playSuccess();
   });
 
-  document.getElementById("btn-reset-user").addEventListener("click", () => {
+  document.getElementById("btn-reset-user")?.addEventListener("click", () => {
     if (confirm("Reset career progress and start back at Level 1 (Challenge 01)?")) {
       store.resetProgress();
       store.setState({ isLoginModalOpen: false });
@@ -1046,7 +1055,3 @@ function renderModal(state) {
     }
   });
 }
-
-// Initial Boot
-renderNav(store.getState());
-renderView(store.getState());
