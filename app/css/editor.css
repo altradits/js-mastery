@@ -185,18 +185,18 @@
 .terminal-controls {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .btn-terminal-action {
   font-family: var(--font-code);
   font-size: var(--text-2xs);
   font-weight: 600;
-  color: var(--text-muted);
-  background: transparent;
+  color: #CBD5E1;
+  background: rgba(255, 255, 255, 0.05);
   padding: 2px 8px;
   border-radius: 3px;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
@@ -206,9 +206,13 @@
 }
 
 .btn-terminal-action:hover:not(:disabled) {
-  color: var(--text-primary);
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-terminal-action:active:not(:disabled) {
   background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .btn-terminal-action:disabled {

@@ -184,21 +184,23 @@ class ArenaEngine {
     if (!match || match.status !== "playing") return;
 
     const human = match.players.find(p => p.isHuman);
-    if (!human || human.hasSubmitted) return;
+    if (!human) return;
 
-    human.hasSubmitted = true;
     if (isPass) {
+      human.hasSubmitted = true;
       human.solvedTime = match.isLenient ? match.elapsedSeconds : (match.totalTime - match.timeLeft);
       sound.playSuccess();
+      store.setState({ match: { ...match } });
+      if (match.isLenient) {
+        setTimeout(() => this.endRound(), 600);
+        return;
+      }
     } else {
       sound.playFail();
-    }
-
-    store.setState({ match: { ...match } });
-
-    if (isPass && match.isLenient) {
-      setTimeout(() => this.endRound(), 600);
-      return;
+      if (!match.isLenient) {
+        human.hasSubmitted = true;
+      }
+      store.setState({ match: { ...match } });
     }
 
     const alivePlayers = match.players.filter(p => p.alive);

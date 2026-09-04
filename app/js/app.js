@@ -479,9 +479,7 @@ function renderArenaView(match) {
               </div>
               <div class="terminal-controls">
                 <button class="btn-terminal-action" id="btn-terminal-test" title="Run assertions in terminal (Cmd + ')">Test</button>
-                <button class="btn-terminal-action" id="btn-terminal-submit" title="Submit solution (Cmd + Enter)" ${human && human.hasSubmitted ? 'disabled' : ''}>
-                  ${human && human.hasSubmitted ? 'Submitted' : 'Submit'}
-                </button>
+                <button class="btn-terminal-action" id="btn-terminal-submit" title="Submit solution (Cmd + Enter)">Submit</button>
                 <button class="btn-terminal-action" id="btn-clear-terminal" title="Clear Terminal">Clear</button>
               </div>
             </div>
@@ -668,7 +666,7 @@ function renderArenaView(match) {
     }
 
     const btnSubmit = document.getElementById("btn-terminal-submit");
-    if (btnSubmit && human && human.hasSubmitted && !btnSubmit.disabled) {
+    if (btnSubmit && human && human.hasSubmitted && !btnSubmit.disabled && !match.isLenient) {
       btnSubmit.disabled = true;
       btnSubmit.textContent = "Submitted";
     }
