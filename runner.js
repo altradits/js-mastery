@@ -7,22 +7,17 @@ const dirs = fs.readdirSync(challengesDir).filter((d) =>
   fs.statSync(path.join(challengesDir, d)).isDirectory()
 ).sort();
 
-let completedCount = 0;
+const passedChallenges = [];
 let currentChallenge = null;
-let latestResult = "";
 
 for (const dir of dirs) {
   const testPath = path.join("challenges", dir, "solution.test.js");
 
   try {
     execSync(`node --test ${testPath}`, { stdio: "pipe" });
-    completedCount++;
+    passedChallenges.push(dir);
   } catch (error) {
     currentChallenge = { dir, testPath };
-    latestResult = [error.stdout, error.stderr]
-      .filter(Boolean)
-      .map((output) => output.toString().trim())
-      .join("\n");
     break;
   }
 }
@@ -33,10 +28,17 @@ console.log("\x1b[1m\x1b[36m====================================================
 console.log("\x1b[1m\x1b[36m    JS MASTERY: PISCINE CHALLENGE PRACTICE ENGINE    \x1b[0m");
 console.log("\x1b[1m\x1b[36m=====================================================\x1b[0m\n");
 
+if (passedChallenges.length > 0) {
+  for (const dir of passedChallenges) {
+    console.log(`\x1b[32m✔ [PASSED]: ${dir}\x1b[0m`);
+  }
+  console.log("");
+}
+
 if (currentChallenge) {
   const { dir } = currentChallenge;
 
-  console.log(`\x1b[33m▶ [CURRENT CHALLENGE]: ${dir} (${completedCount}/${dirs.length} Completed)\x1b[0m`);
+  console.log(`\x1b[33m▶ [CURRENT CHALLENGE]: ${dir} (${passedChallenges.length}/${dirs.length} Completed)\x1b[0m`);
   console.log("\x1b[90m-----------------------------------------------------\x1b[0m");
   console.log("\x1b[1m\x1b[31mSTATUS: FAIL\x1b[0m\n");
 } else {
