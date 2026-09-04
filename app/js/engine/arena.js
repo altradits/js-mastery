@@ -29,10 +29,9 @@ class ArenaEngine {
 
     let startIdx = 0;
     let matchChallenges = [];
-    let isSequential = false;
+    const isLenient = (mode === "gauntlet" || mode === "custom" || mode === "solo");
 
     if (mode === "gauntlet") {
-      isSequential = true;
       startIdx = challengeIdx !== null ? challengeIdx : (user.currentProgressIdx || 0);
       if (startIdx >= CHALLENGE_BANK.length) startIdx = 0;
       matchChallenges = [CHALLENGE_BANK[startIdx]];
@@ -68,7 +67,7 @@ class ArenaEngine {
     ];
 
     const pot = wager * playerCount;
-    const timeLimit = Math.min(90, Math.max(45, 45 + Math.floor(startIdx / 10) * 5));
+    const targetTime = Math.min(120, Math.max(45, 45 + Math.floor(startIdx / 10) * 5));
 
     const match = {
       id: "match_" + Date.now(),
@@ -77,14 +76,17 @@ class ArenaEngine {
       pot: pot > 0 ? pot : 100, // minimum bounty
       round: 1,
       maxRounds: matchChallenges.length,
-      timeLeft: timeLimit,
-      totalTime: timeLimit,
+      isLenient,
+      targetTime,
+      elapsedSeconds: 0,
+      timeLeft: targetTime,
+      totalTime: targetTime,
       isRunning: true,
       challengeIdx: startIdx,
       challenges: matchChallenges,
       currentChallenge: matchChallenges[0],
       players,
-      isSequential,
+      isSequential: (mode === "gauntlet"),
       status: "playing"
     };
 
@@ -106,24 +108,32 @@ class ArenaEngine {
 
     const currentIdx = match.round - 1;
     match.currentChallenge = match.challenges[currentIdx] || match.challenges[0];
+    match.elapsedSeconds = 0;
     match.timeLeft = match.totalTime;
     match.status = "playing";
 
     store.setState({ match: { ...match } });
 
-    // 1. Countdown timer
+    // 1. Timer Loop
     this.timerInterval = setInterval(() => {
       const curr = store.getState().match;
-      if (!curr || !curr.isRunning) return;
+      if (!curr || !curr.isRunning || curr.status !== "playing") return;
 
-      if (curr.timeLeft <= 1) {
-        this.endRound();
-      } else {
-        curr.timeLeft--;
-        if (curr.timeLeft <= 10) {
-          sound.playTick();
-        }
+      if (curr.isLenient) {
+        // Lenient mode: count UP continuously without cutting the player off
+        curr.elapsedSeconds++;
         store.setState({ match: { ...curr } });
+      } else {
+        // Strict sudden-death countdown mode (Royale / Duel)
+        if (curr.timeLeft <= 1) {
+          this.endRound();
+        } else {
+          curr.timeLeft--;
+          if (curr.timeLeft <= 10) {
+            sound.playTick();
+          }
+          store.setState({ match: { ...curr } });
+        }
       }
     }, 1000);
 
@@ -138,9 +148,9 @@ class ArenaEngine {
     const aliveAIs = match.players.filter(p => !p.isHuman && p.alive);
 
     aliveAIs.forEach(ai => {
-      const baseSpeed = match.totalTime - (ai.skill * (match.totalTime * 0.7));
+      const baseSpeed = match.targetTime - (ai.skill * (match.targetTime * 0.6));
       const jitter = (Math.random() - 0.5) * 8;
-      const targetTime = Math.max(8, Math.min(match.totalTime - 2, baseSpeed + jitter));
+      const targetTime = Math.max(8, Math.min(match.targetTime + 15, baseSpeed + jitter));
 
       const delayMs = targetTime * 1000;
 
@@ -172,7 +182,7 @@ class ArenaEngine {
 
     human.hasSubmitted = true;
     if (isPass) {
-      human.solvedTime = match.totalTime - match.timeLeft;
+      human.solvedTime = match.isLenient ? match.elapsedSeconds : (match.totalTime - match.timeLeft);
       sound.playSuccess();
     } else {
       sound.playFail();
@@ -180,8 +190,8 @@ class ArenaEngine {
 
     store.setState({ match: { ...match } });
 
-    // In gauntlet or duel, if human passes, end match immediately!
-    if (isPass && (match.mode === "gauntlet" || match.mode === "custom" || match.mode === "solo")) {
+    // In lenient gauntlet or custom mode, if human passes, end match immediately!
+    if (isPass && match.isLenient) {
       setTimeout(() => this.endRound(), 600);
       return;
     }

@@ -14,6 +14,15 @@ const btnSoundEl = document.getElementById("btn-sound");
 const btnFreeCoinsEl = document.getElementById("btn-free-coins");
 const profilePillEl = document.querySelector(".profile-pill");
 
+// Time Formatter Utility
+function formatDuration(sec) {
+  const s = Math.max(0, Math.floor(sec || 0));
+  if (s < 60) return `${s}s`;
+  const mins = Math.floor(s / 60);
+  const rem = s % 60;
+  return `${mins}m ${rem}s`;
+}
+
 // Sound Toggle
 btnSoundEl.addEventListener("click", () => {
   const isMuted = sound.toggleMute();
@@ -55,7 +64,7 @@ const CURRICULUM_MODULES = [
   { name: "Advanced CS Data Structures", range: [201, 216], icon: "🌲" }
 ];
 
-// View Tracking State to prevent clobbering user input
+// View Tracking State
 let activeView = null;
 let activeChallengeId = null;
 
@@ -91,7 +100,7 @@ function renderView(state) {
 }
 
 // -------------------------------------------------------------
-// LOBBY VIEW (Tabs: Arena Modes & Curriculum Roadmap)
+// LOBBY VIEW
 // -------------------------------------------------------------
 function renderLobbyView(state) {
   const { user, activeLobbyTab } = state;
@@ -100,11 +109,10 @@ function renderLobbyView(state) {
   const completedCount = (user.completedChallenges || []).length;
 
   appRoot.innerHTML = `
-    <!-- Hero Banner -->
     <div class="lobby-hero">
       <div class="hero-pill">⚡ PISCINE CODING ARENA • 216 ATOMIC CHALLENGES</div>
       <h1 class="hero-title">MASTER JAVASCRIPT. <span>LEVEL BY LEVEL.</span></h1>
-      <p class="hero-subtitle">Solve atomic challenges sequentially from beginner to master in timed sudden-death duels, or wage coins in competitive Battle Royales.</p>
+      <p class="hero-subtitle">Solve atomic challenges sequentially from beginner to master with lenient practice pacing, or wage coins in competitive sudden-death duels.</p>
     </div>
 
     <!-- Navigation Tabs -->
@@ -120,7 +128,6 @@ function renderLobbyView(state) {
     ${activeLobbyTab === 'modes' ? renderModesTab(user, activeChallenge, currentChallengeIdx) : renderCurriculumTab(user)}
   `;
 
-  // Attach Tab Switchers
   document.getElementById("tab-btn-modes").addEventListener("click", () => {
     sound.playClick();
     store.setState({ activeLobbyTab: "modes" });
@@ -146,10 +153,13 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         <span class="gauntlet-level">🔥 SEQUENTIAL PROGRESSION • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
         <h2 class="gauntlet-title">${activeChallenge.title}</h2>
         <p class="gauntlet-desc">${activeChallenge.concept}</p>
+        <span style="font-size: 11px; color: var(--accent-emerald); font-weight: 700;">
+          ⏱️ Lenient Mode: Take all the time you need to write and test your solution!
+        </span>
       </div>
 
       <button class="btn-gauntlet-play" id="btn-start-gauntlet">
-        ▶ PLAY LEVEL ${currentChallengeIdx + 1} (DUEL)
+        ▶ PLAY LEVEL ${currentChallengeIdx + 1}
       </button>
     </div>
 
@@ -209,7 +219,6 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
 }
 
 function attachModesListeners() {
-  // Wager Selectors
   document.querySelectorAll(".wager-pills").forEach(group => {
     const mode = group.dataset.mode;
     group.querySelectorAll(".wager-pill").forEach(btn => {
@@ -221,19 +230,16 @@ function attachModesListeners() {
     });
   });
 
-  // Start Sequential Gauntlet
   document.getElementById("btn-start-gauntlet").addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "gauntlet", wager: 50 });
   });
 
-  // Start Battle Royale
   document.getElementById("btn-start-royale").addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "royale", wager: selectedWagers.royale });
   });
 
-  // Start 1v1 Duel
   document.getElementById("btn-start-duel").addEventListener("click", () => {
     sound.playClick();
     arena.createMatch({ mode: "duel", wager: selectedWagers.duel });
@@ -267,7 +273,7 @@ function renderCurriculumTab(user) {
             </div>
 
             <div class="challenge-grid">
-              ${moduleChallenges.map((c, i) => {
+              ${moduleChallenges.map((c) => {
                 const challengeIndex = c.id - 1;
                 const isCompleted = completedSet.has(c.dir);
                 const isCurrent = (challengeIndex === userProgress);
@@ -325,11 +331,15 @@ function renderArenaView(match) {
     activeView = "arena";
     activeChallengeId = challenge.id;
 
+    const timerDisplay = match.isLenient
+      ? `${formatDuration(match.elapsedSeconds)} (Target: ${formatDuration(match.targetTime)})`
+      : `${String(match.timeLeft).padStart(2, '0')}s`;
+
     appRoot.innerHTML = `
       <!-- Top HUD -->
       <div class="arena-header">
         <div class="arena-pot">
-          <span>🏆 JACKPOT POOL:</span>
+          <span>🏆 REWARD POOL:</span>
           <span class="pot-amount" id="hud-pot">🪙 ${match.pot.toLocaleString()}</span>
         </div>
 
@@ -338,8 +348,8 @@ function renderArenaView(match) {
         </div>
 
         <div class="arena-timer">
-          <span>⏱️ TIME:</span>
-          <span class="timer-ring ${match.timeLeft <= 10 ? 'danger' : ''}" id="hud-timer">${String(match.timeLeft).padStart(2, '0')}s</span>
+          <span>⏱️ ${match.isLenient ? 'ELAPSED:' : 'TIME:'}</span>
+          <span class="timer-ring ${!match.isLenient && match.timeLeft <= 10 ? 'danger' : ''}" id="hud-timer">${timerDisplay}</span>
         </div>
       </div>
 
@@ -348,8 +358,8 @@ function renderArenaView(match) {
         <!-- Left: Player Radar -->
         <div class="radar-panel">
           <div class="radar-title">
-            <span>SURVIVORS RADAR</span>
-            <span style="color: var(--accent-emerald);" id="hud-alive-count">${match.players.filter(p => p.alive).length} ALIVE</span>
+            <span>${match.isLenient ? 'CONTENDERS' : 'SURVIVORS RADAR'}</span>
+            <span style="color: var(--accent-emerald);" id="hud-alive-count">${match.players.filter(p => p.alive).length} ACTIVE</span>
           </div>
 
           <div class="player-list" id="hud-player-list">
@@ -401,7 +411,6 @@ function renderArenaView(match) {
       </div>
     `;
 
-    // Code Input Textarea Handling
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
 
@@ -413,7 +422,6 @@ function renderArenaView(match) {
     textarea.addEventListener("input", updateLineNumbers);
     updateLineNumbers();
 
-    // Tab & Submit shortcut
     textarea.addEventListener("keydown", (e) => {
       if (e.key === "Tab") {
         e.preventDefault();
@@ -469,17 +477,30 @@ function renderArenaView(match) {
     // Fine-grained updates on tick
     const timerEl = document.getElementById("hud-timer");
     if (timerEl) {
-      timerEl.textContent = `${String(match.timeLeft).padStart(2, '0')}s`;
-      if (match.timeLeft <= 10) {
-        timerEl.classList.add("danger");
+      if (match.isLenient) {
+        const isOvertime = match.elapsedSeconds > match.targetTime;
+        timerEl.textContent = isOvertime 
+          ? `${formatDuration(match.elapsedSeconds)} (Overtime • Keep Coding!)`
+          : `${formatDuration(match.elapsedSeconds)} / ${formatDuration(match.targetTime)}`;
+        
+        if (isOvertime) {
+          timerEl.style.color = "var(--accent-gold)";
+        } else {
+          timerEl.style.color = "var(--accent-cyan)";
+        }
       } else {
-        timerEl.classList.remove("danger");
+        timerEl.textContent = `${String(match.timeLeft).padStart(2, '0')}s`;
+        if (match.timeLeft <= 10) {
+          timerEl.classList.add("danger");
+        } else {
+          timerEl.classList.remove("danger");
+        }
       }
     }
 
     const aliveCountEl = document.getElementById("hud-alive-count");
     if (aliveCountEl) {
-      aliveCountEl.textContent = `${match.players.filter(p => p.alive).length} ALIVE`;
+      aliveCountEl.textContent = `${match.players.filter(p => p.alive).length} ACTIVE`;
     }
 
     const playerListEl = document.getElementById("hud-player-list");
@@ -503,7 +524,7 @@ function renderPlayerTiles(players) {
         <span style="font-weight: 700; font-size: 13px;">${p.name} ${p.isHuman ? '(YOU)' : ''}</span>
       </div>
       <span style="font-family: var(--font-code); font-size: 11px; font-weight: 700;">
-        ${!p.alive ? '💀 OUT' : p.solvedTime !== null ? `✔ ${p.solvedTime.toFixed(1)}s` : p.hasSubmitted ? '⏳ CHECK' : '💻 CODING'}
+        ${!p.alive ? '💀 OUT' : p.solvedTime !== null ? `✔ ${formatDuration(p.solvedTime)}` : p.hasSubmitted ? '⏳ CHECK' : '💻 CODING'}
       </span>
     </div>
   `).join('');
@@ -519,18 +540,33 @@ function renderVictoryView(match) {
   const user = store.getState().user;
   const nextChallengeIdx = (match.challengeIdx !== undefined) ? match.challengeIdx + 1 : user.currentProgressIdx;
   const hasNext = nextChallengeIdx < CHALLENGE_BANK.length;
+  const human = match.players.find(p => p.isHuman);
+  const solvedTime = human && human.solvedTime !== null ? human.solvedTime : null;
+  const beatTarget = solvedTime !== null && match.targetTime && solvedTime <= match.targetTime;
 
   appRoot.innerHTML = `
     <div class="modal-overlay">
       <div class="modal-card">
         <div class="modal-icon">${isWin ? '🏆' : '💀'}</div>
-        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'LEVEL MASTERED!' : 'TIME OUT / ELIMINATED!'}</h2>
+        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'LEVEL MASTERED!' : 'ELIMINATED!'}</h2>
+        
         <p style="color: var(--text-secondary); font-size: 14px;">
-          ${isWin ? `Congratulations! You conquered Challenge #${match.currentChallenge.id}. Level progress saved.` : 'You did not pass the challenge in time. Review the concept and try again!'}
+          ${isWin ? `Congratulations! You conquered Challenge #${match.currentChallenge.id}. Level progress saved.` : 'You did not pass the challenge. Review the concept and try again!'}
         </p>
 
+        ${isWin && solvedTime !== null ? `
+          <div style="margin: 16px 0; background: rgba(0, 240, 255, 0.08); border: 1px solid var(--accent-cyan); border-radius: var(--radius-sm); padding: 12px;">
+            <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #FFFFFF;">
+              ⏱️ Time Taken: <span style="color: var(--accent-cyan);">${formatDuration(solvedTime)}</span>
+            </div>
+            <div style="font-size: 12px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-top: 4px;">
+              ${beatTarget ? `⚡ Target Crushed! (Target: ${formatDuration(match.targetTime)})` : `✔ Level Unlocked! (Target was ${formatDuration(match.targetTime)} — keep practicing to increase speed!)`}
+            </div>
+          </div>
+        ` : ''}
+
         ${isWin ? `
-          <div class="payout-box">
+          <div class="payout-box" style="margin: 12px 0;">
             <span style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">REWARD EARNED</span>
             <div class="payout-amount">+🪙 ${match.pot.toLocaleString()}</div>
           </div>
@@ -633,7 +669,6 @@ function renderModal(state) {
 
   document.body.appendChild(modalOverlay);
 
-  // Avatar Selection
   modalOverlay.querySelectorAll(".avatar-choice").forEach(btn => {
     btn.addEventListener("click", () => {
       selectedAvatar = btn.dataset.avatar;
@@ -642,19 +677,16 @@ function renderModal(state) {
     });
   });
 
-  // Close Modal
   document.getElementById("btn-close-modal").addEventListener("click", () => {
     store.setState({ isLoginModalOpen: false });
   });
 
-  // Save / Login Profile
   document.getElementById("btn-save-profile").addEventListener("click", () => {
     const inputVal = document.getElementById("modal-username-input").value;
     store.login(inputVal, selectedAvatar);
     sound.playSuccess();
   });
 
-  // Reset Progress
   document.getElementById("btn-reset-user").addEventListener("click", () => {
     if (confirm("Reset career progress and start back at Level 1 (Challenge 01)?")) {
       store.resetProgress();
