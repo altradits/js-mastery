@@ -29,6 +29,16 @@ function formatMarkdown(text) {
   return text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
 }
 
+function escapeHtml(str) {
+  if (typeof str !== "string") str = String(str ?? "");
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 // In-Browser Prettier Code Formatter
 async function formatJavaScriptCode(code) {
   if (window.prettier && window.prettierPlugins && code.trim()) {
@@ -95,14 +105,21 @@ const CURRICULUM_MODULES = [
 let activeView = null;
 let activeChallengeId = null;
 
-// Main State Subscription
+// Global Store State Subscription
 store.subscribe((state) => {
-  renderNav(state);
+  renderNavUser(state);
   renderView(state);
   renderModal(state);
 });
 
-function renderNav(state) {
+// Initial View Render
+renderNavUser(store.getState());
+renderView(store.getState());
+
+// -------------------------------------------------------------
+// TOP BAR HUD & NAVIGATION
+// -------------------------------------------------------------
+function renderNavUser(state) {
   const { user } = state;
   navWalletEl.textContent = `🪙 ${user.coins.toLocaleString()}`;
   navMmrEl.textContent = `LVL ${user.level} • ${user.mmr} MMR`;
@@ -144,53 +161,51 @@ function renderLobbyView(state) {
 
     <!-- Navigation Tabs -->
     <div class="view-tabs">
-      <button class="tab-btn ${activeLobbyTab === 'modes' ? 'active' : ''}" id="tab-btn-modes">
-        ⚡ ARENA MODES
+      <button class="tab-btn ${activeLobbyTab === 'modes' ? 'active' : ''}" data-tab="modes">
+        ⚔️ ARENA MODES
       </button>
-      <button class="tab-btn ${activeLobbyTab === 'curriculum' ? 'active' : ''}" id="tab-btn-curriculum">
-        🗺️ CURRICULUM MAP (${completedCount} / 216)
+      <button class="tab-btn ${activeLobbyTab === 'curriculum' ? 'active' : ''}" data-tab="curriculum">
+        🗺️ CURRICULUM (${completedCount}/${CHALLENGE_BANK.length})
+      </button>
+      <button class="tab-btn ${activeLobbyTab === 'rules' ? 'active' : ''}" data-tab="rules">
+        📜 ARENA RULES
       </button>
     </div>
 
     <div class="lobby-content-scroll">
-      ${activeLobbyTab === 'modes' ? renderModesTab(user, activeChallenge, currentChallengeIdx) : renderCurriculumTab(user)}
+      ${activeLobbyTab === 'modes' ? renderModesTab(user, activeChallenge, currentChallengeIdx) : ''}
+      ${activeLobbyTab === 'curriculum' ? renderCurriculumTab(user) : ''}
+      ${activeLobbyTab === 'rules' ? renderRulesTab() : ''}
     </div>
   `;
 
-  document.getElementById("tab-btn-modes").addEventListener("click", () => {
-    sound.playClick();
-    store.setState({ activeLobbyTab: "modes" });
+  // Attach Tab Listeners
+  appRoot.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      sound.playClick();
+      store.setState({ activeLobbyTab: btn.dataset.tab });
+    });
   });
 
-  document.getElementById("tab-btn-curriculum").addEventListener("click", () => {
-    sound.playClick();
-    store.setState({ activeLobbyTab: "curriculum" });
-  });
-
-  if (activeLobbyTab === "modes") {
-    attachModesListeners();
-  } else {
-    attachCurriculumListeners();
-  }
+  if (activeLobbyTab === 'modes') attachModesListeners();
+  if (activeLobbyTab === 'curriculum') attachCurriculumListeners();
 }
 
+// -------------------------------------------------------------
+// MODES TAB (Sequential Gauntlet + Battle Royale + 1v1 Duel)
+// -------------------------------------------------------------
 function renderModesTab(user, activeChallenge, currentChallengeIdx) {
   return `
     <!-- Sequential Gauntlet Featured Banner -->
     <div class="gauntlet-card">
       <div class="gauntlet-info">
-        <span class="gauntlet-level">🔥 SEQUENTIAL PROGRESSION • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
+        <span class="gauntlet-level">NEXT LEVEL • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
         <h2 class="gauntlet-title">${activeChallenge.title}</h2>
-        <p class="gauntlet-desc">${activeChallenge.concept}</p>
-        <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 11px; font-weight: 700;">
-          <span style="color: var(--accent-gold);">💰 Bounty: +🪙 ${(100 + currentChallengeIdx * 5)}</span>
-          <span style="color: var(--accent-emerald);">⚡ Speed Bonus: +🪙 50</span>
-          ${user.currentStreak >= 2 ? `<span style="color: var(--accent-cyan);">🔥 Streak: ${user.currentStreak} in a row</span>` : ''}
-        </div>
+        <p class="gauntlet-desc">${activeChallenge.task}</p>
       </div>
 
       <button class="btn-gauntlet-play" id="btn-start-gauntlet">
-        ▶ PLAY LEVEL ${currentChallengeIdx + 1}
+        ▶ PLAY LEVEL #${currentChallengeIdx + 1}
       </button>
     </div>
 
@@ -255,8 +270,8 @@ function attachModesListeners() {
     group.querySelectorAll(".wager-pill").forEach(btn => {
       btn.addEventListener("click", () => {
         sound.playClick();
-        selectedWagers[mode] = Number(btn.dataset.wager);
-        renderLobbyView(store.getState());
+        selectedWagers[mode] = parseInt(btn.dataset.wager, 10);
+        renderView(store.getState());
       });
     });
   });
@@ -334,21 +349,35 @@ function attachCurriculumListeners() {
   const userProgress = store.getState().user.currentProgressIdx || 0;
 
   document.querySelectorAll(".challenge-node").forEach(node => {
-    const idx = Number(node.dataset.index);
     node.addEventListener("click", () => {
+      const idx = parseInt(node.dataset.index, 10);
       if (idx <= userProgress) {
         sound.playClick();
-        arena.createMatch({ mode: "custom", challengeIdx: idx, wager: 0 });
-      } else {
-        sound.playFail();
-        alert(`🔒 Challenge #${idx + 1} is locked. Complete Challenge #${userProgress + 1} first to unlock!`);
+        arena.createMatch({ mode: "gauntlet", challengeIdx: idx, wager: 0 });
       }
     });
   });
 }
 
 // -------------------------------------------------------------
-// ARENA VIEW (Zero-Scroll 2-Column Focus Layout)
+// RULES TAB
+// -------------------------------------------------------------
+function renderRulesTab() {
+  return `
+    <div class="rules-card">
+      <h2>🏆 Piscine Gauntlet & Code Royale Rules</h2>
+      <ul>
+        <li><strong>Piscine Gauntlet</strong>: Master JavaScript through 216 atomic levels. Timers are lenient benchmarks allowing you to learn and improve at your own speed.</li>
+        <li><strong>Play / Test Button</strong>: Test your code in the bottom terminal as many times as you like without penalties or risk.</li>
+        <li><strong>Instant Submission</strong>: Use <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>) to submit. When the Victory popup appears, press <code>Enter</code> to instantly advance to the next level.</li>
+        <li><strong>Battle Royale & Duels</strong>: Sudden death elimination wager matches against intelligent AIs. The last surviving programmer claims the entire jackpot bounty.</li>
+      </ul>
+    </div>
+  `;
+}
+
+// -------------------------------------------------------------
+// ARENA VIEW (Zero-Scroll 2-Column Focus Layout with Terminal)
 // -------------------------------------------------------------
 function renderArenaView(match) {
   if (!match) return;
@@ -362,17 +391,11 @@ function renderArenaView(match) {
     activeView = "arena";
     activeChallengeId = challenge.id;
 
-    const timerDisplay = match.isLenient
-      ? `${formatDuration(match.elapsedSeconds)} (Target: ${formatDuration(match.targetTime)})`
-      : `${String(match.timeLeft).padStart(2, '0')}s`;
-
-    // Clean starter stub without redundant comment headers
     const cleanStarterCode = (challenge.solutionStub || "")
       .replace(/^\/\/[^\n]*\n+/gm, "")
       .trim();
 
     appRoot.innerHTML = `
-      <!-- Top Mini-HUD Bar -->
       <div class="arena-topbar">
         <div class="arena-topbar-left">
           <button class="btn-back-lobby" id="btn-arena-back" title="Return to Lobby">← LOBBY</button>
@@ -380,41 +403,21 @@ function renderArenaView(match) {
             ${match.isSequential ? `LEVEL ${match.challengeIdx + 1}: ${challenge.title}` : `ROUND ${match.round}: ${challenge.title}`}
           </span>
         </div>
-
-        <div class="arena-topbar-timer ${!match.isLenient && match.timeLeft <= 10 ? 'danger' : ''}" id="hud-timer">
-          ⏱️ ${timerDisplay}
-        </div>
-
         <div class="arena-topbar-right">
           <span style="color: var(--accent-gold);" id="hud-pot">💰 Bounty: +🪙 ${match.pot.toLocaleString()}</span>
         </div>
       </div>
 
-      <!-- 2-Column Zero-Scroll Split Layout -->
       <div class="arena-split-layout">
-        <!-- Left Column: Focused Instructions & Hints -->
         <div class="instructions-panel">
-          <!-- Primary Task Instructions -->
           <div class="task-box">
             <span class="section-label task-label">🎯 REQUIRED TASK</span>
             <div class="task-text">${formatMarkdown(challenge.task)}</div>
           </div>
-
-          <!-- Concept Explanation -->
           <div class="panel-section">
             <div class="section-label">💡 CONCEPT</div>
             <div class="concept-box">${formatMarkdown(challenge.concept)}</div>
           </div>
-
-          <!-- Syntax Reference -->
-          ${challenge.syntax ? `
-            <div class="panel-section">
-              <div class="section-label">⚡ SYNTAX TEMPLATE</div>
-              <div class="syntax-box">${challenge.syntax}</div>
-            </div>
-          ` : ''}
-
-          <!-- Contenders Radar (Compact) -->
           <div class="radar-compact">
             <div class="radar-compact-header">
               <span>CONTENDERS</span>
@@ -426,33 +429,50 @@ function renderArenaView(match) {
           </div>
         </div>
 
-        <!-- Right Column: Dominant Code Editor (100% Height) -->
-        <div class="editor-container">
-          <div class="editor-header">
-            <div class="editor-title">
-              <span>solution.js</span>
-              <span class="editor-badge">ESM JavaScript</span>
+        <div class="editor-workspace">
+          <div class="editor-container">
+            <div class="editor-header">
+              <div class="editor-title">
+                <span>solution.js</span>
+                <span class="editor-badge">ESM JavaScript</span>
+              </div>
+              <div class="editor-controls">
+                <span>Challenge #${challenge.id}</span>
+              </div>
             </div>
-            <div class="editor-controls">
+
+            <div class="editor-body">
+              <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
+              <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript code here...">${cleanStarterCode}</textarea>
             </div>
           </div>
 
-          <div class="editor-body">
-            <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
-            <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript code here...">${cleanStarterCode}</textarea>
-          </div>
-
-          <!-- Integrated Bottom Bar: Live Console + Action Button -->
-          <div class="editor-bottom-bar">
-            <div class="console-inline">
-              <span class="status-pill idle" id="test-status-pill">AWAITING RUN</span>
-              <span class="console-message" id="test-console-output">Press Cmd+Enter to run test assertions</span>
-            </div>
-
-            <div class="editor-actions">
-              <button class="btn-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
-                ${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 RUN & SUBMIT'}
+          <div class="editor-separator-bar">
+            <div class="separator-left">
+              <button class="btn-action-test" id="btn-test-code" title="Run tests in terminal without submitting (Cmd + ')">
+                <span class="play-icon">▶</span> TEST CODE
               </button>
+              <span class="test-hint-text">Run tests & print output below</span>
+            </div>
+
+            <div class="separator-right">
+              <button class="btn-action-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
+                <span>${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 SUBMIT'}</span>
+                <span class="btn-kbd-badge">⌘ ↵</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <div class="terminal-header-left">
+                <span class="terminal-title">⚡ TERMINAL / TEST RUNNER</span>
+                <span class="terminal-status-pill idle" id="terminal-status-pill">IDLE</span>
+              </div>
+              <button class="btn-terminal-clear" id="btn-clear-terminal" title="Clear Terminal">⌫ Clear</button>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "▶ TEST CODE" to run assertions or press Cmd+Enter to submit.</div>
             </div>
           </div>
         </div>
@@ -467,8 +487,71 @@ function renderArenaView(match) {
 
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
+    const terminalBody = document.getElementById("terminal-output");
+    const terminalStatusPill = document.getElementById("terminal-status-pill");
 
-    setupSmartCodeEditor(textarea, linesEl, handleSubmit);
+    setupSmartCodeEditor(textarea, linesEl, handleSubmit, handleTestRun);
+
+    async function handleTestRun() {
+      const rawCode = textarea.value;
+      const formatted = await formatJavaScriptCode(rawCode);
+      if (formatted && formatted !== rawCode) {
+        textarea.value = formatted;
+        linesEl.innerHTML = Array.from({ length: Math.max(5, formatted.split("\n").length) }, (_, i) => i + 1).join("<br>");
+      }
+
+      const userCode = textarea.value;
+      const btnTest = document.getElementById("btn-test-code");
+
+      if (btnTest) btnTest.disabled = true;
+      if (terminalStatusPill) {
+        terminalStatusPill.className = "terminal-status-pill running";
+        terminalStatusPill.textContent = "RUNNING...";
+      }
+
+      sound.playClick();
+
+      const evalResult = await evaluateSubmission(userCode, challenge);
+
+      let linesHtml = `<div class="terminal-line cmd">$ test-runner --challenge=#${challenge.id} "${escapeHtml(challenge.title)}"</div>`;
+
+      if (evalResult.logs && evalResult.logs.length > 0) {
+        linesHtml += `<div class="terminal-line" style="color: var(--text-muted); margin-top: 4px;">--- console.log output ---</div>`;
+        evalResult.logs.forEach(log => {
+          linesHtml += `<div class="terminal-line stdout">${escapeHtml(log)}</div>`;
+        });
+        linesHtml += `<div class="terminal-line" style="color: var(--text-muted); margin-bottom: 4px;">--------------------------</div>`;
+      }
+
+      evalResult.results.forEach((res, i) => {
+        if (res.pass) {
+          linesHtml += `<div class="terminal-line pass">✔ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
+        } else {
+          linesHtml += `<div class="terminal-line fail">✖ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
+        }
+      });
+
+      if (evalResult.success) {
+        if (terminalStatusPill) {
+          terminalStatusPill.className = "terminal-status-pill pass";
+          terminalStatusPill.textContent = `PASS (${evalResult.duration}ms)`;
+        }
+        linesHtml += `<div class="terminal-line summary-pass">✨ All ${evalResult.results.length} assertions passed cleanly! Press Cmd + Enter to submit.</div>`;
+      } else {
+        if (terminalStatusPill) {
+          terminalStatusPill.className = "terminal-status-pill fail";
+          terminalStatusPill.textContent = `FAIL (${evalResult.duration}ms)`;
+        }
+        linesHtml += `<div class="terminal-line summary-fail">⚠️ Test failed. Review your code and click ▶ TEST CODE again.</div>`;
+      }
+
+      if (terminalBody) {
+        terminalBody.innerHTML = linesHtml;
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+      }
+
+      if (btnTest) btnTest.disabled = false;
+    }
 
     async function handleSubmit() {
       const rawCode = textarea.value;
@@ -480,31 +563,79 @@ function renderArenaView(match) {
 
       const userCode = textarea.value;
       const btnSubmit = document.getElementById("btn-submit-code");
-      const statusPill = document.getElementById("test-status-pill");
-      const consoleOut = document.getElementById("test-console-output");
 
-      btnSubmit.disabled = true;
-      btnSubmit.textContent = "CHECKING...";
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = "SUBMITTING...";
+      }
+
+      if (terminalStatusPill) {
+        terminalStatusPill.className = "terminal-status-pill running";
+        terminalStatusPill.textContent = "SUBMITTING...";
+      }
 
       const evalResult = await evaluateSubmission(userCode, challenge);
 
+      let linesHtml = `<div class="terminal-line cmd">$ submit --level=#${challenge.id} "${escapeHtml(challenge.title)}"</div>`;
+
+      if (evalResult.logs && evalResult.logs.length > 0) {
+        evalResult.logs.forEach(log => {
+          linesHtml += `<div class="terminal-line stdout">${escapeHtml(log)}</div>`;
+        });
+      }
+
+      evalResult.results.forEach((res, i) => {
+        if (res.pass) {
+          linesHtml += `<div class="terminal-line pass">✔ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
+        } else {
+          linesHtml += `<div class="terminal-line fail">✖ [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
+        }
+      });
+
       if (evalResult.success) {
-        statusPill.className = "status-pill pass";
-        statusPill.textContent = `✔ PASS (${evalResult.duration}ms)`;
-        consoleOut.innerHTML = `<span style="color: var(--accent-emerald);">All test assertions passed cleanly!</span>`;
+        if (terminalStatusPill) {
+          terminalStatusPill.className = "terminal-status-pill pass";
+          terminalStatusPill.textContent = `LEVEL PASSED (${evalResult.duration}ms)`;
+        }
+        linesHtml += `<div class="terminal-line summary-pass">🏆 VICTORY: Solution accepted! Advancing to rewards...</div>`;
+        if (terminalBody) {
+          terminalBody.innerHTML = linesHtml;
+          terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
         arena.submitUserSolution(true);
       } else {
-        statusPill.className = "status-pill fail";
-        statusPill.textContent = `✖ FAIL (${evalResult.duration}ms)`;
-        const firstError = evalResult.results.find(r => !r.pass)?.error || evalResult.error || "Evaluation failed";
-        consoleOut.innerHTML = `<span style="color: var(--accent-crimson);">${firstError}</span>`;
-        btnSubmit.disabled = false;
-        btnSubmit.textContent = "🚀 RUN & SUBMIT";
+        if (terminalStatusPill) {
+          terminalStatusPill.className = "terminal-status-pill fail";
+          terminalStatusPill.textContent = `SUBMISSION FAILED (${evalResult.duration}ms)`;
+        }
+        linesHtml += `<div class="terminal-line summary-fail">✖ Submission failed assertion checks. Fix your code and retry!</div>`;
+        if (terminalBody) {
+          terminalBody.innerHTML = linesHtml;
+          terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = `<span>🚀 SUBMIT</span><span class="btn-kbd-badge">⌘ ↵</span>`;
+        }
         arena.submitUserSolution(false);
       }
     }
 
+    document.getElementById("btn-test-code").addEventListener("click", handleTestRun);
     document.getElementById("btn-submit-code").addEventListener("click", handleSubmit);
+
+    const btnClear = document.getElementById("btn-clear-terminal");
+    if (btnClear) {
+      btnClear.addEventListener("click", () => {
+        if (terminalBody) {
+          terminalBody.innerHTML = `<div class="terminal-line" style="color: var(--text-muted);">$ terminal cleared.</div>`;
+        }
+        if (terminalStatusPill) {
+          terminalStatusPill.className = "terminal-status-pill idle";
+          terminalStatusPill.textContent = "IDLE";
+        }
+      });
+    }
 
     setTimeout(() => {
       textarea.focus();
@@ -512,29 +643,6 @@ function renderArenaView(match) {
     }, 50);
 
   } else {
-    const timerEl = document.getElementById("hud-timer");
-    if (timerEl) {
-      if (match.isLenient) {
-        const isOvertime = match.elapsedSeconds > match.targetTime;
-        timerEl.textContent = isOvertime 
-          ? `⏱️ ${formatDuration(match.elapsedSeconds)} (Overtime • Keep Coding!)`
-          : `⏱️ ${formatDuration(match.elapsedSeconds)} / ${formatDuration(match.targetTime)}`;
-        
-        if (isOvertime) {
-          timerEl.style.color = "var(--accent-gold)";
-        } else {
-          timerEl.style.color = "var(--accent-cyan)";
-        }
-      } else {
-        timerEl.textContent = `⏱️ ${String(match.timeLeft).padStart(2, '0')}s`;
-        if (match.timeLeft <= 10) {
-          timerEl.classList.add("danger");
-        } else {
-          timerEl.classList.remove("danger");
-        }
-      }
-    }
-
     const aliveCountEl = document.getElementById("hud-alive-count");
     if (aliveCountEl) {
       aliveCountEl.textContent = `${match.players.filter(p => p.alive).length} ACTIVE`;
@@ -556,7 +664,7 @@ function renderArenaView(match) {
 // -------------------------------------------------------------
 // SMART CODE EDITOR ENGINE (Auto-Brackets, Smart Indent, Pair Delete)
 // -------------------------------------------------------------
-function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
+function setupSmartCodeEditor(textarea, linesEl, onSubmit, onTest) {
   const updateLineNumbers = () => {
     const count = textarea.value.split("\n").length;
     linesEl.innerHTML = Array.from({ length: Math.max(5, count) }, (_, i) => i + 1).join("<br>");
@@ -579,6 +687,12 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const val = textarea.value;
+
+    if ((e.metaKey || e.ctrlKey) && (e.key === "'" || e.key === "r")) {
+      e.preventDefault();
+      if (onTest) onTest();
+      return;
+    }
 
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();

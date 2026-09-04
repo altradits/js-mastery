@@ -2,8 +2,25 @@
 
 export async function evaluateSubmission(userCode, challenge) {
   const startTime = performance.now();
+  const logs = [];
+  const originalLog = console.log;
+  const originalWarn = console.warn;
+  const originalError = console.error;
 
   try {
+    console.log = (...args) => {
+      logs.push(args.map(a => typeof a === "object" && a !== null ? JSON.stringify(a) : String(a)).join(" "));
+      originalLog(...args);
+    };
+    console.warn = (...args) => {
+      logs.push("[warn] " + args.map(a => typeof a === "object" && a !== null ? JSON.stringify(a) : String(a)).join(" "));
+      originalWarn(...args);
+    };
+    console.error = (...args) => {
+      logs.push("[error] " + args.map(a => typeof a === "object" && a !== null ? JSON.stringify(a) : String(a)).join(" "));
+      originalError(...args);
+    };
+
     // 1. Transform ES module exports into a returned dictionary object
     let transformedCode = userCode
       .replace(/export\s+default\s+/g, "const __defaultExport = ")
@@ -52,6 +69,7 @@ export async function evaluateSubmission(userCode, challenge) {
     return {
       success: allPassed,
       results: testResults,
+      logs,
       duration
     };
   } catch (err) {
@@ -59,9 +77,14 @@ export async function evaluateSubmission(userCode, challenge) {
     return {
       success: false,
       results: [{ name: "Compilation & Runtime Execution", pass: false, error: err.message }],
+      logs,
       error: err.message,
       duration
     };
+  } finally {
+    console.log = originalLog;
+    console.warn = originalWarn;
+    console.error = originalError;
   }
 }
 
