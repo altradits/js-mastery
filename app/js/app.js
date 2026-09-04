@@ -8,10 +8,6 @@ import { CHALLENGE_BANK } from "./engine/challenges.js";
 const appNavbar = document.getElementById("app-navbar");
 const appRoot = document.getElementById("app-root");
 
-// Active test and submit handlers for navbar integration
-let activeTestHandler = null;
-let activeSubmitHandler = null;
-
 // Time Formatter Utility
 function formatDuration(sec) {
   const s = Math.max(0, Math.floor(sec || 0));
@@ -104,8 +100,6 @@ function renderNavbar(state) {
 
   if (isArena) {
     const challenge = match.currentChallenge;
-    const human = match.players.find(p => p.isHuman);
-    const hasSubmitted = human && human.hasSubmitted;
     const levelNumber = match.isSequential ? (match.challengeIdx + 1) : challenge.id;
     const cleanTitle = challenge.title.replace(/^\d+\s*—\s*/, '');
 
@@ -117,10 +111,6 @@ function renderNavbar(state) {
       </div>
 
       <div class="nav-group-right">
-        <button class="nav-btn-action test" id="btn-nav-test" title="Run assertions in terminal (Cmd + ')">Test</button>
-        <button class="nav-btn-action submit" id="btn-nav-submit" title="Submit solution (Cmd + Enter)" ${hasSubmitted ? 'disabled' : ''}>
-          ${hasSubmitted ? 'Submitted' : 'Submit'}
-        </button>
         <span class="nav-stat-item" id="nav-coins">Coins ${user.coins.toLocaleString()}</span>
         <button class="nav-btn-icon" id="btn-nav-sound" title="Toggle Sound">${isMuted ? 'Muted' : 'Sound'}</button>
       </div>
@@ -129,17 +119,7 @@ function renderNavbar(state) {
     document.getElementById("btn-arena-back")?.addEventListener("click", () => {
       sound.playClick();
       arena.stopTimers();
-      activeTestHandler = null;
-      activeSubmitHandler = null;
       store.setState({ currentView: "lobby", match: null });
-    });
-
-    document.getElementById("btn-nav-test")?.addEventListener("click", () => {
-      if (activeTestHandler) activeTestHandler();
-    });
-
-    document.getElementById("btn-nav-submit")?.addEventListener("click", () => {
-      if (activeSubmitHandler) activeSubmitHandler();
     });
 
     document.getElementById("btn-nav-sound")?.addEventListener("click", () => {
@@ -188,16 +168,12 @@ function renderView(state) {
   if (currentView === "lobby") {
     activeView = "lobby";
     activeChallengeId = null;
-    activeTestHandler = null;
-    activeSubmitHandler = null;
     renderLobbyView(state);
   } else if (currentView === "arena") {
     renderArenaView(match);
   } else if (currentView === "victory") {
     activeView = "victory";
     activeChallengeId = null;
-    activeTestHandler = null;
-    activeSubmitHandler = null;
     renderVictoryView(match);
   }
 }
@@ -425,7 +401,7 @@ function renderRulesTab() {
       <ul>
         <li><strong>Piscine Gauntlet</strong>: Master JavaScript through 216 atomic levels. Practice at your own pace with instant test validation.</li>
         <li><strong>Test Action</strong>: Run tests in the bottom terminal as many times as you like without penalties (shortcut: <code>Cmd + '</code> or <code>Ctrl + '</code>).</li>
-        <li><strong>Submission</strong>: Submit your final code via the top menu bar or with <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>). On the victory popup, press <code>Enter</code> to immediately advance to the next level.</li>
+        <li><strong>Submission</strong>: Submit your final code in the terminal header or with <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>). On the victory popup, press <code>Enter</code> to immediately advance to the next level.</li>
         <li><strong>Battle Royale & Duels</strong>: Sudden death elimination wager matches against competitive AIs. The last surviving programmer claims the entire jackpot bounty.</li>
       </ul>
     </div>
@@ -501,10 +477,16 @@ function renderArenaView(match) {
                 <span class="terminal-title">Terminal</span>
                 <span class="terminal-status-pill idle" id="terminal-status-pill">Idle</span>
               </div>
-              <button class="btn-terminal-clear" id="btn-clear-terminal" title="Clear Terminal">Clear</button>
+              <div class="terminal-controls">
+                <button class="btn-terminal-action" id="btn-terminal-test" title="Run assertions in terminal (Cmd + ')">Test</button>
+                <button class="btn-terminal-action" id="btn-terminal-submit" title="Submit solution (Cmd + Enter)" ${human && human.hasSubmitted ? 'disabled' : ''}>
+                  ${human && human.hasSubmitted ? 'Submitted' : 'Submit'}
+                </button>
+                <button class="btn-terminal-action" id="btn-clear-terminal" title="Clear Terminal">Clear</button>
+              </div>
             </div>
             <div class="terminal-body" id="terminal-output">
-              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "Test" or press Cmd+' to run assertions. Press Cmd+Enter to submit.</div>
+              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "Test" or press Cmd+' to run assertions. Click "Submit" or press Cmd+Enter to submit.</div>
             </div>
           </div>
         </div>
@@ -527,9 +509,12 @@ function renderArenaView(match) {
       }
 
       const userCode = textarea.value;
-      const btnNavTest = document.getElementById("btn-nav-test");
+      const btnTest = document.getElementById("btn-terminal-test");
 
-      if (btnNavTest) btnNavTest.disabled = true;
+      if (btnTest) {
+        btnTest.disabled = true;
+        btnTest.textContent = "Running";
+      }
       if (terminalStatusPill) {
         terminalStatusPill.className = "terminal-status-pill running";
         terminalStatusPill.textContent = "Running";
@@ -576,7 +561,10 @@ function renderArenaView(match) {
         terminalBody.scrollTop = terminalBody.scrollHeight;
       }
 
-      if (btnNavTest) btnNavTest.disabled = false;
+      if (btnTest) {
+        btnTest.disabled = false;
+        btnTest.textContent = "Test";
+      }
     }
 
     async function handleSubmit() {
@@ -588,11 +576,11 @@ function renderArenaView(match) {
       }
 
       const userCode = textarea.value;
-      const btnNavSubmit = document.getElementById("btn-nav-submit");
+      const btnSubmit = document.getElementById("btn-terminal-submit");
 
-      if (btnNavSubmit) {
-        btnNavSubmit.disabled = true;
-        btnNavSubmit.textContent = "Submitting";
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = "Submitting";
       }
 
       if (terminalStatusPill) {
@@ -639,17 +627,16 @@ function renderArenaView(match) {
           terminalBody.innerHTML = linesHtml;
           terminalBody.scrollTop = terminalBody.scrollHeight;
         }
-        if (btnNavSubmit) {
-          btnNavSubmit.disabled = false;
-          btnNavSubmit.textContent = "Submit";
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = "Submit";
         }
         arena.submitUserSolution(false);
       }
     }
 
-    // Bind active handlers so navbar buttons can trigger them
-    activeTestHandler = handleTestRun;
-    activeSubmitHandler = handleSubmit;
+    document.getElementById("btn-terminal-test")?.addEventListener("click", handleTestRun);
+    document.getElementById("btn-terminal-submit")?.addEventListener("click", handleSubmit);
 
     const btnClear = document.getElementById("btn-clear-terminal");
     if (btnClear) {
@@ -680,10 +667,10 @@ function renderArenaView(match) {
       playerListEl.innerHTML = renderPlayerTiles(match.players);
     }
 
-    const btnNavSubmit = document.getElementById("btn-nav-submit");
-    if (btnNavSubmit && human && human.hasSubmitted && !btnNavSubmit.disabled) {
-      btnNavSubmit.disabled = true;
-      btnNavSubmit.textContent = "Submitted";
+    const btnSubmit = document.getElementById("btn-terminal-submit");
+    if (btnSubmit && human && human.hasSubmitted && !btnSubmit.disabled) {
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "Submitted";
     }
   }
 }
