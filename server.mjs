@@ -44,12 +44,24 @@ const server = http.createServer((req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3333;
-server.listen(PORT, () => {
-  console.log(`\n\x1b[1m\x1b[36m=====================================================\x1b[0m`);
-  console.log(`\x1b[1m\x1b[36m    CODE ROYALE: LAST MAN STANDING WEB APP RUNNING   \x1b[0m`);
-  console.log(`\x1b[1m\x1b[36m=====================================================\x1b[0m\n`);
-  console.log(`\x1b[32m✔ Local Server:\x1b[0m   http://localhost:${PORT}`);
-  console.log(`\x1b[90mPress Ctrl+C to stop the server\x1b[0m\n`);
-});
+function startServer(port) {
+  server.listen(port, () => {
+    console.log(`\n\x1b[1m\x1b[36m=====================================================\x1b[0m`);
+    console.log(`\x1b[1m\x1b[36m    CODE ROYALE: LAST MAN STANDING WEB APP RUNNING   \x1b[0m`);
+    console.log(`\x1b[1m\x1b[36m=====================================================\x1b[0m\n`);
+    console.log(`\x1b[32m✔ Local Server:\x1b[0m   http://localhost:${port}`);
+    console.log(`\x1b[90mPress Ctrl+C to stop the server\x1b[0m\n`);
+  });
 
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.log(`\x1b[33mPort ${port} is in use, trying port ${port + 1}...\x1b[0m`);
+      startServer(port + 1);
+    } else {
+      console.error(err);
+    }
+  });
+}
+
+const initialPort = parseInt(process.env.PORT || "3333", 10);
+startServer(initialPort);
