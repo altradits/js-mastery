@@ -253,11 +253,11 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
     <!-- Arena Modes Grid -->
     <div class="modes-grid">
       <!-- 8-Player Battle Royale -->
-      <div class="mode-card" style="--card-accent: var(--accent-cyan); --btn-color-1: var(--accent-cyan); --btn-color-2: #0088FF;">
+      <div class="mode-card">
         <div>
           <div class="mode-header">
-            <span class="mode-title" style="margin-bottom: 0;">Battle Royale</span>
-            <span class="mode-badge" style="border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">8 Players</span>
+            <span class="mode-title">Battle Royale</span>
+            <span class="mode-badge">8 Players</span>
           </div>
           <p class="mode-desc">8 coders enter. Multi-round sudden death elimination bracket. Winner takes the 8x jackpot pot!</p>
           
@@ -277,11 +277,11 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
       </div>
 
       <!-- 1v1 Head-to-Head Duel -->
-      <div class="mode-card" style="--card-accent: var(--accent-purple); --btn-color-1: #A855F7; --btn-color-2: #6366F1;">
+      <div class="mode-card">
         <div>
           <div class="mode-header">
-            <span class="mode-title" style="margin-bottom: 0;">1v1 Code Duel</span>
-            <span class="mode-badge" style="border: 1px solid #A855F7; color: #A855F7;">1v1 Duel</span>
+            <span class="mode-title">1v1 Code Duel</span>
+            <span class="mode-badge">1v1 Duel</span>
           </div>
           <p class="mode-desc">Direct sudden-death duel. First programmer to pass all challenge assertions wins the double stake.</p>
           
@@ -295,7 +295,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
           </div>
         </div>
 
-        <button class="btn-play" id="btn-start-duel" style="background: linear-gradient(135deg, #A855F7, #6366F1); box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);">
+        <button class="btn-play" id="btn-start-duel">
           Duel Now (${(selectedWagers.duel * 2).toLocaleString()} Pot)
         </button>
       </div>
@@ -440,19 +440,15 @@ function renderArenaView(match) {
           <!-- 1. Concept: What you are learning & how it is applied -->
           <div class="panel-section concept-section">
             <div class="section-label">Concept</div>
-            <div class="concept-box">
-              <div class="concept-text"><p>${formatMarkdown(challenge.concept)}</p></div>
-            </div>
+            <div class="concept-text"><p>${formatMarkdown(challenge.concept)}</p></div>
           </div>
 
           <!-- 2. Question: Real-world problem & challenge -->
           <div class="panel-section challenge-section">
             <div class="section-label task-label">Question</div>
-            <div class="task-box">
-              <div class="task-text">
-                <p><strong>Scenario:</strong> ${formatMarkdown(getChallengeScenario(challenge))}</p>
-                <p><strong>Goal:</strong> ${formatMarkdown(challenge.task)}</p>
-              </div>
+            <div class="task-text">
+              <p><strong>Scenario:</strong> ${formatMarkdown(getChallengeScenario(challenge))}</p>
+              <p><strong>Goal:</strong> ${formatMarkdown(challenge.task)}</p>
             </div>
           </div>
 
@@ -911,7 +907,7 @@ function renderVictoryView(match) {
     `;
   } else if (!isWin) {
     primaryButtonHtml = `
-      <button class="modal-btn-primary" id="btn-retry-level" style="background: linear-gradient(135deg, var(--accent-cyan), #0284c7); box-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 0 2px #FFFFFF;">
+      <button class="modal-btn-primary" id="btn-retry-level">
         <span>Retry Challenge #${match.currentChallenge.id}</span>
         <span class="btn-kbd-badge">Enter</span>
       </button>
@@ -937,12 +933,12 @@ function renderVictoryView(match) {
         ` : ''}
 
         ${isWin && solvedTime !== null ? `
-          <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-bottom: 12px;">
+          <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 600; margin-bottom: 12px;">
             Solved in ${formatDuration(solvedTime)} ${beatTarget ? '(Speed Bonus)' : ''}
           </div>
         ` : ''}
 
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 8px;">
           ${primaryButtonHtml}
           <button class="modal-btn-secondary" id="btn-return-lobby">
             Return to Lobby
@@ -1050,7 +1046,7 @@ function renderModal(state) {
           <div class="stat-label">MMR</div>
         </div>
         <div class="stat-box">
-          <div class="stat-number" style="color: var(--accent-gold);">${(user.coins || 0).toLocaleString()}</div>
+          <div class="stat-number">${(user.coins || 0).toLocaleString()}</div>
           <div class="stat-label">Coins</div>
         </div>
       </div>
@@ -1058,11 +1054,11 @@ function renderModal(state) {
       <label class="input-label">Username</label>
       <input type="text" class="text-input" id="modal-username-input" value="${escapeHtml(user.username)}" placeholder="Enter username..." />
 
-      <div style="display: flex; gap: 10px; margin-top: 10px;">
-        <button class="btn-play" id="btn-save-profile" style="flex: 2;">
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button class="modal-btn-primary" id="btn-save-profile" style="flex: 2;">
           Save
         </button>
-        <button class="btn-play" id="btn-reset-user" style="flex: 1; background: rgba(255, 42, 95, 0.15); border: 1px solid var(--accent-crimson); color: var(--accent-crimson); box-shadow: none;">
+        <button class="modal-btn-secondary" id="btn-reset-user" style="flex: 1;">
           Reset
         </button>
       </div>

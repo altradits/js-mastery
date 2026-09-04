@@ -1,66 +1,69 @@
 :root {
-  /* Color Palette - Cyber-Piscine Palette */
-  --bg-darkest: #06080D;
-  --bg-dark: #0B0F19;
-  --bg-card: rgba(16, 22, 36, 0.7);
-  --bg-card-hover: rgba(22, 30, 48, 0.85);
-  --bg-glass: rgba(255, 255, 255, 0.03);
+  /* VS Code Dark Modern Professional Palette */
+  --bg-darkest: #181818;
+  --bg-dark: #1e1e1e;
+  --bg-card: #252526;
+  --bg-card-hover: #2d2d2d;
+  --bg-glass: #1e1e1e;
+  --bg-panel: #1e1e1e;
+  --bg-header: #252526;
+  --bg-input: #3c3c3c;
 
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 240, 255, 0.3);
-  --border-active: rgba(0, 240, 255, 0.7);
+  --border-subtle: #2d2d2d;
+  --border-glow: #3c3c3c;
+  --border-active: #007acc;
 
-  --accent-cyan: #00F0FF;
-  --accent-cyan-glow: rgba(0, 240, 255, 0.35);
-  --accent-emerald: #00FF88;
-  --accent-emerald-glow: rgba(0, 255, 136, 0.35);
-  --accent-crimson: #FF2A5F;
-  --accent-crimson-glow: rgba(255, 42, 95, 0.35);
-  --accent-purple: #9333EA;
-  --accent-purple-glow: rgba(147, 51, 234, 0.35);
-  --accent-gold: #FBBF24;
-  --accent-gold-glow: rgba(251, 191, 36, 0.4);
+  --accent-cyan: #3794ff;
+  --accent-cyan-glow: rgba(55, 148, 255, 0.15);
+  --accent-emerald: #89d185;
+  --accent-emerald-glow: rgba(137, 209, 133, 0.15);
+  --accent-crimson: #f14c4c;
+  --accent-crimson-glow: rgba(241, 76, 76, 0.15);
+  --accent-purple: #c586c0;
+  --accent-purple-glow: rgba(197, 134, 192, 0.15);
+  --accent-gold: #dcdcaa;
+  --accent-gold-glow: rgba(220, 220, 170, 0.15);
+  --accent-blue: #007acc;
 
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
+  --text-primary: #d4d4d4;
+  --text-secondary: #cccccc;
+  --text-muted: #858585;
 
   /* Typography */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-sans: var(--font-body);
   --font-code: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-mono: var(--font-code);
 
-  /* Fluid Typography Scale */
-  --text-2xs: clamp(0.65rem, 0.6rem + 0.2vw, 0.72rem);   /* ~10.5px - 11.5px */
-  --text-xs: clamp(0.72rem, 0.68rem + 0.22vw, 0.8rem);   /* ~11.5px - 13px */
-  --text-sm: clamp(0.8rem, 0.75rem + 0.28vw, 0.88rem);   /* ~13px - 14px */
-  --text-base: clamp(0.88rem, 0.82rem + 0.35vw, 0.96rem); /* ~14px - 15.5px */
-  --text-md: clamp(1rem, 0.92rem + 0.45vw, 1.15rem);     /* ~16px - 18.5px */
-  --text-lg: clamp(1.2rem, 1.08rem + 0.65vw, 1.45rem);   /* ~19px - 23px */
-  --text-xl: clamp(1.45rem, 1.25rem + 1vw, 1.85rem);     /* ~23px - 30px */
-  --text-2xl: clamp(1.8rem, 1.45rem + 1.6vw, 2.5rem);    /* ~29px - 40px */
+  /* Clean Typography Scale */
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 26px;
 
   /* Line Heights */
-  --leading-tight: 1.2;
+  --leading-tight: 1.25;
   --leading-snug: 1.35;
-  --leading-normal: 1.55;
-  --leading-relaxed: 1.7;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
 
   /* Letter Spacing */
-  --tracking-tight: -0.025em;
+  --tracking-tight: -0.01em;
   --tracking-normal: 0em;
-  --tracking-wide: 0.04em;
-  --tracking-wider: 0.08em;
-  --tracking-widest: 0.12em;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.04em;
+  --tracking-widest: 0.06em;
 
-  /* Shadows & Glass */
-  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
-  --shadow-neon: 0 0 20px var(--accent-cyan-glow);
-  --glass-blur: blur(16px);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  /* Shadows & Radius */
+  --shadow-card: none;
+  --shadow-neon: none;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
 }
