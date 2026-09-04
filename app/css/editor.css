@@ -29,14 +29,15 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-code);
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--accent-cyan);
 }
 
 .editor-badge {
-  font-size: 9px;
+  font-family: var(--font-code);
+  font-size: var(--text-2xs);
   text-transform: uppercase;
-  padding: 1px 5px;
+  padding: 1px 6px;
   border-radius: 4px;
   background: rgba(0, 240, 255, 0.15);
   border: 1px solid rgba(0, 240, 255, 0.3);
@@ -47,7 +48,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: var(--text-xs);
 }
 
 .editor-body {
@@ -60,12 +61,13 @@
 }
 
 .line-numbers {
-  width: 40px;
+  width: 42px;
   padding: 12px 6px;
   text-align: right;
   font-family: var(--font-code);
-  font-size: 13px;
+  font-size: var(--text-xs);
   line-height: 1.6;
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
   user-select: none;
   background: rgba(6, 9, 15, 0.85);
@@ -79,8 +81,9 @@
   height: 100%;
   padding: 12px 14px;
   font-family: var(--font-code);
-  font-size: 14px;
+  font-size: var(--text-sm);
   line-height: 1.6;
+  font-feature-settings: "liga" 0;
   color: #F1F5F9;
   background: transparent;
   border: none;
@@ -112,16 +115,17 @@
   flex: 1;
   overflow: hidden;
   font-family: var(--font-code);
-  font-size: 11px;
+  font-size: var(--text-xs);
 }
 
 .status-pill {
+  font-family: var(--font-code);
   font-weight: 800;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: var(--text-2xs);
   white-space: nowrap;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wide);
 }
 
 .status-pill.pass {
@@ -143,6 +147,8 @@
 }
 
 .console-message {
+  font-family: var(--font-code);
+  font-size: var(--text-xs);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -160,10 +166,11 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 16px;
+  padding: 7px 18px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 12px;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--accent-cyan), #00A3FF);
   color: #06090E;
