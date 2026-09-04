@@ -200,7 +200,29 @@ const stubs = {
   "191-throttle-function": "// Challenge 191 - Project Utility: Throttle Pattern\n//\n// INSTRUCTIONS:\n// Export a function `throttle(fn, interval)` returning a throttled wrapper.\n",
   "192-async-retry": "// Challenge 192 - Project Utility: Async Retry Wrapper\n//\n// INSTRUCTIONS:\n// Export an async function `retryAsync(fn, maxRetries, delay = 0)`.\n",
   "193-data-validator": "// Challenge 193 - Project Utility: Schema Validator\n//\n// INSTRUCTIONS:\n// Export a function `validate(data, schema)` returning { isValid, errors }.\n",
-  "194-html-builder": "// Challenge 194 - Project Utility: HTML Element Generator\n//\n// INSTRUCTIONS:\n// Export a function `tag(name, attrs = {}, content = \"\")` returning an HTML tag string.\n"
+  "194-html-builder": "// Challenge 194 - Project Utility: HTML Element Generator\n//\n// INSTRUCTIONS:\n// Export a function `tag(name, attrs = {}, content = \"\")` returning an HTML tag string.\n",
+  "195-biggie-smalls": "// Challenge 195 - Numeric Boundaries: Biggie Smalls\n//\n// INSTRUCTIONS:\n// Export constants `biggie = Infinity` and `smalls = -Infinity`.\n",
+  "196-sign": "// Challenge 196 - Signum Evaluation: sign\n//\n// INSTRUCTIONS:\n// Export a function `sign(n)` returning 1, -1, or 0.\n",
+  "197-same-sign": "// Challenge 197 - Sign Parity: sameSign\n//\n// INSTRUCTIONS:\n// Export a function `sameSign(a, b)` returning true if signs match.\n",
+  "198-kiss": "// Challenge 198 - Index Swapping: kiss\n//\n// INSTRUCTIONS:\n// Export a function `kiss(arg)` returning [last, first].\n",
+  "199-keep-first-last": "// Challenge 199 - Boundary Slicing: keepFirstLast\n//\n// INSTRUCTIONS:\n// Export a function `keepFirstLast(str)` combining first 2 and last 2 chars.\n",
+  "200-elementary-divide": "// Challenge 200 - Arithmetic Algorithm: Repeated Subtraction Division\n//\n// INSTRUCTIONS:\n// Export a function `divide(a, b)` computing quotient without using /.\n",
+  "201-elementary-modulo": "// Challenge 201 - Arithmetic Algorithm: Repeated Subtraction Modulo\n//\n// INSTRUCTIONS:\n// Export a function `modulo(a, b)` computing remainder without using %.\n",
+  "202-nasa": "// Challenge 202 - Number Formatting: nasa\n//\n// INSTRUCTIONS:\n// Export a function `nasa(n)` returning space-separated string up to n.\n",
+  "203-triangle": "// Challenge 203 - Nested Loops: Triangle Pattern\n//\n// INSTRUCTIONS:\n// Export a function `triangle(str, height)` returning triangle pattern string.\n",
+  "204-pyramid": "// Challenge 204 - Layout Algorithms: Pyramid Pattern\n//\n// INSTRUCTIONS:\n// Export a function `pyramid(str, height)` returning centered pyramid string.\n",
+  "205-molecules-dna": "// Challenge 205 - Genetic Transcription: RNA to DNA\n//\n// INSTRUCTIONS:\n// Export a function `DNA(strand)` transcribing RNA to DNA.\n",
+  "206-molecules-rna": "// Challenge 206 - Genetic Transcription: DNA to RNA\n//\n// INSTRUCTIONS:\n// Export a function `RNA(strand)` transcribing DNA to RNA.\n",
+  "207-reverser-manual": "// Challenge 207 - Manual Reversal: reverse\n//\n// INSTRUCTIONS:\n// Export a function `reverse(data)` reversing strings or arrays manually.\n",
+  "208-slicer-manual": "// Challenge 208 - Index Normalization: Manual slice\n//\n// INSTRUCTIONS:\n// Export a function `slice(data, start = 0, end = data.length)`.\n",
+  "209-unbreakable-split": "// Challenge 209 - Parsing Algorithms: Manual split\n//\n// INSTRUCTIONS:\n// Export a function `split(str, sep)` splitting string into array without .split().\n",
+  "210-unbreakable-join": "// Challenge 210 - Formatting Algorithms: Manual join\n//\n// INSTRUCTIONS:\n// Export a function `join(arr, sep = ',')` joining array into string without .join().\n",
+  "211-find-expression": "// Challenge 211 - Backtracking Search: findExpression\n//\n// INSTRUCTIONS:\n// Export a function `findExpression(target)` returning expression string.\n",
+  "212-sums-partition": "// Challenge 212 - Backtracking Algorithms: Integer Partitions (sums)\n//\n// INSTRUCTIONS:\n// Export a function `sums(n)` returning sorted partitions summing to n.\n",
+  "213-cut-corners-trunc": "// Challenge 213 - Numerical Approximation: Custom trunc\n//\n// INSTRUCTIONS:\n// Export a function `trunc(n)` truncating decimal without Math.trunc.\n",
+  "214-cut-corners-round": "// Challenge 214 - Numerical Approximation: Custom round\n//\n// INSTRUCTIONS:\n// Export a function `round(n)` rounding numbers without Math.round.\n",
+  "215-is-namespace": "// Challenge 215 - Type Guard Namespace: is\n//\n// INSTRUCTIONS:\n// Export an object `is` containing type checking helper functions.\n",
+  "216-collections-conversions": "// Challenge 216 - Cross-Collection Conversions\n//\n// INSTRUCTIONS:\n// Export conversion functions: arrToStr, setToArr, strToArr, strToSet.\n"
 };
 
 console.log("Resetting all challenge solution.js files to starter comment stubs...");
@@ -210,4 +232,4 @@ for (const [dir, stub] of Object.entries(stubs)) {
   fs.writeFileSync(solPath, stub, "utf8");
 }
 
-console.log("✔ All 194 challenge solutions reset successfully!");
+console.log("✔ All 216 challenge solutions reset successfully!");

@@ -1,6 +1,6 @@
 # JS Mastery: The Complete JavaScript Piscine Practice Engine
 
-An interactive, zero-dependency, native JavaScript practice drill engine designed to take a student from absolute ground zero to full mastery of JavaScript language mechanics through **194 bite-sized, single-concept micro-lessons**.
+An interactive, zero-dependency, native JavaScript practice drill engine designed to take a student from absolute ground zero to full mastery of JavaScript language mechanics through **216 bite-sized, single-concept micro-lessons**.
 
 ---
 
@@ -15,7 +15,7 @@ An interactive, zero-dependency, native JavaScript practice drill engine designe
 
 ---
 
-## 194-Stage Complete JavaScript Roadmap
+## 216-Stage Complete JavaScript Roadmap
 
 | # | Challenge Folder | Concept | Directory |
 |---|---|---|---|
@@ -213,6 +213,28 @@ An interactive, zero-dependency, native JavaScript practice drill engine designe
 | `192` | [192-async-retry](challenges/192-async-retry) | 192 — Project Utility: Async Retry Wrapper | `192-async-retry` |
 | `193` | [193-data-validator](challenges/193-data-validator) | 193 — Project Utility: Schema Validator | `193-data-validator` |
 | `194` | [194-html-builder](challenges/194-html-builder) | 194 — Project Utility: HTML Element Generator | `194-html-builder` |
+| `195` | [195-biggie-smalls](challenges/195-biggie-smalls) | 195 — Numeric Boundaries: Biggie Smalls | `195-biggie-smalls` |
+| `196` | [196-sign](challenges/196-sign) | 196 — Signum Evaluation: sign | `196-sign` |
+| `197` | [197-same-sign](challenges/197-same-sign) | 197 — Sign Parity: sameSign | `197-same-sign` |
+| `198` | [198-kiss](challenges/198-kiss) | 198 — Index Swapping: kiss | `198-kiss` |
+| `199` | [199-keep-first-last](challenges/199-keep-first-last) | 199 — Boundary Slicing: keepFirstLast | `199-keep-first-last` |
+| `200` | [200-elementary-divide](challenges/200-elementary-divide) | 200 — Arithmetic Algorithm: Repeated Subtraction Division | `200-elementary-divide` |
+| `201` | [201-elementary-modulo](challenges/201-elementary-modulo) | 201 — Arithmetic Algorithm: Repeated Subtraction Modulo | `201-elementary-modulo` |
+| `202` | [202-nasa](challenges/202-nasa) | 202 — Number Formatting: nasa | `202-nasa` |
+| `203` | [203-triangle](challenges/203-triangle) | 203 — Nested Loops: Triangle Pattern | `203-triangle` |
+| `204` | [204-pyramid](challenges/204-pyramid) | 204 — Layout Algorithms: Pyramid Pattern | `204-pyramid` |
+| `205` | [205-molecules-dna](challenges/205-molecules-dna) | 205 — Genetic Transcription: RNA to DNA | `205-molecules-dna` |
+| `206` | [206-molecules-rna](challenges/206-molecules-rna) | 206 — Genetic Transcription: DNA to RNA | `206-molecules-rna` |
+| `207` | [207-reverser-manual](challenges/207-reverser-manual) | 207 — Manual Reversal: reverse | `207-reverser-manual` |
+| `208` | [208-slicer-manual](challenges/208-slicer-manual) | 208 — Index Normalization: Manual slice | `208-slicer-manual` |
+| `209` | [209-unbreakable-split](challenges/209-unbreakable-split) | 209 — Parsing Algorithms: Manual split | `209-unbreakable-split` |
+| `210` | [210-unbreakable-join](challenges/210-unbreakable-join) | 210 — Formatting Algorithms: Manual join | `210-unbreakable-join` |
+| `211` | [211-find-expression](challenges/211-find-expression) | 211 — Backtracking Search: findExpression | `211-find-expression` |
+| `212` | [212-sums-partition](challenges/212-sums-partition) | 212 — Backtracking Algorithms: Integer Partitions (sums) | `212-sums-partition` |
+| `213` | [213-cut-corners-trunc](challenges/213-cut-corners-trunc) | 213 — Numerical Approximation: Custom trunc | `213-cut-corners-trunc` |
+| `214` | [214-cut-corners-round](challenges/214-cut-corners-round) | 214 — Numerical Approximation: Custom round | `214-cut-corners-round` |
+| `215` | [215-is-namespace](challenges/215-is-namespace) | 215 — Type Guard Namespace: is | `215-is-namespace` |
+| `216` | [216-collections-conversions](challenges/216-collections-conversions) | 216 — Cross-Collection Conversions | `216-collections-conversions` |
 
 ---
 
