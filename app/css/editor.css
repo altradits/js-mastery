@@ -1,23 +1,27 @@
-/* Code Editor & Terminal Styling */
+/* Dominant Code Editor Styling - 100% Height Zero-Scroll */
 
 .editor-container {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100%;
   background: #090D16;
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
 .editor-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  height: 34px;
+  padding: 0 14px;
   background: rgba(11, 16, 28, 0.95);
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 .editor-title {
@@ -25,177 +29,157 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-code);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--accent-cyan);
 }
 
 .editor-badge {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
-  padding: 2px 6px;
+  padding: 1px 5px;
   border-radius: 4px;
   background: rgba(0, 240, 255, 0.15);
   border: 1px solid rgba(0, 240, 255, 0.3);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .editor-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.btn-format {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  font-family: var(--font-display);
+  gap: 8px;
   font-size: 11px;
-  font-weight: 700;
-  background: rgba(168, 85, 247, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  color: #C084FC;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-format:hover {
-  background: rgba(168, 85, 247, 0.3);
-  border-color: #C084FC;
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
-  transform: translateY(-1px);
 }
 
 .editor-body {
   position: relative;
   display: flex;
   flex: 1;
-  min-height: 280px;
+  min-height: 0; /* allows flexbox shrinking */
   background: #090D16;
   overflow: hidden;
 }
 
 .line-numbers {
-  width: 44px;
-  padding: 14px 8px;
+  width: 40px;
+  padding: 12px 6px;
   text-align: right;
   font-family: var(--font-code);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text-muted);
   user-select: none;
-  background: rgba(6, 9, 15, 0.8);
+  background: rgba(6, 9, 15, 0.85);
   border-right: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .code-textarea {
   flex: 1;
-  padding: 14px 16px;
+  height: 100%;
+  padding: 12px 14px;
   font-family: var(--font-code);
-  font-size: 13px;
-  line-height: 1.5;
-  color: #E2E8F0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #F1F5F9;
+  background: transparent;
+  border: none;
+  outline: none;
   resize: none;
   white-space: pre;
   tab-size: 2;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
-.editor-footer {
+/* Integrated Bottom Bar: Live Console + Action Button */
+.editor-bottom-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  background: rgba(11, 16, 28, 0.95);
+  height: 44px;
+  padding: 0 12px;
+  background: rgba(6, 9, 15, 0.98);
   border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  gap: 12px;
 }
 
-.shortcut-tip {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.shortcut-tip kbd {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-family: var(--font-code);
-  color: var(--text-secondary);
-}
-
-.btn-submit {
+.console-inline {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--accent-cyan), #00A3FF);
-  color: #06090E;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 15px var(--accent-cyan-glow);
-}
-
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 0 25px var(--accent-cyan);
-}
-
-.btn-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-/* Terminal Console Box */
-.terminal-console {
-  margin-top: 14px;
-  background: #06090E;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
+  flex: 1;
+  overflow: hidden;
   font-family: var(--font-code);
-  font-size: 12px;
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
   font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .status-pill {
-  font-weight: 700;
-  padding: 3px 8px;
+  font-weight: 800;
+  padding: 2px 7px;
   border-radius: 4px;
-  font-size: 11px;
+  font-size: 10px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
 .status-pill.pass {
   background: rgba(0, 255, 136, 0.15);
   border: 1px solid var(--accent-emerald);
   color: var(--accent-emerald);
-  box-shadow: 0 0 10px var(--accent-emerald-glow);
 }
 
 .status-pill.fail {
   background: rgba(255, 42, 95, 0.15);
   border: 1px solid var(--accent-crimson);
   color: var(--accent-crimson);
-  box-shadow: 0 0 10px var(--accent-crimson-glow);
 }
 
 .status-pill.idle {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-subtle);
   color: var(--text-muted);
+}
+
+.console-message {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-secondary);
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--accent-cyan), #00A3FF);
+  color: #06090E;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px var(--accent-cyan);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
 }

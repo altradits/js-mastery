@@ -38,7 +38,6 @@ async function formatJavaScriptCode(code) {
       });
       return formatted.trim();
     } catch (err) {
-      // Return original code gracefully if syntax is incomplete during typing
       return code;
     }
   }
@@ -122,7 +121,7 @@ function renderView(state) {
 }
 
 // -------------------------------------------------------------
-// LOBBY VIEW
+// LOBBY VIEW (Compact Zero-Scroll Fit)
 // -------------------------------------------------------------
 function renderLobbyView(state) {
   const { user, activeLobbyTab } = state;
@@ -132,9 +131,9 @@ function renderLobbyView(state) {
 
   appRoot.innerHTML = `
     <div class="lobby-hero">
-      <div class="hero-pill">⚡ PISCINE CODING ARENA • 216 ATOMIC CHALLENGES</div>
+      <div class="hero-pill">⚡ PISCINE ARENA • 216 ATOMIC CHALLENGES</div>
       <h1 class="hero-title">MASTER JAVASCRIPT. <span>LEVEL BY LEVEL.</span></h1>
-      <p class="hero-subtitle">Solve atomic challenges sequentially from beginner to master with accumulating coin bounties, or wager in competitive sudden-death duels.</p>
+      <p class="hero-subtitle">Focus on clean, atomic coding challenges with instant validation and accumulating bounties.</p>
     </div>
 
     <!-- Navigation Tabs -->
@@ -143,11 +142,13 @@ function renderLobbyView(state) {
         ⚡ ARENA MODES
       </button>
       <button class="tab-btn ${activeLobbyTab === 'curriculum' ? 'active' : ''}" id="tab-btn-curriculum">
-        🗺️ CURRICULUM ROADMAP (${completedCount} / 216)
+        🗺️ CURRICULUM MAP (${completedCount} / 216)
       </button>
     </div>
 
-    ${activeLobbyTab === 'modes' ? renderModesTab(user, activeChallenge, currentChallengeIdx) : renderCurriculumTab(user)}
+    <div class="lobby-content-scroll">
+      ${activeLobbyTab === 'modes' ? renderModesTab(user, activeChallenge, currentChallengeIdx) : renderCurriculumTab(user)}
+    </div>
   `;
 
   document.getElementById("tab-btn-modes").addEventListener("click", () => {
@@ -175,8 +176,8 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         <span class="gauntlet-level">🔥 SEQUENTIAL PROGRESSION • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
         <h2 class="gauntlet-title">${activeChallenge.title}</h2>
         <p class="gauntlet-desc">${activeChallenge.concept}</p>
-        <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 12px; font-weight: 700;">
-          <span style="color: var(--accent-gold);">💰 Level Bounty: +🪙 ${(100 + currentChallengeIdx * 5)}</span>
+        <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 11px; font-weight: 700;">
+          <span style="color: var(--accent-gold);">💰 Bounty: +🪙 ${(100 + currentChallengeIdx * 5)}</span>
           <span style="color: var(--accent-emerald);">⚡ Speed Bonus: +🪙 50</span>
           ${user.currentStreak >= 2 ? `<span style="color: var(--accent-cyan);">🔥 Streak: ${user.currentStreak} in a row</span>` : ''}
         </div>
@@ -197,7 +198,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
             <span class="mode-badge" style="border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">8 Players</span>
           </div>
           <h2 class="mode-title">Battle Royale</h2>
-          <p class="mode-desc">8 coders enter. Multi-round sudden death elimination bracket. Last programmer standing claims the 8x jackpot pot!</p>
+          <p class="mode-desc">8 coders enter. Multi-round sudden death elimination bracket. Winner takes the 8x jackpot pot!</p>
           
           <div class="wager-selector">
             <span class="wager-label">Select Entry Wager</span>
@@ -341,7 +342,7 @@ function attachCurriculumListeners() {
 }
 
 // -------------------------------------------------------------
-// ARENA VIEW (Smart JavaScript Editor with Auto-Brackets & Auto-Indent)
+// ARENA VIEW (Zero-Scroll 2-Column Focus Layout)
 // -------------------------------------------------------------
 function renderArenaView(match) {
   if (!match) return;
@@ -359,100 +360,112 @@ function renderArenaView(match) {
       ? `${formatDuration(match.elapsedSeconds)} (Target: ${formatDuration(match.targetTime)})`
       : `${String(match.timeLeft).padStart(2, '0')}s`;
 
-    // Strip top comments from starter stub to give a clean coding workspace
+    // Clean starter stub without redundant comment headers
     const cleanStarterCode = (challenge.solutionStub || "")
       .replace(/^\/\/[^\n]*\n+/gm, "")
       .trim();
 
     appRoot.innerHTML = `
-      <!-- Top HUD -->
-      <div class="arena-header">
-        <div class="arena-pot">
-          <span>🏆 REWARD BOUNTY:</span>
-          <span class="pot-amount" id="hud-pot">🪙 ${match.pot.toLocaleString()}</span>
+      <!-- Top Mini-HUD Bar -->
+      <div class="arena-topbar">
+        <div class="arena-topbar-left">
+          <button class="btn-back-lobby" id="btn-arena-back" title="Return to Lobby">← LOBBY</button>
+          <span class="arena-level-pill" id="hud-round">
+            ${match.isSequential ? `LEVEL ${match.challengeIdx + 1}: ${challenge.title}` : `ROUND ${match.round}: ${challenge.title}`}
+          </span>
         </div>
 
-        <div style="font-family: var(--font-display); font-weight: 800; font-size: 16px; color: var(--accent-cyan);" id="hud-round">
-          ${match.isSequential ? `PISCINE GAUNTLET • LEVEL ${match.challengeIdx + 1}` : `ROUND ${match.round} / ${match.maxRounds} (SUDDEN DEATH)`}
+        <div class="arena-topbar-timer ${!match.isLenient && match.timeLeft <= 10 ? 'danger' : ''}" id="hud-timer">
+          ⏱️ ${timerDisplay}
         </div>
 
-        <div class="arena-timer">
-          <span>⏱️ ${match.isLenient ? 'ELAPSED:' : 'TIME:'}</span>
-          <span class="timer-ring ${!match.isLenient && match.timeLeft <= 10 ? 'danger' : ''}" id="hud-timer">${timerDisplay}</span>
+        <div class="arena-topbar-right">
+          <span style="color: var(--accent-gold);" id="hud-pot">💰 Bounty: +🪙 ${match.pot.toLocaleString()}</span>
         </div>
       </div>
 
-      <!-- Main Arena Grid -->
-      <div class="arena-grid">
-        <!-- Left: Player Radar -->
-        <div class="radar-panel">
-          <div class="radar-title">
-            <span>${match.isLenient ? 'CONTENDERS' : 'SURVIVORS RADAR'}</span>
-            <span style="color: var(--accent-emerald);" id="hud-alive-count">${match.players.filter(p => p.alive).length} ACTIVE</span>
+      <!-- 2-Column Zero-Scroll Split Layout -->
+      <div class="arena-split-layout">
+        <!-- Left Column: Focused Instructions & Hints -->
+        <div class="instructions-panel">
+          <!-- Primary Task Instructions -->
+          <div class="task-box">
+            <span class="task-label">🎯 REQUIRED TASK</span>
+            <div class="task-text">${challenge.task}</div>
           </div>
 
-          <div class="player-list" id="hud-player-list">
-            ${renderPlayerTiles(match.players)}
+          <!-- Concept Explanation -->
+          <div class="concept-box">
+            <div style="font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">💡 Concept:</div>
+            ${challenge.concept}
+          </div>
+
+          <!-- Syntax Reference -->
+          ${challenge.syntax ? `
+            <div>
+              <div style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">Syntax Template:</div>
+              <div class="syntax-box">${challenge.syntax}</div>
+            </div>
+          ` : ''}
+
+          <!-- Contenders Radar (Compact) -->
+          <div class="radar-compact">
+            <div class="radar-compact-header">
+              <span>CONTENDERS</span>
+              <span id="hud-alive-count">${match.players.filter(p => p.alive).length} ACTIVE</span>
+            </div>
+            <div id="hud-player-list">
+              ${renderPlayerTiles(match.players)}
+            </div>
           </div>
         </div>
 
-        <!-- Right: Challenge & Code Editor Area -->
-        <div class="arena-workspace">
-          <div class="challenge-prompt">
-            <div class="challenge-title" id="prompt-title">${challenge.title}</div>
-            <div class="challenge-concept" id="prompt-concept">${challenge.concept}</div>
-            <div class="challenge-task" id="prompt-task">${challenge.task}</div>
+        <!-- Right Column: Dominant Code Editor (100% Height) -->
+        <div class="editor-container">
+          <div class="editor-header">
+            <div class="editor-title">
+              <span>solution.js</span>
+              <span class="editor-badge">ESM JavaScript</span>
+            </div>
+            <div class="editor-controls">
+              <span style="color: var(--accent-cyan); font-weight: 600;">✨ Auto-Brackets & Prettier Enabled</span>
+            </div>
           </div>
 
-          <div class="editor-container">
-            <div class="editor-header">
-              <div class="editor-title">
-                <span>solution.js</span>
-                <span class="editor-badge">ESM JavaScript</span>
-              </div>
-              <div class="editor-controls">
-                <span style="font-size: 11px; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 4px;">
-                  ✨ Prettier Auto-Indent
-                </span>
-                <div style="font-size: 11px; color: var(--text-muted);" id="prompt-round-tag">
-                  Challenge #${challenge.id} Target
-                </div>
-              </div>
+          <div class="editor-body">
+            <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
+            <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript code here...">${cleanStarterCode}</textarea>
+          </div>
+
+          <!-- Integrated Bottom Bar: Live Console + Action Button -->
+          <div class="editor-bottom-bar">
+            <div class="console-inline">
+              <span class="status-pill idle" id="test-status-pill">AWAITING RUN</span>
+              <span class="console-message" id="test-console-output">Press Cmd+Enter to run test assertions</span>
             </div>
 
-            <div class="editor-body">
-              <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
-              <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript solution here...">${cleanStarterCode}</textarea>
-            </div>
-
-            <div class="editor-footer">
-              <div class="shortcut-tip">Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to Run & Submit • Auto-closing <kbd>{}</kbd> <kbd>()</kbd> <kbd>[]</kbd> enabled</div>
+            <div class="editor-actions">
               <button class="btn-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
                 ${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 RUN & SUBMIT'}
               </button>
             </div>
           </div>
-
-          <!-- Terminal Console -->
-          <div class="terminal-console">
-            <div class="terminal-header">
-              <span>TEST VERIFICATION CONSOLE</span>
-              <span class="status-pill idle" id="test-status-pill">AWAITING RUN</span>
-            </div>
-            <div id="test-console-output" style="color: var(--text-muted);">Click 'Run & Submit' to execute assertions in the safe sandbox.</div>
-          </div>
         </div>
       </div>
     `;
 
+    document.getElementById("btn-arena-back").addEventListener("click", () => {
+      sound.playClick();
+      arena.stopTimers();
+      store.setState({ currentView: "lobby", match: null });
+    });
+
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
 
-    // Smart Editor Configuration (Auto-brackets, overtyping, smart Enter indentation)
     setupSmartCodeEditor(textarea, linesEl, handleSubmit);
 
     async function handleSubmit() {
-      // Auto-format before submit
       const rawCode = textarea.value;
       const formatted = await formatJavaScriptCode(rawCode);
       if (formatted && formatted !== rawCode) {
@@ -466,22 +479,20 @@ function renderArenaView(match) {
       const consoleOut = document.getElementById("test-console-output");
 
       btnSubmit.disabled = true;
-      btnSubmit.textContent = "EXECUTING...";
+      btnSubmit.textContent = "CHECKING...";
 
       const evalResult = await evaluateSubmission(userCode, challenge);
 
       if (evalResult.success) {
         statusPill.className = "status-pill pass";
-        statusPill.textContent = `STATUS: PASS (${evalResult.duration}ms)`;
-        consoleOut.innerHTML = `<span style="color: var(--accent-emerald);">✔ All challenge test assertions passed cleanly!</span>`;
+        statusPill.textContent = `✔ PASS (${evalResult.duration}ms)`;
+        consoleOut.innerHTML = `<span style="color: var(--accent-emerald);">All test assertions passed cleanly!</span>`;
         arena.submitUserSolution(true);
       } else {
         statusPill.className = "status-pill fail";
-        statusPill.textContent = `STATUS: FAIL (${evalResult.duration}ms)`;
-        consoleOut.innerHTML = `
-          <span style="color: var(--accent-crimson);">✖ Evaluation Failed:</span><br>
-          ${evalResult.results.map(r => `• ${r.name}: ${r.pass ? '<span style="color: var(--accent-emerald);">PASS</span>' : `<span style="color: var(--accent-crimson);">${r.error || 'FAIL'}</span>`}`).join("<br>")}
-        `;
+        statusPill.textContent = `✖ FAIL (${evalResult.duration}ms)`;
+        const firstError = evalResult.results.find(r => !r.pass)?.error || evalResult.error || "Evaluation failed";
+        consoleOut.innerHTML = `<span style="color: var(--accent-crimson);">${firstError}</span>`;
         btnSubmit.disabled = false;
         btnSubmit.textContent = "🚀 RUN & SUBMIT";
         arena.submitUserSolution(false);
@@ -501,8 +512,8 @@ function renderArenaView(match) {
       if (match.isLenient) {
         const isOvertime = match.elapsedSeconds > match.targetTime;
         timerEl.textContent = isOvertime 
-          ? `${formatDuration(match.elapsedSeconds)} (Overtime • Keep Coding!)`
-          : `${formatDuration(match.elapsedSeconds)} / ${formatDuration(match.targetTime)}`;
+          ? `⏱️ ${formatDuration(match.elapsedSeconds)} (Overtime • Keep Coding!)`
+          : `⏱️ ${formatDuration(match.elapsedSeconds)} / ${formatDuration(match.targetTime)}`;
         
         if (isOvertime) {
           timerEl.style.color = "var(--accent-gold)";
@@ -510,7 +521,7 @@ function renderArenaView(match) {
           timerEl.style.color = "var(--accent-cyan)";
         }
       } else {
-        timerEl.textContent = `${String(match.timeLeft).padStart(2, '0')}s`;
+        timerEl.textContent = `⏱️ ${String(match.timeLeft).padStart(2, '0')}s`;
         if (match.timeLeft <= 10) {
           timerEl.classList.add("danger");
         } else {
@@ -564,19 +575,17 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
     const end = textarea.selectionEnd;
     const val = textarea.value;
 
-    // Run & Submit shortcut: Cmd+Enter / Ctrl+Enter
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
       e.preventDefault();
       onSubmit();
       return;
     }
 
-    // 1. Auto-Close Pairs: {, (, [, ", ', `
+    // 1. Auto-Close Pairs
     if (PAIRS[e.key] && !e.ctrlKey && !e.metaKey && !e.altKey) {
       const open = e.key;
       const close = PAIRS[open];
 
-      // If text selected, wrap selection inside pair
       if (start !== end) {
         e.preventDefault();
         const selected = val.substring(start, end);
@@ -587,14 +596,12 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
         return;
       }
 
-      // If typing quote/tick and next character is identical, overtype instead
       if ((open === '"' || open === "'" || open === "`") && val[start] === open) {
         e.preventDefault();
         textarea.setSelectionRange(start + 1, start + 1);
         return;
       }
 
-      // Insert matching pair and place cursor between them
       e.preventDefault();
       insertTextAtCursor(textarea, open + close);
       textarea.setSelectionRange(start + 1, start + 1);
@@ -602,14 +609,14 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
       return;
     }
 
-    // 2. Overtype Closing Characters: }, ), ], ", ', `
+    // 2. Overtype Closing Characters
     if (CLOSING_CHARS.has(e.key) && start === end && val[start] === e.key && !e.ctrlKey && !e.metaKey && !e.altKey) {
       e.preventDefault();
       textarea.setSelectionRange(start + 1, start + 1);
       return;
     }
 
-    // 3. Smart Backspace: Delete matching empty pair in one stroke
+    // 3. Smart Backspace Pair Deletion
     if (e.key === "Backspace" && start === end && start > 0) {
       const prevChar = val[start - 1];
       const nextChar = val[start];
@@ -622,7 +629,7 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
       }
     }
 
-    // 4. Smart Enter / Indentation inside { } pairs & blocks
+    // 4. Smart Enter Auto-Indentation
     if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
       e.preventDefault();
 
@@ -636,7 +643,6 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
       const charBefore = beforeCursor.slice(-1);
       const charAfter = afterCursor.charAt(0);
 
-      // Case A: Cursor is directly between matching braces: {|} or (|) or [|]
       if (
         (charBefore === "{" && charAfter === "}") ||
         (charBefore === "(" && charAfter === ")") ||
@@ -651,7 +657,6 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
         return;
       }
 
-      // Case B: Current line ends with opening brace
       if (charBefore === "{" || charBefore === "(" || charBefore === "[") {
         const innerIndent = currentIndent + "  ";
         insertTextAtCursor(textarea, "\n" + innerIndent);
@@ -659,13 +664,12 @@ function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
         return;
       }
 
-      // Case C: Standard Enter with indentation preservation
       insertTextAtCursor(textarea, "\n" + currentIndent);
       updateLineNumbers();
       return;
     }
 
-    // 5. Tab & Shift+Tab Indentation
+    // 5. Tab Indentation
     if (e.key === "Tab") {
       e.preventDefault();
       if (!e.shiftKey) {
@@ -684,7 +688,6 @@ function insertTextAtCursor(textarea, text) {
   const end = textarea.selectionEnd;
   const val = textarea.value;
 
-  // Use execCommand to preserve undo/redo history if supported
   const success = document.execCommand && document.execCommand("insertText", false, text);
   if (!success) {
     textarea.value = val.substring(0, start) + text + val.substring(end);
@@ -694,20 +697,17 @@ function insertTextAtCursor(textarea, text) {
 
 function renderPlayerTiles(players) {
   return players.map(p => `
-    <div class="player-tile ${p.isHuman ? 'is-human' : ''} ${!p.alive ? 'eliminated' : ''} ${p.solvedTime !== null ? 'solved' : ''}">
-      <div class="player-info">
-        <span>${p.avatar}</span>
-        <span style="font-weight: 700; font-size: 13px;">${p.name} ${p.isHuman ? '(YOU)' : ''}</span>
-      </div>
-      <span style="font-family: var(--font-code); font-size: 11px; font-weight: 700;">
-        ${!p.alive ? '💀 OUT' : p.solvedTime !== null ? `✔ ${formatDuration(p.solvedTime)}` : p.hasSubmitted ? '⏳ CHECK' : '💻 CODING'}
+    <div class="player-tile-mini ${p.isHuman ? 'is-human' : ''}">
+      <span>${p.avatar} ${p.name} ${p.isHuman ? '(YOU)' : ''}</span>
+      <span style="font-family: var(--font-code); font-size: 10px; font-weight: 700; color: ${!p.alive ? 'var(--accent-crimson)' : p.solvedTime !== null ? 'var(--accent-emerald)' : 'var(--text-muted)'};">
+        ${!p.alive ? '💀 OUT' : p.solvedTime !== null ? `✔ ${formatDuration(p.solvedTime)}` : p.hasSubmitted ? '⏳' : '💻'}
       </span>
     </div>
   `).join('');
 }
 
 // -------------------------------------------------------------
-// VICTORY / DEFEAT MODAL VIEW (Accumulated Rewards Breakdown)
+// VICTORY / DEFEAT MODAL VIEW
 // -------------------------------------------------------------
 function renderVictoryView(match) {
   if (!match) return;
@@ -727,40 +727,28 @@ function renderVictoryView(match) {
         <div class="modal-icon">${isWin ? '🏆' : '💀'}</div>
         <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'LEVEL MASTERED!' : 'ELIMINATED!'}</h2>
         
-        <p style="color: var(--text-secondary); font-size: 14px;">
-          ${isWin ? `Awesome work, ${user.username}! You solved Challenge #${match.currentChallenge.id}. Progress permanently saved.` : 'Challenge failed. Review the concept and try again!'}
+        <p style="color: var(--text-secondary); font-size: 13px;">
+          ${isWin ? `Great work! Challenge #${match.currentChallenge.id} conquered.` : 'Challenge failed. Review the concept and try again!'}
         </p>
 
         ${isWin && summary ? `
-          <div class="payout-box" style="margin: 16px 0; padding: 18px;">
-            <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 800; letter-spacing: 0.5px;">REWARDS ACCUMULATED</span>
-            <div class="payout-amount" style="margin: 6px 0;">+🪙 ${summary.totalWon.toLocaleString()}</div>
-            
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
-              <div>Base Bounty: <span style="color: var(--accent-gold); font-weight: 700;">+🪙 ${match.pot}</span></div>
-              ${summary.bonusCoins > 0 ? `<div>Speed Bonus: <span style="color: var(--accent-emerald); font-weight: 700;">+🪙 ${summary.bonusCoins}</span></div>` : ''}
-              <div>Win Streak: <span style="color: var(--accent-cyan); font-weight: 700;">🔥 ${summary.newStreak} in a row</span></div>
-              <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 4px; font-weight: 700; color: #FFFFFF;">
-                Total Wallet Balance: 🪙 ${summary.newCoins.toLocaleString()}
-              </div>
+          <div class="payout-box">
+            <div class="payout-amount">+🪙 ${summary.totalWon.toLocaleString()}</div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+              Streak: 🔥 ${summary.newStreak} in a row • Wallet: 🪙 ${summary.newCoins.toLocaleString()}
             </div>
           </div>
         ` : ''}
 
         ${isWin && solvedTime !== null ? `
-          <div style="margin: 12px 0; background: rgba(0, 240, 255, 0.06); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px;">
-            <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #FFFFFF;">
-              ⏱️ Solved in: <span style="color: var(--accent-cyan);">${formatDuration(solvedTime)}</span>
-            </div>
-            <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-top: 2px;">
-              ${beatTarget ? `⚡ Target Crushed! (Target: ${formatDuration(match.targetTime)})` : `✔ Level Unlocked! (Target was ${formatDuration(match.targetTime)})`}
-            </div>
+          <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-bottom: 12px;">
+            ⏱️ Solved in ${formatDuration(solvedTime)} ${beatTarget ? '(Speed Bonus Earned!)' : ''}
           </div>
         ` : ''}
 
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 8px;">
           ${isWin && hasNext ? `
-            <button class="btn-play" id="btn-next-level" style="background: linear-gradient(135deg, var(--accent-emerald), #059669); box-shadow: 0 4px 20px var(--accent-emerald-glow);">
+            <button class="btn-play" id="btn-next-level" style="background: linear-gradient(135deg, var(--accent-emerald), #059669);">
               ▶ NEXT LEVEL (CHALLENGE #${nextChallengeIdx + 1})
             </button>
           ` : ''}
@@ -813,7 +801,7 @@ function renderModal(state) {
         <button class="icon-btn" id="btn-close-modal">✕</button>
       </div>
 
-      <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="stats-grid">
         <div class="stat-box">
           <div class="stat-number">${(user.completedChallenges || []).length} / 216</div>
           <div class="stat-label">Mastered</div>
