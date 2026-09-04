@@ -79,6 +79,13 @@ body {
   font-weight: 700;
   color: var(--accent-gold);
   box-shadow: 0 0 15px var(--accent-gold-glow);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.wallet-badge:hover {
+  transform: scale(1.03);
+  border-color: var(--accent-gold);
 }
 
 .profile-pill {
@@ -95,7 +102,8 @@ body {
 
 .profile-pill:hover {
   background: var(--bg-card-hover);
-  border-color: var(--border-glow);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
 }
 
 .avatar {
@@ -124,6 +132,7 @@ body {
   color: var(--text-secondary);
   font-size: 16px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .icon-btn:hover {
@@ -142,10 +151,47 @@ body {
   flex-direction: column;
 }
 
-/* Lobby View */
+/* Tabs Navigation */
+.view-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tab-btn {
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-glow);
+}
+
+.tab-btn.active {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 20px var(--accent-cyan-glow);
+}
+
+/* Lobby Hero */
 .lobby-hero {
   text-align: center;
-  margin: 20px 0 40px;
+  margin: 10px 0 32px;
 }
 
 .hero-pill {
@@ -164,7 +210,7 @@ body {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 46px;
   font-weight: 900;
   letter-spacing: -1px;
   line-height: 1.1;
@@ -178,10 +224,70 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
+}
+
+/* Sequential Gauntlet Featured Banner */
+.gauntlet-card {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.08), rgba(168, 85, 247, 0.08));
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 8px 32px rgba(0, 240, 255, 0.15);
+}
+
+.gauntlet-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gauntlet-level {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.gauntlet-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.gauntlet-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.btn-gauntlet-play {
+  padding: 14px 28px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent-cyan), #0088FF);
+  color: #06090E;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px var(--accent-cyan-glow);
+  transition: all 0.2s;
+}
+
+.btn-gauntlet-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-cyan-glow);
 }
 
 /* Mode Cards Grid */
@@ -290,6 +396,7 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
+  cursor: pointer;
   transition: all 0.2s;
 }
 
@@ -312,6 +419,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 20px var(--accent-cyan-glow);
 }
@@ -321,7 +429,131 @@ body {
   box-shadow: 0 8px 30px var(--accent-cyan-glow);
 }
 
-/* Arena View */
+/* ------------------------------------------------------------- */
+/* CURRICULUM MAP VIEW (All 216 Challenges)                      */
+/* ------------------------------------------------------------- */
+.curriculum-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.curriculum-module {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.module-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.module-progress {
+  font-family: var(--font-code);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.challenge-node {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.challenge-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.challenge-node.completed {
+  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(0, 255, 136, 0.04);
+}
+
+.challenge-node.completed .node-status {
+  color: var(--accent-emerald);
+}
+
+.challenge-node.current {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.challenge-node.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.8);
+}
+
+.challenge-node.locked:hover {
+  transform: none;
+  border-color: var(--border-subtle);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.node-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-idx {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.node-status {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.node-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------- */
+/* ARENA VIEW                                                    */
+/* ------------------------------------------------------------- */
 .arena-header {
   display: flex;
   align-items: center;
@@ -479,7 +711,9 @@ body {
   border-left: 3px solid var(--accent-cyan);
 }
 
-/* Modal Windows */
+/* ------------------------------------------------------------- */
+/* MODALS (Victory & Profile / Login)                            */
+/* ------------------------------------------------------------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -515,7 +749,7 @@ body {
 
 .modal-title {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 900;
   margin-bottom: 10px;
 }
@@ -539,7 +773,110 @@ body {
 
 .payout-amount {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 900;
   color: var(--accent-gold);
+}
+
+/* Profile / Login Modal Specifics */
+.profile-modal {
+  text-align: left;
+  max-width: 520px;
+}
+
+.profile-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.profile-modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.avatar-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.avatar-choice {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.avatar-choice:hover, .avatar-choice.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+.input-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+.text-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px var(--accent-cyan-glow);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent-cyan);
+}
+
+.stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 4px;
 }
