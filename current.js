@@ -32,12 +32,14 @@ if (!targetDir) {
 }
 
 const testPath = path.join("challenges", targetDir, "solution.test.js");
-console.log(`\x1b[36m🧪 [TESTING]: ${targetDir}...\x1b[0m\n`);
 
-const child = spawn("node", ["--test", testPath], {
-  stdio: "inherit"
-});
+console.log(`\x1b[33m▶ [CHALLENGE]: ${targetDir}\x1b[0m`);
+console.log("\x1b[90m-----------------------------------------------------\x1b[0m");
 
-child.on("exit", (code) => {
-  process.exit(code ?? 0);
-});
+try {
+  execSync(`node --test ${testPath}`, { stdio: "pipe" });
+  console.log("\x1b[1m\x1b[32mSTATUS: PASS\x1b[0m\n");
+} catch {
+  console.log("\x1b[1m\x1b[31mSTATUS: FAIL\x1b[0m\n");
+}
+

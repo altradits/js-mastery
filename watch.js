@@ -7,37 +7,56 @@ const dirs = fs.readdirSync(challengesDir).filter((d) =>
   fs.statSync(path.join(challengesDir, d)).isDirectory()
 ).sort();
 
-const query = process.argv[2];
-let targetDir = null;
+function runCheck() {
+  process.stdout.write("\x1b[2J\x1b[3J\x1b[H");
+  console.log("\x1b[1m\x1b[36m=====================================================\x1b[0m");
+  console.log("\x1b[1m\x1b[36m             JS MASTERY: LIVE WATCH ENGINE           \x1b[0m");
+  console.log("\x1b[1m\x1b[36m=====================================================\x1b[0m\n");
 
-if (query) {
-  targetDir = dirs.find((d) => d.includes(query) || d.startsWith(query.padStart(2, "0")));
-}
+  const passedChallenges = [];
+  let currentChallenge = null;
 
-if (!targetDir) {
   for (const dir of dirs) {
     const testPath = path.join("challenges", dir, "solution.test.js");
     try {
       execSync(`node --test ${testPath}`, { stdio: "pipe" });
+      passedChallenges.push(dir);
     } catch {
-      targetDir = dir;
+      currentChallenge = { dir, testPath };
       break;
     }
   }
+
+  if (passedChallenges.length > 0) {
+    for (const dir of passedChallenges) {
+      console.log(`\x1b[32m✔ [PASSED]: ${dir}\x1b[0m`);
+    }
+    console.log("");
+  }
+
+  if (currentChallenge) {
+    const { dir } = currentChallenge;
+    console.log(`\x1b[33m▶ [CURRENT CHALLENGE]: ${dir} (${passedChallenges.length}/${dirs.length} Completed)\x1b[0m`);
+    console.log("\x1b[90m-----------------------------------------------------\x1b[0m");
+    console.log("\x1b[1m\x1b[31mSTATUS: FAIL\x1b[0m\n");
+    console.log("\x1b[90m[Watching for file changes on save...]\x1b[0m");
+  } else {
+    console.log(`\x1b[1m\x1b[32mSTATUS: ALL PASS (${dirs.length}/${dirs.length} Completed)\x1b[0m\n`);
+    console.log("\x1b[32m🎉 All challenges completed successfully!\x1b[0m\n");
+  }
 }
 
-if (!targetDir) {
-  console.log("\x1b[32m🎉 All challenges are solved! Nothing left to watch.\x1b[0m");
-  process.exit(0);
-}
+// Initial check
+runCheck();
 
-const testPath = path.join("challenges", targetDir, "solution.test.js");
-console.log(`\x1b[36m👀 [LIVE WATCH]: Auto-watching ${targetDir}...\x1b[0m\n`);
-
-const child = spawn("node", ["--test", "--watch", testPath], {
-  stdio: "inherit"
+// Watch challenges directory for file changes
+let debounceTimer = null;
+fs.watch(challengesDir, { recursive: true }, (eventType, filename) => {
+  if (filename && filename.endsWith(".js")) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      runCheck();
+    }, 100);
+  }
 });
 
-child.on("exit", (code) => {
-  process.exit(code ?? 0);
-});
