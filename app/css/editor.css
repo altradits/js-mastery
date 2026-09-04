@@ -39,6 +39,35 @@
   font-weight: 600;
 }
 
+.editor-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-format {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #C084FC;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-format:hover {
+  background: rgba(168, 85, 247, 0.3);
+  border-color: #C084FC;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+  transform: translateY(-1px);
+}
+
 .editor-body {
   position: relative;
   display: flex;

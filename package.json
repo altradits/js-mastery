@@ -1,7 +1,7 @@
 {
   "name": "js-mastery",
   "version": "1.0.0",
-  "description": "",
+  "description": "Code Royale: Competitive Last Man Standing JavaScript Piscine Arena & 216-Challenge Practice Engine",
   "main": "solution.js",
   "scripts": {
     "start": "node runner.js",
@@ -12,18 +12,26 @@
     "current": "node current.js",
     "test": "node current.js",
     "test:all": "node --test",
-    "reset": "node reset.js"
+    "reset": "node reset.js",
+    "format": "npx prettier --write .",
+    "format:check": "npx prettier --check ."
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/altradits/js-mastery.git"
   },
-  "keywords": [],
+  "keywords": [
+    "javascript",
+    "piscine",
+    "coding-challenges",
+    "competitive-programming",
+    "code-royale"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
     "url": "https://github.com/altradits/js-mastery/issues"
   },
-  "homepage": "https://github.com/altradits/js-mastery#readme"
+  "homepage": "https://js-mastery-livid.vercel.app/"
 }

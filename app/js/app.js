@@ -23,6 +23,27 @@ function formatDuration(sec) {
   return `${mins}m ${rem}s`;
 }
 
+// In-Browser Prettier Code Formatter
+async function formatJavaScriptCode(code) {
+  if (window.prettier && window.prettierPlugins) {
+    try {
+      const formatted = await window.prettier.format(code, {
+        parser: "babel",
+        plugins: window.prettierPlugins,
+        semi: true,
+        singleQuote: false,
+        tabWidth: 2,
+        trailingComma: "none",
+        arrowParens: "always"
+      });
+      return formatted;
+    } catch (err) {
+      console.warn("Prettier format warning:", err.message);
+    }
+  }
+  return code;
+}
+
 // Sound Toggle
 btnSoundEl.addEventListener("click", () => {
   const isMuted = sound.toggleMute();
@@ -154,7 +175,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         <h2 class="gauntlet-title">${activeChallenge.title}</h2>
         <p class="gauntlet-desc">${activeChallenge.concept}</p>
         <span style="font-size: 11px; color: var(--accent-emerald); font-weight: 700;">
-          ⏱️ Lenient Mode: Take all the time you need to write and test your solution!
+          ⏱️ Lenient Mode: Take all the time you need to write, format (✨), and test your solution!
         </span>
       </div>
 
@@ -317,7 +338,7 @@ function attachCurriculumListeners() {
 }
 
 // -------------------------------------------------------------
-// ARENA VIEW (Fine-grained reactive updates)
+// ARENA VIEW (Fine-grained reactive updates with Prettier)
 // -------------------------------------------------------------
 function renderArenaView(match) {
   if (!match) return;
@@ -381,8 +402,13 @@ function renderArenaView(match) {
                 <span>solution.js</span>
                 <span class="editor-badge">ESM JavaScript</span>
               </div>
-              <div style="font-size: 11px; color: var(--text-muted);" id="prompt-round-tag">
-                Challenge #${challenge.id} Target
+              <div class="editor-controls">
+                <button class="btn-format" id="btn-format-code" title="Format code with Prettier (Shift+Option+F / Shift+Alt+F)">
+                  ✨ FORMAT (Prettier)
+                </button>
+                <div style="font-size: 11px; color: var(--text-muted);" id="prompt-round-tag">
+                  Challenge #${challenge.id} Target
+                </div>
               </div>
             </div>
 
@@ -392,7 +418,7 @@ function renderArenaView(match) {
             </div>
 
             <div class="editor-footer">
-              <div class="shortcut-tip">Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to Run & Submit</div>
+              <div class="shortcut-tip">Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to Run • <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> to Format</div>
               <button class="btn-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
                 ${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 RUN & SUBMIT'}
               </button>
@@ -413,6 +439,7 @@ function renderArenaView(match) {
 
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
+    const btnFormat = document.getElementById("btn-format-code");
 
     const updateLineNumbers = () => {
       const count = textarea.value.split("\n").length;
@@ -422,6 +449,24 @@ function renderArenaView(match) {
     textarea.addEventListener("input", updateLineNumbers);
     updateLineNumbers();
 
+    // Prettier Formatting Trigger Function
+    const handleFormat = async () => {
+      const rawCode = textarea.value;
+      const formatted = await formatJavaScriptCode(rawCode);
+      if (formatted !== rawCode) {
+        textarea.value = formatted;
+        updateLineNumbers();
+        sound.playClick();
+        btnFormat.textContent = "✔ FORMATTED!";
+        setTimeout(() => {
+          btnFormat.textContent = "✨ FORMAT (Prettier)";
+        }, 1200);
+      }
+    };
+
+    btnFormat.addEventListener("click", handleFormat);
+
+    // Keyboard Shortcuts: Tab, Run (Cmd+Enter), Format (Shift+Alt+F / Shift+Option+F)
     textarea.addEventListener("keydown", (e) => {
       if (e.key === "Tab") {
         e.preventDefault();
@@ -430,6 +475,10 @@ function renderArenaView(match) {
         textarea.value = textarea.value.substring(0, start) + "  " + textarea.value.substring(end);
         textarea.selectionStart = textarea.selectionEnd = start + 2;
         updateLineNumbers();
+      }
+      if (e.shiftKey && (e.altKey || e.metaKey) && (e.key === "f" || e.key === "F")) {
+        e.preventDefault();
+        handleFormat();
       }
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
         e.preventDefault();
