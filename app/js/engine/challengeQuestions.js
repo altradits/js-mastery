@@ -56,27 +56,3 @@ function getGeneralDomainScenario(id, title) {
 export function getChallengeScenario(challenge) {
   return getGeneralDomainScenario(challenge.id, challenge.title);
 }
-
-export function getChallengeSpec(challenge) {
-  const lines = [];
-  const cleanTitle = challenge.title.replace(/^\d+\s*—\s*/, '');
-  
-  lines.push(`// Challenge #${challenge.id}: ${cleanTitle}`);
-  lines.push(`// Scenario: ${getGeneralDomainScenario(challenge.id, challenge.title)}`);
-  lines.push(`// Requirement: ${challenge.task}`);
-
-  if (challenge.syntax) {
-    const fnMatch = challenge.syntax.match(/export\s+(?:function|async\s+function)\s+([a-zA-Z0-9_$]+)\s*\(([^)]*)\)/);
-    const constMatch = challenge.syntax.match(/export\s+(?:const|let|var)\s+([a-zA-Z0-9_$]+)/);
-
-    if (fnMatch) {
-      lines.push(`//`);
-      lines.push(`// Export Signature: function ${fnMatch[1]}(${fnMatch[2]})`);
-    } else if (constMatch) {
-      lines.push(`//`);
-      lines.push(`// Export Constant: const ${constMatch[1]}`);
-    }
-  }
-
-  return lines.join("\n");
-}

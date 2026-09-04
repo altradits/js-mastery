@@ -3,7 +3,7 @@ import { sound } from "./engine/audio.js";
 import { arena } from "./engine/arena.js";
 import { evaluateSubmission } from "./engine/sandbox.js";
 import { CHALLENGE_BANK } from "./engine/challenges.js";
-import { getChallengeScenario, getChallengeSpec } from "./engine/challengeQuestions.js";
+import { getChallengeScenario } from "./engine/challengeQuestions.js";
 
 // DOM Elements
 const appNavbar = document.getElementById("app-navbar");
@@ -452,11 +452,6 @@ function renderArenaView(match) {
               <div class="task-text">
                 <p><strong>Scenario:</strong> ${formatMarkdown(getChallengeScenario(challenge))}</p>
                 <p><strong>Goal:</strong> ${formatMarkdown(challenge.task)}</p>
-              </div>
-
-              <!-- Formatted Question Specification with same styling as the Hint box -->
-              <div class="hint-code-box" style="margin-top: 10px;">
-                <pre><code>${escapeHtml(getChallengeSpec(challenge))}</code></pre>
               </div>
             </div>
           </div>
