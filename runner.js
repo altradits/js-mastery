@@ -33,41 +33,12 @@ console.log("\x1b[1m\x1b[36m====================================================
 console.log("\x1b[1m\x1b[36m    JS MASTERY: PISCINE CHALLENGE PRACTICE ENGINE    \x1b[0m");
 console.log("\x1b[1m\x1b[36m=====================================================\x1b[0m\n");
 
-function extractFailureReason(raw) {
-  if (!raw) return "Test failed.";
-  const lines = raw.split("\n");
-  const cleaned = [];
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-    if (
-      trimmed.startsWith("Node.js v") ||
-      trimmed.startsWith("ℹ") ||
-      trimmed.startsWith("✖ failing tests:") ||
-      trimmed.startsWith("test at ") ||
-      trimmed.startsWith("at ") ||
-      trimmed.startsWith("✖ challenges/") ||
-      trimmed === "'test failed'"
-    ) {
-      continue;
-    }
-    if (trimmed.length > 0) {
-      cleaned.push(line);
-    }
-  }
-
-  return cleaned.length > 0 ? cleaned.join("\n") : "Test assertions failed.";
-}
-
 if (currentChallenge) {
   const { dir } = currentChallenge;
 
   console.log(`\x1b[33m▶ [CURRENT CHALLENGE]: ${dir} (${completedCount}/${dirs.length} Completed)\x1b[0m`);
   console.log("\x1b[90m-----------------------------------------------------\x1b[0m");
   console.log("\x1b[1m\x1b[31mSTATUS: FAIL\x1b[0m\n");
-  if (latestResult) {
-    console.log(`\x1b[31m${extractFailureReason(latestResult)}\x1b[0m\n`);
-  }
 } else {
   console.log(`\x1b[1m\x1b[32mSTATUS: ALL PASS (${dirs.length}/${dirs.length} Completed)\x1b[0m\n`);
   console.log("\x1b[32m🎉 All challenges completed successfully!\x1b[0m\n");
