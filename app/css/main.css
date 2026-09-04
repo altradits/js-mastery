@@ -661,6 +661,78 @@ html, body {
   color: var(--accent-gold);
 }
 
+.modal-btn-primary {
+  background: linear-gradient(135deg, var(--accent-emerald), #059669);
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 25px var(--accent-emerald-glow), 0 4px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  animation: pulseDefaultBtn 2s infinite ease-in-out;
+}
+
+@keyframes pulseDefaultBtn {
+  0%, 100% {
+    box-shadow: 0 0 18px var(--accent-emerald-glow), 0 0 0 2px rgba(255, 255, 255, 0.95);
+  }
+  50% {
+    box-shadow: 0 0 32px var(--accent-emerald-glow), 0 0 0 3px rgba(16, 185, 129, 1);
+  }
+}
+
+.modal-btn-primary:hover, .modal-btn-primary:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  outline: none;
+  box-shadow: 0 0 35px var(--accent-emerald-glow), 0 0 0 3px #FFFFFF;
+}
+
+.modal-btn-secondary {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border-glow);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-btn-secondary:hover, .modal-btn-secondary:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text-primary);
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-kbd-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-left: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
 /* Profile Modal */
 .profile-modal {
   text-align: left;

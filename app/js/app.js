@@ -706,7 +706,7 @@ function renderPlayerTiles(players) {
 }
 
 // -------------------------------------------------------------
-// VICTORY / DEFEAT MODAL VIEW
+// VICTORY / DEFEAT MODAL VIEW (Press Enter to continue immediately)
 // -------------------------------------------------------------
 function renderVictoryView(match) {
   if (!match) return;
@@ -719,6 +719,23 @@ function renderVictoryView(match) {
   const solvedTime = human && human.solvedTime !== null ? human.solvedTime : null;
   const beatTarget = solvedTime !== null && match.targetTime && solvedTime <= match.targetTime;
   const summary = match.rewardSummary;
+
+  let primaryButtonHtml = "";
+  if (isWin && hasNext) {
+    primaryButtonHtml = `
+      <button class="modal-btn-primary" id="btn-next-level">
+        <span>▶ NEXT LEVEL (CHALLENGE #${nextChallengeIdx + 1})</span>
+        <span class="btn-kbd-badge">↵ Enter</span>
+      </button>
+    `;
+  } else if (!isWin) {
+    primaryButtonHtml = `
+      <button class="modal-btn-primary" id="btn-retry-level" style="background: linear-gradient(135deg, var(--accent-cyan), #0284c7); box-shadow: 0 0 20px var(--accent-cyan-glow), 0 0 0 2px #FFFFFF;">
+        <span>🔄 RETRY CHALLENGE #${match.currentChallenge.id}</span>
+        <span class="btn-kbd-badge">↵ Enter</span>
+      </button>
+    `;
+  }
 
   appRoot.innerHTML = `
     <div class="modal-overlay">
@@ -745,14 +762,9 @@ function renderVictoryView(match) {
           </div>
         ` : ''}
 
-        <div style="display: flex; flex-direction: column; gap: 8px;">
-          ${isWin && hasNext ? `
-            <button class="btn-play" id="btn-next-level" style="background: linear-gradient(135deg, var(--accent-emerald), #059669);">
-              ▶ NEXT LEVEL (CHALLENGE #${nextChallengeIdx + 1})
-            </button>
-          ` : ''}
-
-          <button class="btn-play" id="btn-return-lobby" style="${isWin && hasNext ? 'background: rgba(255,255,255,0.08); color: #fff; box-shadow: none;' : ''}">
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+          ${primaryButtonHtml}
+          <button class="modal-btn-secondary" id="btn-return-lobby">
             RETURN TO LOBBY
           </button>
         </div>
@@ -760,17 +772,63 @@ function renderVictoryView(match) {
     </div>
   `;
 
-  if (isWin && hasNext) {
-    document.getElementById("btn-next-level").addEventListener("click", () => {
-      sound.playClick();
+  let cleanedUp = false;
+  const cleanupListeners = () => {
+    if (cleanedUp) return;
+    cleanedUp = true;
+    window.removeEventListener("keydown", handleKeydown);
+  };
+
+  const advanceToNext = () => {
+    cleanupListeners();
+    sound.playClick();
+    if (isWin && hasNext) {
       arena.createMatch({ mode: "gauntlet", challengeIdx: nextChallengeIdx, wager: 0 });
+    } else if (!isWin) {
+      arena.createMatch({ mode: "gauntlet", challengeIdx: match.challengeIdx, wager: match.wager || 0 });
+    } else {
+      store.setState({ currentView: "lobby", match: null });
+    }
+  };
+
+  const btnNext = document.getElementById("btn-next-level");
+  const btnRetry = document.getElementById("btn-retry-level");
+  const btnPrimary = btnNext || btnRetry;
+
+  if (btnPrimary) {
+    btnPrimary.focus();
+    btnPrimary.addEventListener("click", advanceToNext);
+  }
+
+  const btnLobby = document.getElementById("btn-return-lobby");
+  if (btnLobby) {
+    if (!btnPrimary) btnLobby.focus();
+    btnLobby.addEventListener("click", () => {
+      cleanupListeners();
+      sound.playClick();
+      store.setState({ currentView: "lobby", match: null });
     });
   }
 
-  document.getElementById("btn-return-lobby").addEventListener("click", () => {
-    sound.playClick();
-    store.setState({ currentView: "lobby", match: null });
-  });
+  const handleKeydown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      if (e.metaKey || e.ctrlKey) return;
+      e.preventDefault();
+      advanceToNext();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      cleanupListeners();
+      sound.playClick();
+      store.setState({ currentView: "lobby", match: null });
+    }
+  };
+
+  // Small delay ensures Cmd+Enter from submission doesn't accidentally trigger the keydown
+  setTimeout(() => {
+    if (!cleanedUp) {
+      window.addEventListener("keydown", handleKeydown);
+    }
+  }, 100);
 }
 
 // -------------------------------------------------------------
