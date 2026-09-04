@@ -23,6 +23,12 @@ function formatDuration(sec) {
   return `${mins}m ${rem}s`;
 }
 
+// Markdown & Code Snippet Formatter for Instructions
+function formatMarkdown(text) {
+  if (!text) return "";
+  return text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+}
+
 // In-Browser Prettier Code Formatter
 async function formatJavaScriptCode(code) {
   if (window.prettier && window.prettierPlugins && code.trim()) {
@@ -390,20 +396,20 @@ function renderArenaView(match) {
         <div class="instructions-panel">
           <!-- Primary Task Instructions -->
           <div class="task-box">
-            <span class="task-label">🎯 REQUIRED TASK</span>
-            <div class="task-text">${challenge.task}</div>
+            <span class="section-label task-label">🎯 REQUIRED TASK</span>
+            <div class="task-text">${formatMarkdown(challenge.task)}</div>
           </div>
 
           <!-- Concept Explanation -->
-          <div class="concept-box">
-            <div style="font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">💡 Concept:</div>
-            ${challenge.concept}
+          <div class="panel-section">
+            <div class="section-label">💡 CONCEPT</div>
+            <div class="concept-box">${formatMarkdown(challenge.concept)}</div>
           </div>
 
           <!-- Syntax Reference -->
           ${challenge.syntax ? `
-            <div>
-              <div style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 4px;">Syntax Template:</div>
+            <div class="panel-section">
+              <div class="section-label">⚡ SYNTAX TEMPLATE</div>
               <div class="syntax-box">${challenge.syntax}</div>
             </div>
           ` : ''}
