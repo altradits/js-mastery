@@ -5,8 +5,13 @@ import { allChallenges } from "/Users/mac/.gemini/antigravity-ide/brain/4266e0de
 const outDir = path.resolve("./app/js/engine");
 fs.mkdirSync(outDir, { recursive: true });
 
-// Convert testCode to client-evaluable test specs
+// Convert testCode to client-evaluable test specs with clean comment-free stubs
 const formattedChallenges = allChallenges.map((c, idx) => {
+  // Strip top comment blocks from solution stubs
+  const cleanStub = (c.solutionStub || "")
+    .replace(/^\/\/[^\n]*\n+/gm, "")
+    .trim();
+
   return {
     id: idx + 1,
     dir: c.dir,
@@ -15,8 +20,7 @@ const formattedChallenges = allChallenges.map((c, idx) => {
     syntax: c.syntax,
     example: c.example,
     task: c.task,
-    solutionStub: c.solutionStub,
-    // Extract exported name
+    solutionStub: cleanStub, // Clean without redundant instruction comments
     exportedName: c.dir.replace(/^\d+-/, "").replace(/-/g, "_")
   };
 });
@@ -26,4 +30,4 @@ export const CHALLENGE_BANK = ${JSON.stringify(formattedChallenges, null, 2)};
 `;
 
 fs.writeFileSync(path.join(outDir, "challenges.js"), fileContent, "utf8");
-console.log(`Exported ${formattedChallenges.length} challenges to app/js/engine/challenges.js!`);
+console.log(`Exported ${formattedChallenges.length} challenges with clean comment-free stubs to app/js/engine/challenges.js!`);

@@ -25,7 +25,7 @@ function formatDuration(sec) {
 
 // In-Browser Prettier Code Formatter
 async function formatJavaScriptCode(code) {
-  if (window.prettier && window.prettierPlugins) {
+  if (window.prettier && window.prettierPlugins && code.trim()) {
     try {
       const formatted = await window.prettier.format(code, {
         parser: "babel",
@@ -36,9 +36,10 @@ async function formatJavaScriptCode(code) {
         trailingComma: "none",
         arrowParens: "always"
       });
-      return formatted;
+      return formatted.trim();
     } catch (err) {
-      console.warn("Prettier format warning:", err.message);
+      // Return original code gracefully if syntax is incomplete during typing
+      return code;
     }
   }
   return code;
@@ -340,7 +341,7 @@ function attachCurriculumListeners() {
 }
 
 // -------------------------------------------------------------
-// ARENA VIEW (Fine-grained reactive updates with Prettier)
+// ARENA VIEW (Smart JavaScript Editor with Auto-Brackets & Auto-Indent)
 // -------------------------------------------------------------
 function renderArenaView(match) {
   if (!match) return;
@@ -357,6 +358,11 @@ function renderArenaView(match) {
     const timerDisplay = match.isLenient
       ? `${formatDuration(match.elapsedSeconds)} (Target: ${formatDuration(match.targetTime)})`
       : `${String(match.timeLeft).padStart(2, '0')}s`;
+
+    // Strip top comments from starter stub to give a clean coding workspace
+    const cleanStarterCode = (challenge.solutionStub || "")
+      .replace(/^\/\/[^\n]*\n+/gm, "")
+      .trim();
 
     appRoot.innerHTML = `
       <!-- Top HUD -->
@@ -405,9 +411,9 @@ function renderArenaView(match) {
                 <span class="editor-badge">ESM JavaScript</span>
               </div>
               <div class="editor-controls">
-                <button class="btn-format" id="btn-format-code" title="Format code with Prettier (Shift+Option+F / Shift+Alt+F)">
-                  ✨ FORMAT (Prettier)
-                </button>
+                <span style="font-size: 11px; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                  ✨ Prettier Auto-Indent
+                </span>
                 <div style="font-size: 11px; color: var(--text-muted);" id="prompt-round-tag">
                   Challenge #${challenge.id} Target
                 </div>
@@ -416,11 +422,11 @@ function renderArenaView(match) {
 
             <div class="editor-body">
               <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
-              <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">${challenge.solutionStub}</textarea>
+              <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript solution here...">${cleanStarterCode}</textarea>
             </div>
 
             <div class="editor-footer">
-              <div class="shortcut-tip">Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to Run • <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd> to Format</div>
+              <div class="shortcut-tip">Press <kbd>Cmd</kbd> + <kbd>Enter</kbd> to Run & Submit • Auto-closing <kbd>{}</kbd> <kbd>()</kbd> <kbd>[]</kbd> enabled</div>
               <button class="btn-submit" id="btn-submit-code" ${human && human.hasSubmitted ? 'disabled' : ''}>
                 ${human && human.hasSubmitted ? 'SUBMITTED' : '🚀 RUN & SUBMIT'}
               </button>
@@ -441,52 +447,19 @@ function renderArenaView(match) {
 
     const textarea = document.getElementById("code-input");
     const linesEl = document.getElementById("editor-lines");
-    const btnFormat = document.getElementById("btn-format-code");
 
-    const updateLineNumbers = () => {
-      const count = textarea.value.split("\n").length;
-      linesEl.innerHTML = Array.from({ length: Math.max(5, count) }, (_, i) => i + 1).join("<br>");
-    };
+    // Smart Editor Configuration (Auto-brackets, overtyping, smart Enter indentation)
+    setupSmartCodeEditor(textarea, linesEl, handleSubmit);
 
-    textarea.addEventListener("input", updateLineNumbers);
-    updateLineNumbers();
-
-    const handleFormat = async () => {
+    async function handleSubmit() {
+      // Auto-format before submit
       const rawCode = textarea.value;
       const formatted = await formatJavaScriptCode(rawCode);
-      if (formatted !== rawCode) {
+      if (formatted && formatted !== rawCode) {
         textarea.value = formatted;
-        updateLineNumbers();
-        sound.playClick();
-        btnFormat.textContent = "✔ FORMATTED!";
-        setTimeout(() => {
-          btnFormat.textContent = "✨ FORMAT (Prettier)";
-        }, 1200);
+        linesEl.innerHTML = Array.from({ length: Math.max(5, formatted.split("\n").length) }, (_, i) => i + 1).join("<br>");
       }
-    };
 
-    btnFormat.addEventListener("click", handleFormat);
-
-    textarea.addEventListener("keydown", (e) => {
-      if (e.key === "Tab") {
-        e.preventDefault();
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        textarea.value = textarea.value.substring(0, start) + "  " + textarea.value.substring(end);
-        textarea.selectionStart = textarea.selectionEnd = start + 2;
-        updateLineNumbers();
-      }
-      if (e.shiftKey && (e.altKey || e.metaKey) && (e.key === "f" || e.key === "F")) {
-        e.preventDefault();
-        handleFormat();
-      }
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        e.preventDefault();
-        handleSubmit();
-      }
-    });
-
-    const handleSubmit = async () => {
       const userCode = textarea.value;
       const btnSubmit = document.getElementById("btn-submit-code");
       const statusPill = document.getElementById("test-status-pill");
@@ -513,7 +486,7 @@ function renderArenaView(match) {
         btnSubmit.textContent = "🚀 RUN & SUBMIT";
         arena.submitUserSolution(false);
       }
-    };
+    }
 
     document.getElementById("btn-submit-code").addEventListener("click", handleSubmit);
 
@@ -561,6 +534,161 @@ function renderArenaView(match) {
       btnSubmit.disabled = true;
       btnSubmit.textContent = "SUBMITTED";
     }
+  }
+}
+
+// -------------------------------------------------------------
+// SMART CODE EDITOR ENGINE (Auto-Brackets, Smart Indent, Pair Delete)
+// -------------------------------------------------------------
+function setupSmartCodeEditor(textarea, linesEl, onSubmit) {
+  const updateLineNumbers = () => {
+    const count = textarea.value.split("\n").length;
+    linesEl.innerHTML = Array.from({ length: Math.max(5, count) }, (_, i) => i + 1).join("<br>");
+  };
+
+  const PAIRS = {
+    "{": "}",
+    "(": ")",
+    "[": "]",
+    '"': '"',
+    "'": "'",
+    "`": "`"
+  };
+
+  const CLOSING_CHARS = new Set(["}", ")", "]", '"', "'", "`"]);
+
+  textarea.addEventListener("input", updateLineNumbers);
+
+  textarea.addEventListener("keydown", (e) => {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const val = textarea.value;
+
+    // Run & Submit shortcut: Cmd+Enter / Ctrl+Enter
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault();
+      onSubmit();
+      return;
+    }
+
+    // 1. Auto-Close Pairs: {, (, [, ", ', `
+    if (PAIRS[e.key] && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const open = e.key;
+      const close = PAIRS[open];
+
+      // If text selected, wrap selection inside pair
+      if (start !== end) {
+        e.preventDefault();
+        const selected = val.substring(start, end);
+        const replacement = open + selected + close;
+        insertTextAtCursor(textarea, replacement);
+        textarea.setSelectionRange(start + 1, end + 1);
+        updateLineNumbers();
+        return;
+      }
+
+      // If typing quote/tick and next character is identical, overtype instead
+      if ((open === '"' || open === "'" || open === "`") && val[start] === open) {
+        e.preventDefault();
+        textarea.setSelectionRange(start + 1, start + 1);
+        return;
+      }
+
+      // Insert matching pair and place cursor between them
+      e.preventDefault();
+      insertTextAtCursor(textarea, open + close);
+      textarea.setSelectionRange(start + 1, start + 1);
+      updateLineNumbers();
+      return;
+    }
+
+    // 2. Overtype Closing Characters: }, ), ], ", ', `
+    if (CLOSING_CHARS.has(e.key) && start === end && val[start] === e.key && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      textarea.setSelectionRange(start + 1, start + 1);
+      return;
+    }
+
+    // 3. Smart Backspace: Delete matching empty pair in one stroke
+    if (e.key === "Backspace" && start === end && start > 0) {
+      const prevChar = val[start - 1];
+      const nextChar = val[start];
+      if (PAIRS[prevChar] === nextChar) {
+        e.preventDefault();
+        textarea.setSelectionRange(start - 1, start + 1);
+        insertTextAtCursor(textarea, "");
+        updateLineNumbers();
+        return;
+      }
+    }
+
+    // 4. Smart Enter / Indentation inside { } pairs & blocks
+    if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+
+      const beforeCursor = val.substring(0, start);
+      const afterCursor = val.substring(end);
+      const lastNewline = beforeCursor.lastIndexOf("\n");
+      const currentLine = beforeCursor.substring(lastNewline + 1);
+      const indentMatch = currentLine.match(/^[ \t]*/);
+      const currentIndent = indentMatch ? indentMatch[0] : "";
+
+      const charBefore = beforeCursor.slice(-1);
+      const charAfter = afterCursor.charAt(0);
+
+      // Case A: Cursor is directly between matching braces: {|} or (|) or [|]
+      if (
+        (charBefore === "{" && charAfter === "}") ||
+        (charBefore === "(" && charAfter === ")") ||
+        (charBefore === "[" && charAfter === "]")
+      ) {
+        const innerIndent = currentIndent + "  ";
+        const insertText = "\n" + innerIndent + "\n" + currentIndent;
+        insertTextAtCursor(textarea, insertText);
+        const newCursorPos = start + 1 + innerIndent.length;
+        textarea.setSelectionRange(newCursorPos, newCursorPos);
+        updateLineNumbers();
+        return;
+      }
+
+      // Case B: Current line ends with opening brace
+      if (charBefore === "{" || charBefore === "(" || charBefore === "[") {
+        const innerIndent = currentIndent + "  ";
+        insertTextAtCursor(textarea, "\n" + innerIndent);
+        updateLineNumbers();
+        return;
+      }
+
+      // Case C: Standard Enter with indentation preservation
+      insertTextAtCursor(textarea, "\n" + currentIndent);
+      updateLineNumbers();
+      return;
+    }
+
+    // 5. Tab & Shift+Tab Indentation
+    if (e.key === "Tab") {
+      e.preventDefault();
+      if (!e.shiftKey) {
+        insertTextAtCursor(textarea, "  ");
+      }
+      updateLineNumbers();
+      return;
+    }
+  });
+
+  updateLineNumbers();
+}
+
+function insertTextAtCursor(textarea, text) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+
+  // Use execCommand to preserve undo/redo history if supported
+  const success = document.execCommand && document.execCommand("insertText", false, text);
+  if (!success) {
+    textarea.value = val.substring(0, start) + text + val.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + text.length;
   }
 }
 

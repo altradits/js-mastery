@@ -8,7 +8,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const variableName = \"value\";",
     "example": "// Storing and exporting a string\nexport const language = \"JavaScript\";",
     "task": "Export a constant named `message` with the exact string value `\"Hello World\"`.",
-    "solutionStub": "// Challenge 01 - Constant Variable & Export\n//\n// INSTRUCTIONS:\n// Export a constant named `message` with the value \"Hello World\".\n",
+    "solutionStub": "",
     "exportedName": "constant_variable"
   },
   {
@@ -19,7 +19,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function functionName() {\n  console.log(\"message\");\n}",
     "example": "// A function that prints to the console\nexport function sayHi() {\n  console.log(\"Hi\");\n}",
     "task": "Export a function named `sayHello` that prints `\"Hello\"` to the console using `console.log(\"Hello\")`.",
-    "solutionStub": "// Challenge 02 - Basic Function & Console Output\n//\n// INSTRUCTIONS:\n// Export a function named `sayHello` that calls console.log(\"Hello\").\n",
+    "solutionStub": "",
     "exportedName": "basic_function"
   },
   {
@@ -30,7 +30,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function functionName(parameterName) {\n  console.log(parameterName);\n}",
     "example": "export function showText(text) {\n  console.log(text);\n}",
     "task": "Export a function named `logMessage` that takes a parameter `msg` and calls `console.log(msg)`.",
-    "solutionStub": "// Challenge 03 - Function Parameter\n//\n// INSTRUCTIONS:\n// Export a function named `logMessage(msg)` that prints `msg` using console.log(msg).\n",
+    "solutionStub": "",
     "exportedName": "function_parameter"
   },
   {
@@ -41,7 +41,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function functionName() {\n  return value;\n}",
     "example": "export function getScore() {\n  return 42;\n}",
     "task": "Export a function named `getMessage` that returns the string `\"Hello World\"`.",
-    "solutionStub": "// Challenge 04 - Return Statement\n//\n// INSTRUCTIONS:\n// Export a function named `getMessage` that returns \"Hello World\".\n",
+    "solutionStub": "",
     "exportedName": "return_statement"
   },
   {
@@ -52,7 +52,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function id(arg) {\n  return arg;\n}",
     "example": "export function echo(val) {\n  return val;\n}",
     "task": "Export a function named `id` that takes one argument `arg` and returns it directly.",
-    "solutionStub": "// Challenge 05 - Returning a Parameter\n//\n// INSTRUCTIONS:\n// Export a function named `id(arg)` that returns `arg`.\n",
+    "solutionStub": "",
     "exportedName": "return_parameter"
   },
   {
@@ -63,7 +63,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const str = \"text\";",
     "example": "export const greeting = \"Welcome!\";",
     "task": "Export a constant named `str` with any non-empty string value.",
-    "solutionStub": "// Challenge 06 - String Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `str` containing a string.\n",
+    "solutionStub": "",
     "exportedName": "primitive_string"
   },
   {
@@ -74,7 +74,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const num = 42;",
     "example": "export const age = 25;",
     "task": "Export a constant named `num` with any numeric value.",
-    "solutionStub": "// Challenge 07 - Number Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `num` containing a number.\n",
+    "solutionStub": "",
     "exportedName": "primitive_number"
   },
   {
@@ -85,7 +85,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const bool = true;",
     "example": "export const isReady = true;",
     "task": "Export a constant named `bool` with the boolean value `true`.",
-    "solutionStub": "// Challenge 08 - Boolean Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `bool` with value true.\n",
+    "solutionStub": "",
     "exportedName": "primitive_boolean"
   },
   {
@@ -96,7 +96,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const undef = undefined;",
     "example": "export const empty = undefined;",
     "task": "Export a constant named `undef` with the value `undefined`.",
-    "solutionStub": "// Challenge 09 - Undefined Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `undef` with value undefined.\n",
+    "solutionStub": "",
     "exportedName": "primitive_undefined"
   },
   {
@@ -107,7 +107,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const nullVal = null;",
     "example": "export const user = null;",
     "task": "Export a constant named `nullVal` with the value `null`.",
-    "solutionStub": "// Challenge 10 - Null Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `nullVal` with value null.\n",
+    "solutionStub": "",
     "exportedName": "primitive_null"
   },
   {
@@ -118,7 +118,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const escapeStr = \"`\\\\\\\"/'\";",
     "example": "export const quoted = \"She said \\\"Hello\\\"\";",
     "task": "Export a constant named `escapeStr` containing: backtick, backslash, double quote, forward slash, and single quote: `` `\\\"/' ``",
-    "solutionStub": "// Challenge 11 - Escape Characters in Strings\n//\n// INSTRUCTIONS:\n// Export a constant `escapeStr` containing backtick, backslash, double-quote, slash, single-quote.\n",
+    "solutionStub": "",
     "exportedName": "escape_characters"
   },
   {
@@ -129,7 +129,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function greet(name) {\n  return `Hello, ${name}!`;\n}",
     "example": "const user = \"Alice\";\n`Welcome, ${user}`; // \"Welcome, Alice\"",
     "task": "Export a function `greet(name)` that returns the template literal string `\"Hello, <name>!\"`.",
-    "solutionStub": "// Challenge 12 - Template Literals & Interpolation\n//\n// INSTRUCTIONS:\n// Export a function `greet(name)` returning `Hello, ${name}!` using template literals.\n",
+    "solutionStub": "",
     "exportedName": "template_literals"
   },
   {
@@ -140,7 +140,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function strLength(str) {\n  return str.length;\n}",
     "example": "\"hello\".length; // 5",
     "task": "Export a function `strLength(str)` that returns `str.length`.",
-    "solutionStub": "// Challenge 13 - String Length Property\n//\n// INSTRUCTIONS:\n// Export a function `strLength(str)` returning str.length.\n",
+    "solutionStub": "",
     "exportedName": "string_length"
   },
   {
@@ -151,7 +151,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getCharAt(str, index) {\n  return str.charAt(index);\n}",
     "example": "\"cat\".charAt(1); // \"a\"",
     "task": "Export a function `getCharAt(str, index)` returning `str.charAt(index)`.",
-    "solutionStub": "// Challenge 14 - String charAt Method\n//\n// INSTRUCTIONS:\n// Export a function `getCharAt(str, index)` returning str.charAt(index).\n",
+    "solutionStub": "",
     "exportedName": "string_char_at"
   },
   {
@@ -162,7 +162,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getAt(str, index) {\n  return str.at(index);\n}",
     "example": "\"hello\".at(-1); // \"o\"",
     "task": "Export a function `getAt(str, index)` returning `str.at(index)`.",
-    "solutionStub": "// Challenge 15 - String at Method (.at())\n//\n// INSTRUCTIONS:\n// Export a function `getAt(str, index)` returning str.at(index).\n",
+    "solutionStub": "",
     "exportedName": "string_at_method"
   },
   {
@@ -173,7 +173,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getPrimitiveValue(strObj) {\n  return strObj.valueOf();\n}",
     "example": "const obj = new String(\"abc\");\nobj.valueOf(); // \"abc\" (primitive)",
     "task": "Export a function `getPrimitiveValue(strObj)` that calls `strObj.valueOf()` to return the primitive string.",
-    "solutionStub": "// Challenge 16 - String Primitives vs String Objects\n//\n// INSTRUCTIONS:\n// Export a function `getPrimitiveValue(strObj)` returning strObj.valueOf().\n",
+    "solutionStub": "",
     "exportedName": "string_primitive_vs_object"
   },
   {
@@ -184,7 +184,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getRawPath() {\n  return String.raw`C:\\Windows\\System32`;\n}",
     "example": "String.raw`Hello\\nWorld`; // \"Hello\\\\nWorld\"",
     "task": "Export a function `getRawPath()` returning `String.raw\\`C:\\Windows\\System32\\`.",
-    "solutionStub": "// Challenge 17 - String.raw Static Method\n//\n// INSTRUCTIONS:\n// Export a function `getRawPath()` returning String.raw`C:\\Windows\\System32`.\n",
+    "solutionStub": "",
     "exportedName": "string_raw"
   },
   {
@@ -195,7 +195,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function joinWords(a, b) {\n  return a.concat(\" \", b);\n}",
     "example": "\"Hello\".concat(\" \", \"World\"); // \"Hello World\"",
     "task": "Export a function `joinWords(a, b)` that joins `a` and `b` separated by a space using `.concat()` or `+`.",
-    "solutionStub": "// Challenge 18 - String Concatenation\n//\n// INSTRUCTIONS:\n// Export a function `joinWords(a, b)` returning a + \" \" + b.\n",
+    "solutionStub": "",
     "exportedName": "string_concat"
   },
   {
@@ -206,7 +206,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function more(n) {\n  return n + 1;\n}",
     "example": "export function next(x) {\n  return x + 1;\n}",
     "task": "Export a function `more(n)` that returns `n + 1`.",
-    "solutionStub": "// Challenge 19 - Increment Function\n//\n// INSTRUCTIONS:\n// Export a function `more(n)` returning n + 1.\n",
+    "solutionStub": "",
     "exportedName": "increment"
   },
   {
@@ -217,7 +217,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function less(n) {\n  return n - 1;\n}",
     "example": "export function prev(x) {\n  return x - 1;\n}",
     "task": "Export a function `less(n)` that returns `n - 1`.",
-    "solutionStub": "// Challenge 20 - Decrement Function\n//\n// INSTRUCTIONS:\n// Export a function `less(n)` returning n - 1.\n",
+    "solutionStub": "",
     "exportedName": "decrement"
   },
   {
@@ -228,7 +228,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function add(a, b) {\n  return a + b;\n}",
     "example": "10 + 20; // 30",
     "task": "Export a function `add(a, b)` that returns the sum of `a` and `b`.",
-    "solutionStub": "// Challenge 21 - Addition Operator (+)\n//\n// INSTRUCTIONS:\n// Export a function `add(a, b)` returning a + b.\n",
+    "solutionStub": "",
     "exportedName": "addition"
   },
   {
@@ -239,7 +239,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sub(a, b) {\n  return a - b;\n}",
     "example": "20 - 5; // 15",
     "task": "Export a function `sub(a, b)` that returns `a - b`.",
-    "solutionStub": "// Challenge 22 - Subtraction Operator (-)\n//\n// INSTRUCTIONS:\n// Export a function `sub(a, b)` returning a - b.\n",
+    "solutionStub": "",
     "exportedName": "subtraction"
   },
   {
@@ -250,7 +250,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function multiply(a, b) {\n  return a * b;\n}",
     "example": "4 * 5; // 20",
     "task": "Export a function `multiply(a, b)` that returns `a * b`.",
-    "solutionStub": "// Challenge 23 - Multiplication Operator (*)\n//\n// INSTRUCTIONS:\n// Export a function `multiply(a, b)` returning a * b.\n",
+    "solutionStub": "",
     "exportedName": "multiplication"
   },
   {
@@ -261,7 +261,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function divide(a, b) {\n  return a / b;\n}",
     "example": "20 / 4; // 5",
     "task": "Export a function `divide(a, b)` that returns `a / b`.",
-    "solutionStub": "// Challenge 24 - Division Operator (/)\n//\n// INSTRUCTIONS:\n// Export a function `divide(a, b)` returning a / b.\n",
+    "solutionStub": "",
     "exportedName": "division"
   },
   {
@@ -272,7 +272,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function modulo(a, b) {\n  return a % b;\n}",
     "example": "7 % 3; // 1",
     "task": "Export a function `modulo(a, b)` that returns `a % b`.",
-    "solutionStub": "// Challenge 25 - Remainder / Modulo Operator (%)\n//\n// INSTRUCTIONS:\n// Export a function `modulo(a, b)` returning a % b.\n",
+    "solutionStub": "",
     "exportedName": "remainder"
   },
   {
@@ -283,7 +283,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function power(base, exp) {\n  return base ** exp;\n}",
     "example": "2 ** 3; // 8",
     "task": "Export a function `power(base, exp)` that returns `base ** exp`.",
-    "solutionStub": "// Challenge 26 - Exponentiation Operator (**)\n//\n// INSTRUCTIONS:\n// Export a function `power(base, exp)` returning base ** exp.\n",
+    "solutionStub": "",
     "exportedName": "exponentiation"
   },
   {
@@ -294,7 +294,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function toNum(val) {\n  return +val;\n}",
     "example": "+\"42\"; // 42",
     "task": "Export a function `toNum(val)` that uses unary `+` to convert `val` to a number.",
-    "solutionStub": "// Challenge 27 - Unary Plus Operator (+)\n//\n// INSTRUCTIONS:\n// Export a function `toNum(val)` returning +val.\n",
+    "solutionStub": "",
     "exportedName": "unary_plus"
   },
   {
@@ -305,7 +305,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function negate(val) {\n  return -val;\n}",
     "example": "-5; // -5\n-\"10\"; // -10",
     "task": "Export a function `negate(val)` that returns `-val`.",
-    "solutionStub": "// Challenge 28 - Unary Negation Operator (-)\n//\n// INSTRUCTIONS:\n// Export a function `negate(val)` returning -val.\n",
+    "solutionStub": "",
     "exportedName": "unary_negation"
   },
   {
@@ -316,7 +316,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function addAssign(initial, addend) {\n  let total = initial;\n  total += addend;\n  return total;\n}",
     "example": "let x = 10;\nx += 5; // 15",
     "task": "Export a function `addAssign(initial, addend)` using `+=` to update and return total.",
-    "solutionStub": "// Challenge 29 - Addition Assignment (+=)\n//\n// INSTRUCTIONS:\n// Export a function `addAssign(initial, addend)` using total += addend.\n",
+    "solutionStub": "",
     "exportedName": "addition_assignment"
   },
   {
@@ -327,7 +327,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function multAssign(initial, factor) {\n  let total = initial;\n  total *= factor;\n  return total;\n}",
     "example": "let x = 4;\nx *= 3; // 12",
     "task": "Export a function `multAssign(initial, factor)` using `*=` to update and return total.",
-    "solutionStub": "// Challenge 30 - Multiplication Assignment (*=)\n//\n// INSTRUCTIONS:\n// Export a function `multAssign(initial, factor)` using total *= factor.\n",
+    "solutionStub": "",
     "exportedName": "multiplication_assignment"
   },
   {
@@ -338,7 +338,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function andAssign(x, y) {\n  let val = x;\n  val &&= y;\n  return val;\n}",
     "example": "let a = 1; a &&= 2; // 2",
     "task": "Export a function `andAssign(x, y)` using `val &&= y`.",
-    "solutionStub": "// Challenge 31 - Logical AND Assignment (&&=)\n//\n// INSTRUCTIONS:\n// Export a function `andAssign(x, y)` using val &&= y.\n",
+    "solutionStub": "",
     "exportedName": "logical_and_assignment"
   },
   {
@@ -349,7 +349,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function orAssign(x, y) {\n  let val = x;\n  val ||= y;\n  return val;\n}",
     "example": "let a = 0; a ||= 5; // 5",
     "task": "Export a function `orAssign(x, y)` using `val ||= y`.",
-    "solutionStub": "// Challenge 32 - Logical OR Assignment (||=)\n//\n// INSTRUCTIONS:\n// Export a function `orAssign(x, y)` using val ||= y.\n",
+    "solutionStub": "",
     "exportedName": "logical_or_assignment"
   },
   {
@@ -360,7 +360,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function nullishAssign(x, y) {\n  let val = x;\n  val ??= y;\n  return val;\n}",
     "example": "let a = null; a ??= 10; // 10",
     "task": "Export a function `nullishAssign(x, y)` using `val ??= y`.",
-    "solutionStub": "// Challenge 33 - Nullish Coalescing Assignment (??=)\n//\n// INSTRUCTIONS:\n// Export a function `nullishAssign(x, y)` using val ??= y.\n",
+    "solutionStub": "",
     "exportedName": "nullish_assignment"
   },
   {
@@ -371,7 +371,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isEqual(a, b) {\n  return a === b;\n}",
     "example": "5 === 5; // true\n5 === \"5\"; // false",
     "task": "Export a function `isEqual(a, b)` returning `a === b`.",
-    "solutionStub": "// Challenge 34 - Strict Equality (===)\n//\n// INSTRUCTIONS:\n// Export a function `isEqual(a, b)` returning a === b.\n",
+    "solutionStub": "",
     "exportedName": "strict_equality"
   },
   {
@@ -382,7 +382,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function notEqual(a, b) {\n  return a !== b;\n}",
     "example": "5 !== \"5\"; // true",
     "task": "Export a function `notEqual(a, b)` returning `a !== b`.",
-    "solutionStub": "// Challenge 35 - Strict Inequality (!==)\n//\n// INSTRUCTIONS:\n// Export a function `notEqual(a, b)` returning a !== b.\n",
+    "solutionStub": "",
     "exportedName": "strict_inequality"
   },
   {
@@ -393,7 +393,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isGreater(a, b) {\n  return a > b;\n}",
     "example": "10 > 5; // true",
     "task": "Export a function `isGreater(a, b)` returning `a > b`.",
-    "solutionStub": "// Challenge 36 - Greater Than Operator (>)\n//\n// INSTRUCTIONS:\n// Export a function `isGreater(a, b)` returning a > b.\n",
+    "solutionStub": "",
     "exportedName": "greater_than"
   },
   {
@@ -404,7 +404,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isLess(a, b) {\n  return a < b;\n}",
     "example": "3 < 7; // true",
     "task": "Export a function `isLess(a, b)` returning `a < b`.",
-    "solutionStub": "// Challenge 37 - Less Than Operator (<)\n//\n// INSTRUCTIONS:\n// Export a function `isLess(a, b)` returning a < b.\n",
+    "solutionStub": "",
     "exportedName": "less_than"
   },
   {
@@ -415,7 +415,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isGreaterOrEqual(a, b) {\n  return a >= b;\n}",
     "example": "5 >= 5; // true",
     "task": "Export a function `isGreaterOrEqual(a, b)` returning `a >= b`.",
-    "solutionStub": "// Challenge 38 - Greater Than or Equal (>=)\n//\n// INSTRUCTIONS:\n// Export a function `isGreaterOrEqual(a, b)` returning a >= b.\n",
+    "solutionStub": "",
     "exportedName": "greater_or_equal"
   },
   {
@@ -426,7 +426,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isLessOrEqual(a, b) {\n  return a <= b;\n}",
     "example": "4 <= 5; // true",
     "task": "Export a function `isLessOrEqual(a, b)` returning `a <= b`.",
-    "solutionStub": "// Challenge 39 - Less Than or Equal (<=)\n//\n// INSTRUCTIONS:\n// Export a function `isLessOrEqual(a, b)` returning a <= b.\n",
+    "solutionStub": "",
     "exportedName": "less_or_equal"
   },
   {
@@ -437,7 +437,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function hasKey(obj, prop) {\n  return prop in obj;\n}",
     "example": "\"name\" in { name: \"JS\" }; // true",
     "task": "Export a function `hasKey(obj, prop)` returning `prop in obj`.",
-    "solutionStub": "// Challenge 40 - The 'in' Operator\n//\n// INSTRUCTIONS:\n// Export a function `hasKey(obj, prop)` returning prop in obj.\n",
+    "solutionStub": "",
     "exportedName": "in_operator"
   },
   {
@@ -448,7 +448,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isInstanceOf(obj, constructor) {\n  return obj instanceof constructor;\n}",
     "example": "[] instanceof Array; // true",
     "task": "Export a function `isInstanceOf(obj, constructor)` returning `obj instanceof constructor`.",
-    "solutionStub": "// Challenge 41 - The 'instanceof' Operator\n//\n// INSTRUCTIONS:\n// Export a function `isInstanceOf(obj, constructor)` returning obj instanceof constructor.\n",
+    "solutionStub": "",
     "exportedName": "instanceof_operator"
   },
   {
@@ -459,7 +459,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function invert(val) {\n  return !val;\n}",
     "example": "!true; // false\n!0; // true",
     "task": "Export a function `invert(val)` returning `!val`.",
-    "solutionStub": "// Challenge 42 - Logical NOT Operator (!)\n//\n// INSTRUCTIONS:\n// Export a function `invert(val)` returning !val.\n",
+    "solutionStub": "",
     "exportedName": "logical_not"
   },
   {
@@ -470,7 +470,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function toBool(val) {\n  return !!val;\n}",
     "example": "!!\"hello\"; // true\n!!null; // false",
     "task": "Export a function `toBool(val)` that returns `!!val`.",
-    "solutionStub": "// Challenge 43 - Double NOT (!!) for Truthiness\n//\n// INSTRUCTIONS:\n// Export a function `toBool(val)` returning !!val.\n",
+    "solutionStub": "",
     "exportedName": "double_not"
   },
   {
@@ -481,7 +481,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function both(a, b) {\n  return a && b;\n}",
     "example": "true && \"yes\"; // \"yes\"",
     "task": "Export a function `both(a, b)` returning `a && b`.",
-    "solutionStub": "// Challenge 44 - Logical AND Operator (&&)\n//\n// INSTRUCTIONS:\n// Export a function `both(a, b)` returning a && b.\n",
+    "solutionStub": "",
     "exportedName": "logical_and"
   },
   {
@@ -492,7 +492,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function either(a, b) {\n  return a || b;\n}",
     "example": "\"first\" || \"second\"; // \"first\"",
     "task": "Export a function `either(a, b)` returning `a || b`.",
-    "solutionStub": "// Challenge 45 - Logical OR Operator (||)\n//\n// INSTRUCTIONS:\n// Export a function `either(a, b)` returning a || b.\n",
+    "solutionStub": "",
     "exportedName": "logical_or"
   },
   {
@@ -503,7 +503,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function fallback(a, b) {\n  return a ?? b;\n}",
     "example": "null ?? \"default\"; // \"default\"\n0 ?? \"default\"; // 0",
     "task": "Export a function `fallback(a, b)` returning `a ?? b`.",
-    "solutionStub": "// Challenge 46 - Nullish Coalescing Operator (??)\n//\n// INSTRUCTIONS:\n// Export a function `fallback(a, b)` returning a ?? b.\n",
+    "solutionStub": "",
     "exportedName": "nullish_coalescing"
   },
   {
@@ -514,7 +514,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function passOrFail(score) {\n  return score >= 50 ? \"Pass\" : \"Fail\";\n}",
     "example": "const status = age >= 18 ? \"Adult\" : \"Minor\";",
     "task": "Export a function `passOrFail(score)` returning `\"Pass\"` if `score >= 50`, else `\"Fail\"`.",
-    "solutionStub": "// Challenge 47 - Conditional (Ternary) Operator (? :)\n//\n// INSTRUCTIONS:\n// Export a function `passOrFail(score)` returning \"Pass\" if score >= 50, else \"Fail\".\n",
+    "solutionStub": "",
     "exportedName": "ternary_operator"
   },
   {
@@ -525,7 +525,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const user = {\n  name: \"Alice\",\n  age: 25\n};",
     "example": "const book = { title: \"JS\", pages: 300 };",
     "task": "Export a constant `user` with properties `name: \"Alice\"` and `age: 25`.",
-    "solutionStub": "// Challenge 48 - Object Initializer Syntax\n//\n// INSTRUCTIONS:\n// Export an object `user` with name: \"Alice\" and age: 25.\n",
+    "solutionStub": "",
     "exportedName": "object_literal"
   },
   {
@@ -536,7 +536,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function get(obj, key) {\n  return obj[key];\n}",
     "example": "const store = { name: \"App\" };\nget(store, \"name\"); // \"App\"",
     "task": "Export a function `get(obj, key)` that returns `obj[key]`.",
-    "solutionStub": "// Challenge 49 - Dynamic Property Lookup\n//\n// INSTRUCTIONS:\n// Export a function `get(obj, key)` returning obj[key].\n",
+    "solutionStub": "",
     "exportedName": "dynamic_get"
   },
   {
@@ -547,7 +547,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function set(obj, key, value) {\n  obj[key] = value;\n  return value;\n}",
     "example": "const store = {};\nset(store, \"role\", \"admin\"); // \"admin\"",
     "task": "Export a function `set(obj, key, value)` that sets `obj[key] = value` and returns `value`.",
-    "solutionStub": "// Challenge 50 - Dynamic Property Assignment\n//\n// INSTRUCTIONS:\n// Export a function `set(obj, key, value)` that sets obj[key] = value and returns value.\n",
+    "solutionStub": "",
     "exportedName": "dynamic_set"
   },
   {
@@ -558,7 +558,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function removeKey(obj, key) {\n  delete obj[key];\n  return obj;\n}",
     "example": "const user = { a: 1, b: 2 };\ndelete user.a; // { b: 2 }",
     "task": "Export a function `removeKey(obj, key)` that deletes `obj[key]` and returns `obj`.",
-    "solutionStub": "// Challenge 51 - The 'delete' Operator\n//\n// INSTRUCTIONS:\n// Export a function `removeKey(obj, key)` that deletes obj[key] and returns obj.\n",
+    "solutionStub": "",
     "exportedName": "delete_operator"
   },
   {
@@ -569,7 +569,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getCity(user) {\n  return user?.address?.city;\n}",
     "example": "const person = {};\nperson?.address?.city; // undefined",
     "task": "Export a function `getCity(user)` returning `user?.address?.city` using optional chaining.",
-    "solutionStub": "// Challenge 52 - Optional Chaining (?.)\n//\n// INSTRUCTIONS:\n// Export a function `getCity(user)` returning user?.address?.city.\n",
+    "solutionStub": "",
     "exportedName": "optional_chaining"
   },
   {
@@ -580,7 +580,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const person = { age: 30 };\nexport const samePerson = person;",
     "example": "const original = { x: 1 };\nconst alias = original;",
     "task": "Export `person = { age: 30 }` and `samePerson = person` so both point to the exact same reference.",
-    "solutionStub": "// Challenge 53 - Object References in Memory\n//\n// INSTRUCTIONS:\n// Export `person = { age: 30 }` and `samePerson = person`.\n",
+    "solutionStub": "",
     "exportedName": "object_reference"
   },
   {
@@ -591,7 +591,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const obj = Object.freeze({ key: \"value\" });",
     "example": "const user = Object.freeze({ role: \"admin\" });",
     "task": "Export a constant named `obj` with property `{ str: \"hello\" }` frozen with `Object.freeze()`.",
-    "solutionStub": "// Challenge 54 - Freezing an Object\n//\n// INSTRUCTIONS:\n// Export a constant `obj` with { str: \"hello\" } frozen with Object.freeze().\n",
+    "solutionStub": "",
     "exportedName": "freeze_object"
   },
   {
@@ -602,7 +602,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const nested = Object.freeze({\n  inner: Object.freeze({ value: 10 })\n});",
     "example": "const deep = Object.freeze({ config: Object.freeze({ port: 8080 }) });",
     "task": "Export a constant named `nested` with property `inner: { count: 5 }` where both outer and inner objects are frozen.",
-    "solutionStub": "// Challenge 55 - Deep Object Immutability\n//\n// INSTRUCTIONS:\n// Export a constant `nested` with both outer and inner object frozen.\n",
+    "solutionStub": "",
     "exportedName": "deep_freeze"
   },
   {
@@ -613,7 +613,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const clone1 = Object.assign({}, source);",
     "example": "const base = { a: 1 };\nconst copy = Object.assign({}, base);",
     "task": "Export `original = { name: \"JS\" }` and `clone1 = Object.assign({}, original)`.",
-    "solutionStub": "// Challenge 56 - Shallow Cloning with Object.assign\n//\n// INSTRUCTIONS:\n// Export `original = { name: \"JS\" }` and `clone1` using Object.assign({}, original).\n",
+    "solutionStub": "",
     "exportedName": "clone_assign"
   },
   {
@@ -624,7 +624,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const clone2 = { ...source };",
     "example": "const base = { a: 1 };\nconst copy = { ...base };",
     "task": "Export `original = { city: \"Paris\" }` and `clone2 = { ...original }`.",
-    "solutionStub": "// Challenge 57 - Shallow Cloning with Spread Operator\n//\n// INSTRUCTIONS:\n// Export `original = { city: \"Paris\" }` and `clone2 = { ...original }`.\n",
+    "solutionStub": "",
     "exportedName": "clone_spread"
   },
   {
@@ -635,7 +635,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const circular = {};\ncircular.circular = circular;",
     "example": "const node = {};\nnode.self = node;",
     "task": "Export an object `circular` where `circular.circular === circular`.",
-    "solutionStub": "// Challenge 58 - Circular Object Reference\n//\n// INSTRUCTIONS:\n// Export an object `circular` where circular.circular === circular.\n",
+    "solutionStub": "",
     "exportedName": "circular_reference"
   },
   {
@@ -646,7 +646,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const numbers = [1, 2, 3];",
     "example": "const colors = [\"red\", \"blue\"];",
     "task": "Export a constant named `numbers` containing the array `[1, 2, 3]`.",
-    "solutionStub": "// Challenge 59 - Array Initializer Syntax\n//\n// INSTRUCTIONS:\n// Export a constant `numbers` containing [1, 2, 3].\n",
+    "solutionStub": "",
     "exportedName": "array_literal"
   },
   {
@@ -657,7 +657,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function first(arr) {\n  return arr[0];\n}",
     "example": "const items = [\"a\", \"b\"];\nitems[0]; // \"a\"",
     "task": "Export a function `first(arr)` that returns `arr[0]`.",
-    "solutionStub": "// Challenge 60 - Zero-Based Indexing (First Element)\n//\n// INSTRUCTIONS:\n// Export a function `first(arr)` returning arr[0].\n",
+    "solutionStub": "",
     "exportedName": "first_element"
   },
   {
@@ -668,7 +668,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function last(arr) {\n  return arr[arr.length - 1];\n}",
     "example": "const items = [10, 20, 30];\nitems[items.length - 1]; // 30",
     "task": "Export a function `last(arr)` that returns `arr[arr.length - 1]`.",
-    "solutionStub": "// Challenge 61 - Last Element Indexing\n//\n// INSTRUCTIONS:\n// Export a function `last(arr)` returning arr[arr.length - 1].\n",
+    "solutionStub": "",
     "exportedName": "last_element"
   },
   {
@@ -679,7 +679,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function appendAndPop(arr, item) {\n  arr.push(item);\n  return arr.pop();\n}",
     "example": "const a = [1]; a.push(2); a.pop(); // 2",
     "task": "Export a function `appendAndPop(arr, item)` that pushes `item` to `arr` and returns `arr.pop()`.",
-    "solutionStub": "// Challenge 62 - Array Mutation: push & pop\n//\n// INSTRUCTIONS:\n// Export a function `appendAndPop(arr, item)` using push and pop.\n",
+    "solutionStub": "",
     "exportedName": "array_push_pop"
   },
   {
@@ -690,7 +690,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function merge(a, b) {\n  return [...a, ...b];\n}",
     "example": "[...[1, 2], ...[3, 4]]; // [1, 2, 3, 4]",
     "task": "Export a function `merge(a, b)` returning `[...a, ...b]`.",
-    "solutionStub": "// Challenge 63 - Array Spread Syntax ([...arr])\n//\n// INSTRUCTIONS:\n// Export a function `merge(a, b)` returning [...a, ...b].\n",
+    "solutionStub": "",
     "exportedName": "array_spread"
   },
   {
@@ -701,7 +701,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const arr = Object.freeze([1, 2, 3]);",
     "example": "const frozen = Object.freeze([10, 20]);",
     "task": "Export a constant named `arr` initialized to an array containing `[1, 2, 3]` and frozen with `Object.freeze()`.",
-    "solutionStub": "// Challenge 64 - Freezing an Array\n//\n// INSTRUCTIONS:\n// Export a constant `arr` initialized with Object.freeze([1, 2, 3]).\n",
+    "solutionStub": "",
     "exportedName": "freeze_array"
   },
   {
@@ -712,7 +712,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getPair(arr) {\n  const [first, second] = arr;\n  return { first, second };\n}",
     "example": "const [x, y] = [10, 20]; // x = 10, y = 20",
     "task": "Export a function `getPair(arr)` that destructures `const [first, second] = arr` and returns `{ first, second }`.",
-    "solutionStub": "// Challenge 65 - Array Destructuring\n//\n// INSTRUCTIONS:\n// Export a function `getPair(arr)` using const [first, second] = arr.\n",
+    "solutionStub": "",
     "exportedName": "array_destructuring"
   },
   {
@@ -723,7 +723,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getNameAndAge(user) {\n  const { name, age } = user;\n  return `${name} is ${age}`;\n}",
     "example": "const { x, y } = { x: 5, y: 10 };",
     "task": "Export a function `getNameAndAge(user)` that destructures `{ name, age }` and returns `` `${name} is ${age}` ``.",
-    "solutionStub": "// Challenge 66 - Object Destructuring\n//\n// INSTRUCTIONS:\n// Export a function `getNameAndAge(user)` using const { name, age } = user.\n",
+    "solutionStub": "",
     "exportedName": "object_destructuring"
   },
   {
@@ -734,7 +734,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function countTo(limit) {\n  let count = 0;\n  while (count < limit) {\n    count = count + 1;\n  }\n  return count;\n}",
     "example": "let c = 0;\nwhile (c < 3) { c++; }",
     "task": "Export a function `countTo(limit)` that initializes `count = 0`, loops while `count < limit` incrementing `count = count + 1`, and returns `count`.",
-    "solutionStub": "// Challenge 67 - While Loop (Counter)\n//\n// INSTRUCTIONS:\n// Export a function `countTo(limit)` that uses a while loop to increment count from 0 to limit.\n",
+    "solutionStub": "",
     "exportedName": "while_counter"
   },
   {
@@ -745,7 +745,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function times5(n) {\n  let res = 0, c = 0;\n  while (c++ < 5) res += n;\n  return res;\n}",
     "example": "let sum = 0, i = 0;\nwhile (i < 5) { sum += 2; i++; }",
     "task": "Export a function `times5(n)` that uses a while loop to add `n` to a `result` variable 5 times and returns `result`.",
-    "solutionStub": "// Challenge 68 - While Loop (Accumulator)\n//\n// INSTRUCTIONS:\n// Export a function `times5(n)` that uses a while loop to add n to a result 5 times.\n",
+    "solutionStub": "",
     "exportedName": "while_accumulate"
   },
   {
@@ -756,7 +756,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sumUpTo(n) {\n  let sum = 0;\n  for (let i = 1; i <= n; i++) {\n    sum += i;\n  }\n  return sum;\n}",
     "example": "for (let i = 0; i < 5; i++) { ... }",
     "task": "Export a function `sumUpTo(n)` that computes the sum of integers from 1 up to `n` using a `for` loop.",
-    "solutionStub": "// Challenge 69 - Standard For Loop\n//\n// INSTRUCTIONS:\n// Export a function `sumUpTo(n)` that sums 1 to n using a for loop.\n",
+    "solutionStub": "",
     "exportedName": "for_loop_counter"
   },
   {
@@ -767,7 +767,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sumArray(numbers) {\n  let total = 0;\n  for (const num of numbers) {\n    total = total + num;\n  }\n  return total;\n}",
     "example": "for (const element of [10, 20, 30]) {\n  console.log(element);\n}",
     "task": "Export a function `sumArray(numbers)` that loops through `numbers` using `for..of`, adds each number to a `total`, and returns `total`.",
-    "solutionStub": "// Challenge 70 - For..Of Loop (Array Iteration)\n//\n// INSTRUCTIONS:\n// Export a function `sumArray(numbers)` that sums all numbers in an array using for..of.\n",
+    "solutionStub": "",
     "exportedName": "for_of_array"
   },
   {
@@ -778,7 +778,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function countLetter(str, target) {\n  let count = 0;\n  for (const char of str) {\n    if (char === target) {\n      count = count + 1;\n    }\n  }\n  return count;\n}",
     "example": "for (const ch of \"abc\") { console.log(ch); }",
     "task": "Export a function `countLetter(str, target)` that loops through `str` using `for..of` and returns the number of times `target` appears.",
-    "solutionStub": "// Challenge 71 - For..Of Loop (String Search & Counting)\n//\n// INSTRUCTIONS:\n// Export a function `countLetter(str, target)` that counts occurrences of target in str using for..of.\n",
+    "solutionStub": "",
     "exportedName": "for_of_string"
   },
   {
@@ -789,7 +789,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getKeys(obj) {\n  const keys = [];\n  for (const key in obj) {\n    keys.push(key);\n  }\n  return keys;\n}",
     "example": "for (const k in { a: 1, b: 2 }) console.log(k);",
     "task": "Export a function `getKeys(obj)` that collects all keys of `obj` using `for..in` into an array and returns it.",
-    "solutionStub": "// Challenge 72 - For..In Loop (Object Keys)\n//\n// INSTRUCTIONS:\n// Export a function `getKeys(obj)` collecting keys with for..in.\n",
+    "solutionStub": "",
     "exportedName": "for_in_object"
   },
   {
@@ -800,7 +800,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sumUntilNegative(numbers) {\n  let total = 0;\n  for (const n of numbers) {\n    if (n < 0) break;\n    if (n === 0) continue;\n    total += n;\n  }\n  return total;\n}",
     "example": "for (const x of [1, -1]) { if (x < 0) break; }",
     "task": "Export a function `sumUntilNegative(numbers)` that sums positive numbers until encountering a negative number (stopping via `break`).",
-    "solutionStub": "// Challenge 73 - Loop Control (break & continue)\n//\n// INSTRUCTIONS:\n// Export a function `sumUntilNegative(numbers)` using break on negative numbers.\n",
+    "solutionStub": "",
     "exportedName": "break_continue"
   },
   {
@@ -811,7 +811,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function countTo(limit, count = 0) {\n  if (count >= limit) return count;\n  return countTo(limit, count + 1);\n}",
     "example": "const countTo10 = (count) => {\n  if (count < 10) return countTo10(count + 1);\n  return count;\n};",
     "task": "Export a recursive function `countTo(limit, count = 0)` that calls itself with `count + 1` until `count >= limit`, then returns `count`.",
-    "solutionStub": "// Challenge 74 - Recursion (Counter)\n//\n// INSTRUCTIONS:\n// Export a recursive function `countTo(limit, count = 0)` that increments count until limit.\n",
+    "solutionStub": "",
     "exportedName": "recursion_counter"
   },
   {
@@ -822,7 +822,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function times5(n, count = 0, result = 0) {\n  return count < 5 ? times5(n, count + 1, result + n) : result;\n}",
     "example": "const times5R = (n, count, result) =>\n  count < 5 ? times5R(n, count + 1, result + n) : result;",
     "task": "Export a recursive function `times5(n, count = 0, result = 0)` that adds `n` to `result` 5 times recursively and returns `result`.",
-    "solutionStub": "// Challenge 75 - Recursion (Accumulator)\n//\n// INSTRUCTIONS:\n// Export a recursive function `times5(n, count = 0, result = 0)` that adds n to result 5 times.\n",
+    "solutionStub": "",
     "exportedName": "recursion_accumulate"
   },
   {
@@ -833,7 +833,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function factorial(n) {\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}",
     "example": "factorial(3); // 3 * 2 * 1 = 6",
     "task": "Export a recursive function `factorial(n)` returning `n!`.",
-    "solutionStub": "// Challenge 76 - Recursion (Factorial)\n//\n// INSTRUCTIONS:\n// Export a recursive function `factorial(n)` returning n!.\n",
+    "solutionStub": "",
     "exportedName": "recursion_factorial"
   },
   {
@@ -844,7 +844,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function multiplyLoop(a, b) {\n  let res = 0;\n  const positive = Math.abs(b);\n  for (let i = 0; i < positive; i++) {\n    res += a;\n  }\n  return b < 0 ? -res : res;\n}",
     "example": "multiplyLoop(4, 3); // 12",
     "task": "Export a function `multiplyLoop(a, b)` multiplying `a` by `b` using a loop and addition without `*`.",
-    "solutionStub": "// Challenge 77 - Repeated Addition Multiplication\n//\n// INSTRUCTIONS:\n// Export a function `multiplyLoop(a, b)` that multiplies without using *.\n",
+    "solutionStub": "",
     "exportedName": "multiply_without_operator"
   },
   {
@@ -855,7 +855,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function multiplyRecursive(a, b) {\n  if (b === 0) return 0;\n  if (b < 0) return -multiplyRecursive(a, -b);\n  return a + multiplyRecursive(a, b - 1);\n}",
     "example": "multiplyRecursive(4, 3); // 12",
     "task": "Export a recursive function `multiplyRecursive(a, b)` multiplying `a` by `b` without using `*`.",
-    "solutionStub": "// Challenge 78 - Recursive Multiplication\n//\n// INSTRUCTIONS:\n// Export a recursive function `multiplyRecursive(a, b)` multiplying without *.\n",
+    "solutionStub": "",
     "exportedName": "multiply_recursive"
   },
   {
@@ -866,7 +866,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function words(str) {\n  return str.split(\" \");\n}",
     "example": "\"hello world\".split(\" \"); // [\"hello\", \"world\"]",
     "task": "Export a function `words(str)` that splits `str` by spaces and returns the array.",
-    "solutionStub": "// Challenge 79 - Splitting Strings (.split())\n//\n// INSTRUCTIONS:\n// Export a function `words(str)` that splits str by space.\n",
+    "solutionStub": "",
     "exportedName": "string_split"
   },
   {
@@ -877,7 +877,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sentence(arr) {\n  return arr.join(\" \");\n}",
     "example": "[\"hello\", \"world\"].join(\" \"); // \"hello world\"",
     "task": "Export a function `sentence(arr)` that joins `arr` elements with a space.",
-    "solutionStub": "// Challenge 80 - Joining Arrays into Strings (.join())\n//\n// INSTRUCTIONS:\n// Export a function `sentence(arr)` joining array with space.\n",
+    "solutionStub": "",
     "exportedName": "string_join"
   },
   {
@@ -888,7 +888,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function yell(str) {\n  return str.toUpperCase();\n}",
     "example": "\"hello\".toUpperCase(); // \"HELLO\"",
     "task": "Export a function `yell(str)` that returns `str.toUpperCase()`.",
-    "solutionStub": "// Challenge 81 - Uppercase Transformation (.toUpperCase())\n//\n// INSTRUCTIONS:\n// Export a function `yell(str)` returning str.toUpperCase().\n",
+    "solutionStub": "",
     "exportedName": "string_uppercase"
   },
   {
@@ -899,7 +899,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function whisper(str) {\n  return str.toLowerCase();\n}",
     "example": "\"HELLO\".toLowerCase(); // \"hello\"",
     "task": "Export a function `whisper(str)` that returns `str.toLowerCase()`.",
-    "solutionStub": "// Challenge 82 - Lowercase Transformation (.toLowerCase())\n//\n// INSTRUCTIONS:\n// Export a function `whisper(str)` returning str.toLowerCase().\n",
+    "solutionStub": "",
     "exportedName": "string_lowercase"
   },
   {
@@ -910,7 +910,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function capitalize(str) {\n  if (!str) return \"\";\n  return str[0].toUpperCase() + str.slice(1).toLowerCase();\n}",
     "example": "\"jAVA\".slice(1).toLowerCase(); // \"ava\"",
     "task": "Export a function `capitalize(str)` that returns `str` with first letter capitalized and remaining letters lowercased.",
-    "solutionStub": "// Challenge 83 - String Capitalization\n//\n// INSTRUCTIONS:\n// Export a function `capitalize(str)` returning Capitalized string.\n",
+    "solutionStub": "",
     "exportedName": "string_capitalize"
   },
   {
@@ -921,7 +921,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function toJadenCase(str) {\n  return str.split(\" \").map(w => w ? w[0].toUpperCase() + w.slice(1).toLowerCase() : \"\").join(\" \");\n}",
     "example": "toJadenCase(\"how are you\"); // \"How Are You\"",
     "task": "Export a function `toJadenCase(str)` that capitalizes every word in `str`.",
-    "solutionStub": "// Challenge 84 - Jaden Casing Strings\n//\n// INSTRUCTIONS:\n// Export a function `toJadenCase(str)` capitalizing every word.\n",
+    "solutionStub": "",
     "exportedName": "jaden_case"
   },
   {
@@ -932,7 +932,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function cutFirst(str) {\n  return str.slice(2);\n}",
     "example": "\"abcdef\".slice(2); // \"cdef\"",
     "task": "Export a function `cutFirst(str)` that returns `str` without its first 2 characters.",
-    "solutionStub": "// Challenge 85 - Cut First Characters (cutFirst)\n//\n// INSTRUCTIONS:\n// Export a function `cutFirst(str)` returning str.slice(2).\n",
+    "solutionStub": "",
     "exportedName": "string_cut_first"
   },
   {
@@ -943,7 +943,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function cutLast(str) {\n  return str.slice(0, -2);\n}",
     "example": "\"abcdef\".slice(0, -2); // \"abcd\"",
     "task": "Export a function `cutLast(str)` that returns `str` without its last 2 characters.",
-    "solutionStub": "// Challenge 86 - Cut Last Characters (cutLast)\n//\n// INSTRUCTIONS:\n// Export a function `cutLast(str)` returning str.slice(0, -2).\n",
+    "solutionStub": "",
     "exportedName": "string_cut_last"
   },
   {
@@ -954,7 +954,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function cutFirstLast(str) {\n  return str.slice(2, -2);\n}",
     "example": "\"abcdefgh\".slice(2, -2); // \"cdef\"",
     "task": "Export a function `cutFirstLast(str)` that returns `str` with both first 2 and last 2 characters removed.",
-    "solutionStub": "// Challenge 87 - Cut First & Last (cutFirstLast)\n//\n// INSTRUCTIONS:\n// Export a function `cutFirstLast(str)` returning str.slice(2, -2).\n",
+    "solutionStub": "",
     "exportedName": "string_cut_first_last"
   },
   {
@@ -965,7 +965,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function keepFirst(str) {\n  return str.slice(0, 2);\n}",
     "example": "\"abcdef\".slice(0, 2); // \"ab\"",
     "task": "Export a function `keepFirst(str)` returning the first 2 characters of `str`.",
-    "solutionStub": "// Challenge 88 - Keep First Characters (keepFirst)\n//\n// INSTRUCTIONS:\n// Export a function `keepFirst(str)` returning str.slice(0, 2).\n",
+    "solutionStub": "",
     "exportedName": "string_keep_first"
   },
   {
@@ -976,7 +976,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function keepLast(str) {\n  return str.slice(-2);\n}",
     "example": "\"abcdef\".slice(-2); // \"ef\"",
     "task": "Export a function `keepLast(str)` returning the last 2 characters of `str`.",
-    "solutionStub": "// Challenge 89 - Keep Last Characters (keepLast)\n//\n// INSTRUCTIONS:\n// Export a function `keepLast(str)` returning str.slice(-2).\n",
+    "solutionStub": "",
     "exportedName": "string_keep_last"
   },
   {
@@ -987,7 +987,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function repeatStr(str, count) {\n  return str.repeat(count);\n}",
     "example": "\"abc\".repeat(3); // \"abcabcabc\"",
     "task": "Export a function `repeatStr(str, count)` that returns `str.repeat(count)`.",
-    "solutionStub": "// Challenge 90 - String Repeat (.repeat())\n//\n// INSTRUCTIONS:\n// Export a function `repeatStr(str, count)` returning str.repeat(count).\n",
+    "solutionStub": "",
     "exportedName": "string_repeat"
   },
   {
@@ -998,7 +998,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function hasSubstring(str, target) {\n  return str.includes(target);\n}",
     "example": "\"JavaScript\".includes(\"Script\"); // true",
     "task": "Export a function `hasSubstring(str, target)` returning `str.includes(target)`.",
-    "solutionStub": "// Challenge 91 - String Inclusion Check (.includes())\n//\n// INSTRUCTIONS:\n// Export a function `hasSubstring(str, target)` returning str.includes(target).\n",
+    "solutionStub": "",
     "exportedName": "string_includes"
   },
   {
@@ -1009,7 +1009,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function startsWithPrefix(str, prefix) {\n  return str.startsWith(prefix);\n}",
     "example": "\"https://example.com\".startsWith(\"https://\"); // true",
     "task": "Export a function `startsWithPrefix(str, prefix)` returning `str.startsWith(prefix)`.",
-    "solutionStub": "// Challenge 92 - Prefix Check (.startsWith())\n//\n// INSTRUCTIONS:\n// Export a function `startsWithPrefix(str, prefix)` returning str.startsWith(prefix).\n",
+    "solutionStub": "",
     "exportedName": "string_starts_with"
   },
   {
@@ -1020,7 +1020,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function endsWithSuffix(str, suffix) {\n  return str.endsWith(suffix);\n}",
     "example": "\"script.js\".endsWith(\".js\"); // true",
     "task": "Export a function `endsWithSuffix(str, suffix)` returning `str.endsWith(suffix)`.",
-    "solutionStub": "// Challenge 93 - Suffix Check (.endsWith())\n//\n// INSTRUCTIONS:\n// Export a function `endsWithSuffix(str, suffix)` returning str.endsWith(suffix).\n",
+    "solutionStub": "",
     "exportedName": "string_ends_with"
   },
   {
@@ -1031,7 +1031,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findIndex(str, search) {\n  return str.indexOf(search);\n}",
     "example": "\"hello world\".indexOf(\"world\"); // 6",
     "task": "Export a function `findIndex(str, search)` returning `str.indexOf(search)`.",
-    "solutionStub": "// Challenge 94 - Finding Substring Index (.indexOf())\n//\n// INSTRUCTIONS:\n// Export a function `findIndex(str, search)` returning str.indexOf(search).\n",
+    "solutionStub": "",
     "exportedName": "string_index_of"
   },
   {
@@ -1042,7 +1042,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findLastIndex(str, search) {\n  return str.lastIndexOf(search);\n}",
     "example": "\"canal canal\".lastIndexOf(\"canal\"); // 6",
     "task": "Export a function `findLastIndex(str, search)` returning `str.lastIndexOf(search)`.",
-    "solutionStub": "// Challenge 95 - Last Substring Occurrence (.lastIndexOf())\n//\n// INSTRUCTIONS:\n// Export a function `findLastIndex(str, search)` returning str.lastIndexOf(search).\n",
+    "solutionStub": "",
     "exportedName": "string_last_index_of"
   },
   {
@@ -1053,7 +1053,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getSubstring(str, start, end) {\n  return str.slice(start, end);\n}",
     "example": "\"hello world\".slice(0, 5); // \"hello\"",
     "task": "Export a function `getSubstring(str, start, end)` returning `str.slice(start, end)`.",
-    "solutionStub": "// Challenge 96 - Slicing Strings (.slice())\n//\n// INSTRUCTIONS:\n// Export a function `getSubstring(str, start, end)` returning str.slice(start, end).\n",
+    "solutionStub": "",
     "exportedName": "string_slice"
   },
   {
@@ -1064,7 +1064,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function extractSub(str, start, end) {\n  return str.substring(start, end);\n}",
     "example": "\"Mozilla\".substring(1, 3); // \"oz\"",
     "task": "Export a function `extractSub(str, start, end)` returning `str.substring(start, end)`.",
-    "solutionStub": "// Challenge 97 - Extracting with .substring()\n//\n// INSTRUCTIONS:\n// Export a function `extractSub(str, start, end)` returning str.substring(start, end).\n",
+    "solutionStub": "",
     "exportedName": "string_substring"
   },
   {
@@ -1075,7 +1075,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function cleanStr(str) {\n  return str.trim();\n}",
     "example": "\"   hello   \".trim(); // \"hello\"",
     "task": "Export a function `cleanStr(str)` returning `str.trim()`.",
-    "solutionStub": "// Challenge 98 - Trimming Whitespace (.trim())\n//\n// INSTRUCTIONS:\n// Export a function `cleanStr(str)` returning str.trim().\n",
+    "solutionStub": "",
     "exportedName": "string_trim"
   },
   {
@@ -1086,7 +1086,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function trimSides(str) {\n  return {\n    start: str.trimStart(),\n    end: str.trimEnd()\n  };\n}",
     "example": "\"  a  \".trimStart(); // \"a  \"\n\"  a  \".trimEnd();   // \"  a\"",
     "task": "Export a function `trimSides(str)` returning `{ start: str.trimStart(), end: str.trimEnd() }`.",
-    "solutionStub": "// Challenge 99 - Trimming Start & End (.trimStart & .trimEnd)\n//\n// INSTRUCTIONS:\n// Export a function `trimSides(str)` returning { start: str.trimStart(), end: str.trimEnd() }.\n",
+    "solutionStub": "",
     "exportedName": "string_trim_start_end"
   },
   {
@@ -1097,7 +1097,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function padZero(str, targetLength) {\n  return str.padStart(targetLength, \"0\");\n}",
     "example": "\"5\".padStart(3, \"0\"); // \"005\"",
     "task": "Export a function `padZero(str, targetLength)` that pads `str` at the start with `\"0\"` up to `targetLength`.",
-    "solutionStub": "// Challenge 100 - Padding Start (.padStart())\n//\n// INSTRUCTIONS:\n// Export a function `padZero(str, targetLength)` returning str.padStart(targetLength, \"0\").\n",
+    "solutionStub": "",
     "exportedName": "string_pad_start"
   },
   {
@@ -1108,7 +1108,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function padDots(str, targetLength) {\n  return str.padEnd(targetLength, \".\");\n}",
     "example": "\"Loading\".padEnd(10, \".\"); // \"Loading...\"",
     "task": "Export a function `padDots(str, targetLength)` that pads `str` at the end with `\".\"` up to `targetLength`.",
-    "solutionStub": "// Challenge 101 - Padding End (.padEnd())\n//\n// INSTRUCTIONS:\n// Export a function `padDots(str, targetLength)` returning str.padEnd(targetLength, \".\").\n",
+    "solutionStub": "",
     "exportedName": "string_pad_end"
   },
   {
@@ -1119,7 +1119,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function replaceFirst(str, pattern, replacement) {\n  return str.replace(pattern, replacement);\n}",
     "example": "\"cat and cat\".replace(\"cat\", \"dog\"); // \"dog and cat\"",
     "task": "Export a function `replaceFirst(str, pattern, replacement)` returning `str.replace(pattern, replacement)`.",
-    "solutionStub": "// Challenge 102 - Replacing Substrings (.replace())\n//\n// INSTRUCTIONS:\n// Export a function `replaceFirst(str, pattern, replacement)` returning str.replace(pattern, replacement).\n",
+    "solutionStub": "",
     "exportedName": "string_replace"
   },
   {
@@ -1130,7 +1130,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function replaceEvery(str, pattern, replacement) {\n  return str.replaceAll(pattern, replacement);\n}",
     "example": "\"cat and cat\".replaceAll(\"cat\", \"dog\"); // \"dog and dog\"",
     "task": "Export a function `replaceEvery(str, pattern, replacement)` returning `str.replaceAll(pattern, replacement)`.",
-    "solutionStub": "// Challenge 103 - Replacing All Substrings (.replaceAll())\n//\n// INSTRUCTIONS:\n// Export a function `replaceEvery(str, pattern, replacement)` returning str.replaceAll(pattern, replacement).\n",
+    "solutionStub": "",
     "exportedName": "string_replace_all"
   },
   {
@@ -1141,7 +1141,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getCodeAt(str, index) {\n  return str.charCodeAt(index);\n}",
     "example": "\"A\".charCodeAt(0); // 65",
     "task": "Export a function `getCodeAt(str, index)` returning `str.charCodeAt(index)`.",
-    "solutionStub": "// Challenge 104 - Character Code (.charCodeAt())\n//\n// INSTRUCTIONS:\n// Export a function `getCodeAt(str, index)` returning str.charCodeAt(index).\n",
+    "solutionStub": "",
     "exportedName": "string_char_code_at"
   },
   {
@@ -1152,7 +1152,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function fromCodes(...codes) {\n  return String.fromCharCode(...codes);\n}",
     "example": "String.fromCharCode(65, 66, 67); // \"ABC\"",
     "task": "Export a function `fromCodes(...codes)` that returns `String.fromCharCode(...codes)`.",
-    "solutionStub": "// Challenge 105 - String.fromCharCode Static Method\n//\n// INSTRUCTIONS:\n// Export a function `fromCodes(...codes)` returning String.fromCharCode(...codes).\n",
+    "solutionStub": "",
     "exportedName": "string_from_char_code"
   },
   {
@@ -1163,7 +1163,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getCodePoint(str, index) {\n  return str.codePointAt(index);\n}",
     "example": "\"😀\".codePointAt(0); // 128512",
     "task": "Export a function `getCodePoint(str, index)` returning `str.codePointAt(index)`.",
-    "solutionStub": "// Challenge 106 - Unicode Code Point (.codePointAt())\n//\n// INSTRUCTIONS:\n// Export a function `getCodePoint(str, index)` returning str.codePointAt(index).\n",
+    "solutionStub": "",
     "exportedName": "string_code_point_at"
   },
   {
@@ -1174,7 +1174,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function fromPoints(...points) {\n  return String.fromCodePoint(...points);\n}",
     "example": "String.fromCodePoint(128512); // \"😀\"",
     "task": "Export a function `fromPoints(...points)` returning `String.fromCodePoint(...points)`.",
-    "solutionStub": "// Challenge 107 - String.fromCodePoint Static Method\n//\n// INSTRUCTIONS:\n// Export a function `fromPoints(...points)` returning String.fromCodePoint(...points).\n",
+    "solutionStub": "",
     "exportedName": "string_from_code_point"
   },
   {
@@ -1185,7 +1185,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function areEqualCaseInsensitive(a, b) {\n  return a.toUpperCase() === b.toUpperCase();\n}",
     "example": "areEqualCaseInsensitive(\"HELLO\", \"hello\"); // true",
     "task": "Export a function `areEqualCaseInsensitive(a, b)` returning `true` if `a` and `b` match case-insensitively.",
-    "solutionStub": "// Challenge 108 - Case-Insensitive String Equality\n//\n// INSTRUCTIONS:\n// Export a function `areEqualCaseInsensitive(a, b)`.\n",
+    "solutionStub": "",
     "exportedName": "string_case_insensitive_compare"
   },
   {
@@ -1196,7 +1196,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function compareLocale(a, b) {\n  return a.localeCompare(b);\n}",
     "example": "\"a\".localeCompare(\"b\"); // -1",
     "task": "Export a function `compareLocale(a, b)` returning `a.localeCompare(b)`.",
-    "solutionStub": "// Challenge 109 - Locale-Aware Comparison (.localeCompare())\n//\n// INSTRUCTIONS:\n// Export a function `compareLocale(a, b)` returning a.localeCompare(b).\n",
+    "solutionStub": "",
     "exportedName": "string_locale_compare"
   },
   {
@@ -1207,7 +1207,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function checkWellFormed(str) {\n  return str.isWellFormed();\n}",
     "example": "\"valid string\".isWellFormed(); // true",
     "task": "Export a function `checkWellFormed(str)` returning `str.isWellFormed()`.",
-    "solutionStub": "// Challenge 110 - Well-Formed Unicode Strings (.isWellFormed())\n//\n// INSTRUCTIONS:\n// Export a function `checkWellFormed(str)` returning str.isWellFormed().\n",
+    "solutionStub": "",
     "exportedName": "string_is_well_formed"
   },
   {
@@ -1218,7 +1218,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function roundDown(n) {\n  return Math.floor(n);\n}\nexport function roundUp(n) {\n  return Math.ceil(n);\n}",
     "example": "Math.floor(4.9); // 4\nMath.ceil(4.1);  // 5",
     "task": "Export `roundDown(n)` using `Math.floor` and `roundUp(n)` using `Math.ceil`.",
-    "solutionStub": "// Challenge 111 - Math.floor & Math.ceil\n//\n// INSTRUCTIONS:\n// Export `roundDown(n)` and `roundUp(n)`.\n",
+    "solutionStub": "",
     "exportedName": "math_floor_ceil"
   },
   {
@@ -1229,7 +1229,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function roundNearest(n) {\n  return Math.round(n);\n}\nexport function truncate(n) {\n  return Math.trunc(n);\n}",
     "example": "Math.round(4.5); // 5\nMath.trunc(4.9); // 4",
     "task": "Export `roundNearest(n)` using `Math.round` and `truncate(n)` using `Math.trunc`.",
-    "solutionStub": "// Challenge 112 - Math.round & Math.trunc\n//\n// INSTRUCTIONS:\n// Export `roundNearest(n)` and `truncate(n)`.\n",
+    "solutionStub": "",
     "exportedName": "math_round_trunc"
   },
   {
@@ -1240,7 +1240,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findExtremes(...nums) {\n  return {\n    max: Math.max(...nums),\n    min: Math.min(...nums)\n  };\n}",
     "example": "Math.max(1, 10, 5); // 10\nMath.min(1, 10, 5); // 1",
     "task": "Export a function `findExtremes(...nums)` that returns `{ max: Math.max(...nums), min: Math.min(...nums) }`.",
-    "solutionStub": "// Challenge 113 - Math.max & Math.min\n//\n// INSTRUCTIONS:\n// Export a function `findExtremes(...nums)` returning { max, min }.\n",
+    "solutionStub": "",
     "exportedName": "math_max_min"
   },
   {
@@ -1251,7 +1251,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function absolute(n) {\n  return Math.abs(n);\n}",
     "example": "Math.abs(-42); // 42",
     "task": "Export a function `absolute(n)` that returns `Math.abs(n)`.",
-    "solutionStub": "// Challenge 114 - Math.abs Function\n//\n// INSTRUCTIONS:\n// Export a function `absolute(n)` returning Math.abs(n).\n",
+    "solutionStub": "",
     "exportedName": "math_abs"
   },
   {
@@ -1262,7 +1262,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function squareRoot(n) {\n  return Math.sqrt(n);\n}",
     "example": "Math.sqrt(16); // 4",
     "task": "Export a function `squareRoot(n)` that returns `Math.sqrt(n)`.",
-    "solutionStub": "// Challenge 115 - Math.sqrt & Math.pow\n//\n// INSTRUCTIONS:\n// Export a function `squareRoot(n)` returning Math.sqrt(n).\n",
+    "solutionStub": "",
     "exportedName": "math_sqrt_pow"
   },
   {
@@ -1273,7 +1273,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getRandomInt(min, max) {\n  return Math.floor(Math.random() * (max - min + 1)) + min;\n}",
     "example": "getRandomInt(1, 6); // returns integer 1 to 6",
     "task": "Export a function `getRandomInt(min, max)` returning a random integer between `min` and `max` inclusive.",
-    "solutionStub": "// Challenge 116 - Random Number Range (Math.random)\n//\n// INSTRUCTIONS:\n// Export a function `getRandomInt(min, max)` returning random integer inclusive.\n",
+    "solutionStub": "",
     "exportedName": "math_random_range"
   },
   {
@@ -1284,7 +1284,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function parseInteger(str) {\n  return Number.parseInt(str, 10);\n}",
     "example": "Number.parseInt(\"42px\", 10); // 42",
     "task": "Export a function `parseInteger(str)` that returns `Number.parseInt(str, 10)`.",
-    "solutionStub": "// Challenge 117 - Number.parseInt Function\n//\n// INSTRUCTIONS:\n// Export a function `parseInteger(str)` returning Number.parseInt(str, 10).\n",
+    "solutionStub": "",
     "exportedName": "number_parse_int"
   },
   {
@@ -1295,7 +1295,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function parseDecimal(str) {\n  return Number.parseFloat(str);\n}",
     "example": "Number.parseFloat(\"3.14em\"); // 3.14",
     "task": "Export a function `parseDecimal(str)` that returns `Number.parseFloat(str)`.",
-    "solutionStub": "// Challenge 118 - Number.parseFloat Function\n//\n// INSTRUCTIONS:\n// Export a function `parseDecimal(str)` returning Number.parseFloat(str).\n",
+    "solutionStub": "",
     "exportedName": "number_parse_float"
   },
   {
@@ -1306,7 +1306,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function isInt(val) {\n  return Number.isInteger(val);\n}",
     "example": "Number.isInteger(4);   // true",
     "task": "Export a function `isInt(val)` that returns `Number.isInteger(val)`.",
-    "solutionStub": "// Challenge 119 - Number.isInteger Type Guard\n//\n// INSTRUCTIONS:\n// Export a function `isInt(val)` returning Number.isInteger(val).\n",
+    "solutionStub": "",
     "exportedName": "number_is_integer"
   },
   {
@@ -1317,7 +1317,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function checkFinite(val) {\n  return Number.isFinite(val);\n}",
     "example": "Number.isFinite(100); // true\nNumber.isFinite(Infinity); // false",
     "task": "Export a function `checkFinite(val)` returning `Number.isFinite(val)`.",
-    "solutionStub": "// Challenge 120 - Number.isFinite Type Guard\n//\n// INSTRUCTIONS:\n// Export a function `checkFinite(val)` returning Number.isFinite(val).\n",
+    "solutionStub": "",
     "exportedName": "number_is_finite"
   },
   {
@@ -1328,7 +1328,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function removeFirst(arr) {\n  return arr.shift();\n}",
     "example": "const a = [10, 20]; a.shift(); // 10",
     "task": "Export a function `removeFirst(arr)` that calls `arr.shift()` and returns the removed element.",
-    "solutionStub": "// Challenge 121 - Array Mutation: shift()\n//\n// INSTRUCTIONS:\n// Export a function `removeFirst(arr)` returning arr.shift().\n",
+    "solutionStub": "",
     "exportedName": "array_shift"
   },
   {
@@ -1339,7 +1339,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function prependItem(arr, item) {\n  arr.unshift(item);\n  return arr;\n}",
     "example": "const a = [2]; a.unshift(1); // a is now [1, 2]",
     "task": "Export a function `prependItem(arr, item)` that unshifts `item` into `arr` and returns `arr`.",
-    "solutionStub": "// Challenge 122 - Array Mutation: unshift()\n//\n// INSTRUCTIONS:\n// Export a function `prependItem(arr, item)` adding item to start.\n",
+    "solutionStub": "",
     "exportedName": "array_unshift"
   },
   {
@@ -1350,7 +1350,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function removeAndInsert(arr, start, deleteCount, newItem) {\n  arr.splice(start, deleteCount, newItem);\n  return arr;\n}",
     "example": "[1, 2, 3].splice(1, 1, 99); // array becomes [1, 99, 3]",
     "task": "Export a function `removeAndInsert(arr, start, deleteCount, newItem)` modifying `arr` via `.splice()` and returning `arr`.",
-    "solutionStub": "// Challenge 123 - Array Splicing (.splice())\n//\n// INSTRUCTIONS:\n// Export a function `removeAndInsert(arr, start, deleteCount, newItem)` using splice.\n",
+    "solutionStub": "",
     "exportedName": "array_splice"
   },
   {
@@ -1361,7 +1361,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function reverseCopy(arr) {\n  return arr.slice().reverse();\n}",
     "example": "[1, 2, 3].slice().reverse(); // [3, 2, 1]",
     "task": "Export a function `reverseCopy(arr)` returning a reversed copy of `arr`.",
-    "solutionStub": "// Challenge 124 - Array Reversing (.reverse())\n//\n// INSTRUCTIONS:\n// Export a function `reverseCopy(arr)` returning arr.slice().reverse().\n",
+    "solutionStub": "",
     "exportedName": "array_reverse"
   },
   {
@@ -1372,7 +1372,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function fillArray(arr, val) {\n  return arr.fill(val);\n}",
     "example": "[1, 2, 3].fill(0); // [0, 0, 0]",
     "task": "Export a function `fillArray(arr, val)` returning `arr.fill(val)`.",
-    "solutionStub": "// Challenge 125 - Array Fill (.fill())\n//\n// INSTRUCTIONS:\n// Export a function `fillArray(arr, val)` returning arr.fill(val).\n",
+    "solutionStub": "",
     "exportedName": "array_fill"
   },
   {
@@ -1383,7 +1383,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function tally(numbers) {\n  let total = 0;\n  numbers.forEach((n) => { total += n; });\n  return total;\n}",
     "example": "[1, 2].forEach(n => console.log(n));",
     "task": "Export a function `tally(numbers)` that sums elements using `numbers.forEach()`.",
-    "solutionStub": "// Challenge 126 - Array Iteration (.forEach())\n//\n// INSTRUCTIONS:\n// Export a function `tally(numbers)` summing numbers using .forEach().\n",
+    "solutionStub": "",
     "exportedName": "array_for_each"
   },
   {
@@ -1394,7 +1394,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function doubleAll(numbers) {\n  return numbers.map((n) => n * 2);\n}",
     "example": "[1, 2, 3].map(n => n * 2); // [2, 4, 6]",
     "task": "Export a function `doubleAll(numbers)` that returns a new array with every number doubled using `.map()`.",
-    "solutionStub": "// Challenge 127 - Array Transformation (.map())\n//\n// INSTRUCTIONS:\n// Export a function `doubleAll(numbers)` returning numbers.map(n => n * 2).\n",
+    "solutionStub": "",
     "exportedName": "array_map"
   },
   {
@@ -1405,7 +1405,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getEvens(numbers) {\n  return numbers.filter((n) => n % 2 === 0);\n}",
     "example": "[1, 2, 3, 4].filter(n => n % 2 === 0); // [2, 4]",
     "task": "Export a function `getEvens(numbers)` that returns an array of only even numbers using `.filter()`.",
-    "solutionStub": "// Challenge 128 - Array Filtering (.filter())\n//\n// INSTRUCTIONS:\n// Export a function `getEvens(numbers)` returning numbers.filter(n => n % 2 === 0).\n",
+    "solutionStub": "",
     "exportedName": "array_filter"
   },
   {
@@ -1416,7 +1416,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sum(numbers) {\n  return numbers.reduce((acc, curr) => acc + curr, 0);\n}",
     "example": "[1, 2, 3].reduce((acc, n) => acc + n, 0); // 6",
     "task": "Export a function `sum(numbers)` that returns the total sum of `numbers` using `.reduce()`.",
-    "solutionStub": "// Challenge 129 - Array Reduction (.reduce())\n//\n// INSTRUCTIONS:\n// Export a function `sum(numbers)` returning sum using .reduce().\n",
+    "solutionStub": "",
     "exportedName": "array_reduce"
   },
   {
@@ -1427,7 +1427,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function concatRight(words) {\n  return words.reduceRight((acc, w) => acc + w, \"\");\n}",
     "example": "[\"a\", \"b\", \"c\"].reduceRight((acc, x) => acc + x, \"\"); // \"cba\"",
     "task": "Export a function `concatRight(words)` that concatenates strings from right to left using `.reduceRight()`.",
-    "solutionStub": "// Challenge 130 - Right-to-Left Reduction (.reduceRight())\n//\n// INSTRUCTIONS:\n// Export a function `concatRight(words)` using .reduceRight().\n",
+    "solutionStub": "",
     "exportedName": "array_reduce_right"
   },
   {
@@ -1438,7 +1438,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findFirstNegative(numbers) {\n  return numbers.find((n) => n < 0);\n}",
     "example": "[5, 12, -3, 8].find(n => n < 0); // -3",
     "task": "Export a function `findFirstNegative(numbers)` that returns the first negative number using `.find()`.",
-    "solutionStub": "// Challenge 131 - Finding an Element (.find())\n//\n// INSTRUCTIONS:\n// Export a function `findFirstNegative(numbers)` returning numbers.find(n => n < 0).\n",
+    "solutionStub": "",
     "exportedName": "array_find"
   },
   {
@@ -1449,7 +1449,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findIndexOfTarget(arr, target) {\n  return arr.findIndex((item) => item === target);\n}",
     "example": "[\"a\", \"b\", \"c\"].findIndex(x => x === \"b\"); // 1",
     "task": "Export a function `findIndexOfTarget(arr, target)` returning `arr.findIndex(item => item === target)`.",
-    "solutionStub": "// Challenge 132 - Finding Element Index (.findIndex())\n//\n// INSTRUCTIONS:\n// Export a function `findIndexOfTarget(arr, target)` using .findIndex().\n",
+    "solutionStub": "",
     "exportedName": "array_find_index"
   },
   {
@@ -1460,7 +1460,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function hasAnyNegative(numbers) {\n  return numbers.some((n) => n < 0);\n}",
     "example": "[1, -2, 3].some(n => n < 0); // true",
     "task": "Export a function `hasAnyNegative(numbers)` returning `numbers.some(n => n < 0)`.",
-    "solutionStub": "// Challenge 133 - Array Predicate Check (.some())\n//\n// INSTRUCTIONS:\n// Export a function `hasAnyNegative(numbers)` returning numbers.some(n => n < 0).\n",
+    "solutionStub": "",
     "exportedName": "array_some"
   },
   {
@@ -1471,7 +1471,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function allPositive(numbers) {\n  return numbers.every((n) => n > 0);\n}",
     "example": "[1, 2, 3].every(n => n > 0); // true",
     "task": "Export a function `allPositive(numbers)` returning `numbers.every(n => n > 0)`.",
-    "solutionStub": "// Challenge 134 - Universal Predicate Check (.every())\n//\n// INSTRUCTIONS:\n// Export a function `allPositive(numbers)` returning numbers.every(n => n > 0).\n",
+    "solutionStub": "",
     "exportedName": "array_every"
   },
   {
@@ -1482,7 +1482,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function containsItem(arr, item) {\n  return arr.includes(item);\n}",
     "example": "[1, 2, 3].includes(2); // true",
     "task": "Export a function `containsItem(arr, item)` returning `arr.includes(item)`.",
-    "solutionStub": "// Challenge 135 - Array Inclusion Check (.includes())\n//\n// INSTRUCTIONS:\n// Export a function `containsItem(arr, item)` returning arr.includes(item).\n",
+    "solutionStub": "",
     "exportedName": "array_includes"
   },
   {
@@ -1493,7 +1493,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sortNumbers(numbers) {\n  return numbers.slice().sort((a, b) => a - b);\n}",
     "example": "[30, 4, 100].slice().sort((a, b) => a - b); // [4, 30, 100]",
     "task": "Export a function `sortNumbers(numbers)` that returns a sorted copy in ascending numerical order.",
-    "solutionStub": "// Challenge 136 - Array Sorting (.sort())\n//\n// INSTRUCTIONS:\n// Export a function `sortNumbers(numbers)` returning sorted numbers ascending.\n",
+    "solutionStub": "",
     "exportedName": "array_sort"
   },
   {
@@ -1504,7 +1504,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function flattenArray(arr, depth = 1) {\n  return arr.flat(depth);\n}",
     "example": "[1, [2, [3]]].flat(2); // [1, 2, 3]",
     "task": "Export a function `flattenArray(arr, depth = 1)` returning `arr.flat(depth)`.",
-    "solutionStub": "// Challenge 137 - Array Flattening (.flat())\n//\n// INSTRUCTIONS:\n// Export a function `flattenArray(arr, depth = 1)` returning arr.flat(depth).\n",
+    "solutionStub": "",
     "exportedName": "array_flat"
   },
   {
@@ -1515,7 +1515,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function duplicateEach(arr) {\n  return arr.flatMap((x) => [x, x]);\n}",
     "example": "[1, 2].flatMap(x => [x, x * 2]); // [1, 2, 2, 4]",
     "task": "Export a function `duplicateEach(arr)` that duplicates each element using `arr.flatMap(x => [x, x])`.",
-    "solutionStub": "// Challenge 138 - Array FlatMap (.flatMap())\n//\n// INSTRUCTIONS:\n// Export a function `duplicateEach(arr)` returning arr.flatMap(x => [x, x]).\n",
+    "solutionStub": "",
     "exportedName": "array_flat_map"
   },
   {
@@ -1526,7 +1526,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function makeArray(...elements) {\n  return Array.of(...elements);\n}",
     "example": "Array.of(7); // [7] (unlike Array(7) which creates empty array of length 7)",
     "task": "Export a function `makeArray(...elements)` returning `Array.of(...elements)`.",
-    "solutionStub": "// Challenge 139 - Array.of Static Method\n//\n// INSTRUCTIONS:\n// Export a function `makeArray(...elements)` returning Array.of(...elements).\n",
+    "solutionStub": "",
     "exportedName": "array_of"
   },
   {
@@ -1537,7 +1537,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getObjectKeys(obj) {\n  return Object.keys(obj);\n}",
     "example": "Object.keys({ a: 1, b: 2 }); // [\"a\", \"b\"]",
     "task": "Export a function `getObjectKeys(obj)` returning `Object.keys(obj)`.",
-    "solutionStub": "// Challenge 140 - Object.keys Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectKeys(obj)` returning Object.keys(obj).\n",
+    "solutionStub": "",
     "exportedName": "object_keys"
   },
   {
@@ -1548,7 +1548,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getObjectValues(obj) {\n  return Object.values(obj);\n}",
     "example": "Object.values({ a: 1, b: 2 }); // [1, 2]",
     "task": "Export a function `getObjectValues(obj)` returning `Object.values(obj)`.",
-    "solutionStub": "// Challenge 141 - Object.values Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectValues(obj)` returning Object.values(obj).\n",
+    "solutionStub": "",
     "exportedName": "object_values"
   },
   {
@@ -1559,7 +1559,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getObjectEntries(obj) {\n  return Object.entries(obj);\n}",
     "example": "Object.entries({ a: 1 }); // [[\"a\", 1]]",
     "task": "Export a function `getObjectEntries(obj)` returning `Object.entries(obj)`.",
-    "solutionStub": "// Challenge 142 - Object.entries Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectEntries(obj)` returning Object.entries(obj).\n",
+    "solutionStub": "",
     "exportedName": "object_entries"
   },
   {
@@ -1570,7 +1570,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function hasOwnProperty(obj, prop) {\n  return Object.hasOwn(obj, prop);\n}",
     "example": "Object.hasOwn({ a: 1 }, \"a\"); // true",
     "task": "Export a function `hasOwnProperty(obj, prop)` returning `Object.hasOwn(obj, prop)`.",
-    "solutionStub": "// Challenge 143 - Object.hasOwn Function\n//\n// INSTRUCTIONS:\n// Export a function `hasOwnProperty(obj, prop)` returning Object.hasOwn(obj, prop).\n",
+    "solutionStub": "",
     "exportedName": "object_has_own"
   },
   {
@@ -1581,7 +1581,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function deepGet(obj, path) {\n  return path.split(\".\").reduce((acc, key) => acc?.[key], obj);\n}",
     "example": "deepGet({ a: { b: 42 } }, \"a.b\"); // 42",
     "task": "Export a function `deepGet(obj, path)` that retrieves the nested value at dot-delimited `path`.",
-    "solutionStub": "// Challenge 144 - Deep Property Lookup (deepGet)\n//\n// INSTRUCTIONS:\n// Export a function `deepGet(obj, path)` traversing nested path.\n",
+    "solutionStub": "",
     "exportedName": "deep_get"
   },
   {
@@ -1592,7 +1592,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function deepSet(obj, path, value) {\n  const [first, ...rest] = path.split('.');\n  // traverse and assign\n}",
     "example": "deepSet({}, \"a.b\", 1); // { a: { b: 1 } }",
     "task": "Export a function `deepSet(obj, path, value)` that sets `value` at `path` and returns `obj`.",
-    "solutionStub": "// Challenge 145 - Deep Property Assignment (deepSet)\n//\n// INSTRUCTIONS:\n// Export a function `deepSet(obj, path, value)`.\n",
+    "solutionStub": "",
     "exportedName": "deep_set"
   },
   {
@@ -1603,7 +1603,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getUnique(arr) {\n  return Array.from(new Set(arr));\n}",
     "example": "Array.from(new Set([1, 1, 2])); // [1, 2]",
     "task": "Export a function `getUnique(arr)` that returns an array of unique values using `new Set(arr)`.",
-    "solutionStub": "// Challenge 146 - Set Data Structure\n//\n// INSTRUCTIONS:\n// Export a function `getUnique(arr)` returning unique elements array with Set.\n",
+    "solutionStub": "",
     "exportedName": "set_data_structure"
   },
   {
@@ -1614,7 +1614,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function createMap(pairs) {\n  return new Map(pairs);\n}",
     "example": "const m = new Map([[\"key\", \"value\"]]);\nm.get(\"key\"); // \"value\"",
     "task": "Export a function `createMap(pairs)` returning `new Map(pairs)`.",
-    "solutionStub": "// Challenge 147 - Map Data Structure\n//\n// INSTRUCTIONS:\n// Export a function `createMap(pairs)` returning new Map(pairs).\n",
+    "solutionStub": "",
     "exportedName": "map_data_structure"
   },
   {
@@ -1625,7 +1625,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function mapToObj(map) {\n  return Object.fromEntries(map);\n}",
     "example": "const m = new Map([[\"a\", 1]]);\nObject.fromEntries(m); // { a: 1 }",
     "task": "Export a function `mapToObj(map)` returning `Object.fromEntries(map)`.",
-    "solutionStub": "// Challenge 148 - Map to Plain Object\n//\n// INSTRUCTIONS:\n// Export a function `mapToObj(map)` returning Object.fromEntries(map).\n",
+    "solutionStub": "",
     "exportedName": "map_to_object"
   },
   {
@@ -1636,7 +1636,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function objToMap(obj) {\n  return new Map(Object.entries(obj));\n}",
     "example": "new Map(Object.entries({ a: 1 }));",
     "task": "Export a function `objToMap(obj)` returning `new Map(Object.entries(obj))`.",
-    "solutionStub": "// Challenge 149 - Plain Object to Map\n//\n// INSTRUCTIONS:\n// Export a function `objToMap(obj)` returning new Map(Object.entries(obj)).\n",
+    "solutionStub": "",
     "exportedName": "object_to_map"
   },
   {
@@ -1647,7 +1647,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function bitwiseAnd(a, b) {\n  return a & b;\n}",
     "example": "5 & 1; // 1",
     "task": "Export a function `bitwiseAnd(a, b)` returning `a & b`.",
-    "solutionStub": "// Challenge 150 - Bitwise AND Operator (&)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseAnd(a, b)` returning a & b.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_and"
   },
   {
@@ -1658,7 +1658,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function bitwiseOr(a, b) {\n  return a | b;\n}",
     "example": "5 | 2; // 7",
     "task": "Export a function `bitwiseOr(a, b)` returning `a | b`.",
-    "solutionStub": "// Challenge 151 - Bitwise OR Operator (|)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseOr(a, b)` returning a | b.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_or"
   },
   {
@@ -1669,7 +1669,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function bitwiseXor(a, b) {\n  return a ^ b;\n}",
     "example": "5 ^ 1; // 4",
     "task": "Export a function `bitwiseXor(a, b)` returning `a ^ b`.",
-    "solutionStub": "// Challenge 152 - Bitwise XOR Operator (^)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseXor(a, b)` returning a ^ b.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_xor"
   },
   {
@@ -1680,7 +1680,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function bitwiseNot(a) {\n  return ~a;\n}",
     "example": "~5; // -6",
     "task": "Export a function `bitwiseNot(a)` returning `~a`.",
-    "solutionStub": "// Challenge 153 - Bitwise NOT Operator (~)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseNot(a)` returning ~a.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_not"
   },
   {
@@ -1691,7 +1691,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function leftShift(a, b) {\n  return a << b;\n}",
     "example": "5 << 1; // 10",
     "task": "Export a function `leftShift(a, b)` returning `a << b`.",
-    "solutionStub": "// Challenge 154 - Bitwise Left Shift (<<)\n//\n// INSTRUCTIONS:\n// Export a function `leftShift(a, b)` returning a << b.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_left_shift"
   },
   {
@@ -1702,7 +1702,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function rightShift(a, b) {\n  return a >> b;\n}",
     "example": "20 >> 2; // 5",
     "task": "Export a function `rightShift(a, b)` returning `a >> b`.",
-    "solutionStub": "// Challenge 155 - Bitwise Right Shift (>>)\n//\n// INSTRUCTIONS:\n// Export a function `rightShift(a, b)` returning a >> b.\n",
+    "solutionStub": "",
     "exportedName": "bitwise_right_shift"
   },
   {
@@ -1713,7 +1713,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function applyCallback(fn, value) {\n  return fn(value);\n}",
     "example": "applyCallback(x => x * 2, 5); // 10",
     "task": "Export a function `applyCallback(fn, value)` that executes `fn(value)` and returns the result.",
-    "solutionStub": "// Challenge 156 - Passing Functions as Values (Callbacks)\n//\n// INSTRUCTIONS:\n// Export a function `applyCallback(fn, value)` returning fn(value).\n",
+    "solutionStub": "",
     "exportedName": "callback_apply"
   },
   {
@@ -1724,7 +1724,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const addNumbers = (a, b) => a + b;",
     "example": "const multiply = (x, y) => x * y;",
     "task": "Export an arrow function `addNumbers = (a, b) => a + b`.",
-    "solutionStub": "// Challenge 157 - Arrow Functions\n//\n// INSTRUCTIONS:\n// Export an arrow function `addNumbers = (a, b) => a + b`.\n",
+    "solutionStub": "",
     "exportedName": "arrow_function"
   },
   {
@@ -1735,7 +1735,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function greetUser(name = \"Guest\") {\n  return `Hello, ${name}!`;\n}",
     "example": "function discount(price, rate = 0.1) { return price * (1 - rate); }",
     "task": "Export a function `greetUser(name = \"Guest\")` that returns `` `Hello, ${name}!` ``.",
-    "solutionStub": "// Challenge 158 - Default Function Parameters\n//\n// INSTRUCTIONS:\n// Export a function `greetUser(name = \"Guest\")`.\n",
+    "solutionStub": "",
     "exportedName": "default_parameters"
   },
   {
@@ -1746,7 +1746,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sumAll(...numbers) {\n  return numbers.reduce((acc, n) => acc + n, 0);\n}",
     "example": "function list(...items) { return items.length; }",
     "task": "Export a function `sumAll(...numbers)` that sums all passed arguments.",
-    "solutionStub": "// Challenge 159 - Rest Parameters (...args)\n//\n// INSTRUCTIONS:\n// Export a function `sumAll(...numbers)` returning total sum of arguments.\n",
+    "solutionStub": "",
     "exportedName": "rest_parameters"
   },
   {
@@ -1757,7 +1757,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function createCounter() {\n  let count = 0;\n  return function() {\n    count += 1;\n    return count;\n  };\n}",
     "example": "const counter = createCounter();\ncounter(); // 1",
     "task": "Export a function `createCounter()` that initializes `let count = 0` and returns a function that increments and returns `count`.",
-    "solutionStub": "// Challenge 160 - Closures (Private State)\n//\n// INSTRUCTIONS:\n// Export a function `createCounter()` returning a counter closure.\n",
+    "solutionStub": "",
     "exportedName": "function_closure"
   },
   {
@@ -1768,7 +1768,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function curryAdd(a) {\n  return function(b) {\n    return a + b;\n  };\n}",
     "example": "const add5 = curryAdd(5);\nadd5(10); // 15",
     "task": "Export a curried function `curryAdd(a)` returning `b => a + b`.",
-    "solutionStub": "// Challenge 161 - Currying Functions\n//\n// INSTRUCTIONS:\n// Export a function `curryAdd(a)` returning function(b) returning a + b.\n",
+    "solutionStub": "",
     "exportedName": "currying"
   },
   {
@@ -1779,7 +1779,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function memoize(fn) {\n  const cache = new Map();\n  return function(arg) {\n    if (cache.has(arg)) return cache.get(arg);\n    const result = fn(arg);\n    cache.set(arg, result);\n    return result;\n  };\n}",
     "example": "const memoized = memoize(x => x * 2);",
     "task": "Export a function `memoize(fn)` that caches results of single-argument function `fn` using a `Map`.",
-    "solutionStub": "// Challenge 162 - Memoization Pattern\n//\n// INSTRUCTIONS:\n// Export a function `memoize(fn)` caching results with Map.\n",
+    "solutionStub": "",
     "exportedName": "memoization"
   },
   {
@@ -1790,7 +1790,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function pipe(f, g) {\n  return function(x) {\n    return g(f(x));\n  };\n}",
     "example": "const doubleThenAddOne = pipe(x => x * 2, x => x + 1);",
     "task": "Export a function `pipe(f, g)` returning a function `x => g(f(x))`.",
-    "solutionStub": "// Challenge 163 - Function Composition (pipe)\n//\n// INSTRUCTIONS:\n// Export a function `pipe(f, g)` returning x => g(f(x)).\n",
+    "solutionStub": "",
     "exportedName": "function_composition"
   },
   {
@@ -1801,7 +1801,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export class Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n}",
     "example": "const p = new Person(\"Alice\", 25);",
     "task": "Export a class named `Person` with a `constructor(name, age)` assigning `this.name` and `this.age`.",
-    "solutionStub": "// Challenge 164 - Class Declarations\n//\n// INSTRUCTIONS:\n// Export a class `Person` with constructor(name, age).\n",
+    "solutionStub": "",
     "exportedName": "class_declaration"
   },
   {
@@ -1812,7 +1812,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export class Greeter {\n  constructor(name) {\n    this.name = name;\n  }\n  greet() {\n    return `Hello, ${this.name}!`;\n  }\n}",
     "example": "const g = new Greeter(\"Bob\");\ng.greet(); // \"Hello, Bob!\"",
     "task": "Export a class `Greeter` with `constructor(name)` and a method `greet()` returning `` `Hello, ${this.name}!` ``.",
-    "solutionStub": "// Challenge 165 - Class Instance Methods\n//\n// INSTRUCTIONS:\n// Export a class `Greeter` with greet() method.\n",
+    "solutionStub": "",
     "exportedName": "class_methods"
   },
   {
@@ -1823,7 +1823,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export class Circle {\n  constructor(radius) { this.radius = radius; }\n  get diameter() { return this.radius * 2; }\n  set diameter(d) { this.radius = d / 2; }\n}",
     "example": "const c = new Circle(5); c.diameter; // 10",
     "task": "Export a class `Circle` with `constructor(radius)`, getter `get diameter()`, and setter `set diameter(d)`.",
-    "solutionStub": "// Challenge 166 - Getters and Setters\n//\n// INSTRUCTIONS:\n// Export a class `Circle` with getter and setter for diameter.\n",
+    "solutionStub": "",
     "exportedName": "class_getters_setters"
   },
   {
@@ -1834,7 +1834,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export class Dog extends Animal {\n  speak() { return `${this.name} barks.`; }\n}",
     "example": "class Dog extends Animal { speak() { return \"Bark\"; } }",
     "task": "Export `Animal` (with `constructor(name)`) and `Dog` extending `Animal` with `constructor(name, breed)` using `super(name)`.",
-    "solutionStub": "// Challenge 167 - Class Inheritance (extends & super)\n//\n// INSTRUCTIONS:\n// Export class `Animal` and class `Dog extends Animal`.\n",
+    "solutionStub": "",
     "exportedName": "class_inheritance"
   },
   {
@@ -1845,7 +1845,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export class MathHelper {\n  static add(a, b) {\n    return a + b;\n  }\n}",
     "example": "MathHelper.add(2, 3); // 5",
     "task": "Export a class `MathHelper` with a static method `static add(a, b)` returning `a + b`.",
-    "solutionStub": "// Challenge 168 - Static Methods\n//\n// INSTRUCTIONS:\n// Export class `MathHelper` with static add(a, b).\n",
+    "solutionStub": "",
     "exportedName": "class_static_methods"
   },
   {
@@ -1856,7 +1856,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function safeJsonParse(str, fallbackVal) {\n  try {\n    return JSON.parse(str);\n  } catch {\n    return fallbackVal;\n  }\n}",
     "example": "safeJsonParse(\"invalid\", {}); // {}",
     "task": "Export a function `safeJsonParse(str, fallbackVal)` that parses JSON inside `try..catch` and returns `fallbackVal` on parse error.",
-    "solutionStub": "// Challenge 169 - Error Handling with try..catch\n//\n// INSTRUCTIONS:\n// Export a function `safeJsonParse(str, fallbackVal)` using try..catch.\n",
+    "solutionStub": "",
     "exportedName": "try_catch"
   },
   {
@@ -1867,7 +1867,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function requirePositive(n) {\n  if (n <= 0) {\n    throw new Error(\"Number must be positive\");\n  }\n  return n;\n}",
     "example": "if (!val) throw new Error(\"Value missing\");",
     "task": "Export a function `requirePositive(n)` that throws `new Error(\"Number must be positive\")` if `n <= 0`, else returns `n`.",
-    "solutionStub": "// Challenge 170 - Throwing Errors\n//\n// INSTRUCTIONS:\n// Export a function `requirePositive(n)` throwing Error if n <= 0.\n",
+    "solutionStub": "",
     "exportedName": "throw_error"
   },
   {
@@ -1878,7 +1878,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getAsyncValue(val) {\n  return Promise.resolve(val);\n}",
     "example": "getAsyncValue(42).then(v => console.log(v));",
     "task": "Export a function `getAsyncValue(val)` that returns `Promise.resolve(val)`.",
-    "solutionStub": "// Challenge 171 - Promises (Promise.resolve)\n//\n// INSTRUCTIONS:\n// Export a function `getAsyncValue(val)` returning Promise.resolve(val).\n",
+    "solutionStub": "",
     "exportedName": "promise_resolve"
   },
   {
@@ -1889,7 +1889,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sleep(ms) {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}",
     "example": "await sleep(100); // waits 100ms",
     "task": "Export a function `sleep(ms)` returning a Promise that resolves after `ms` milliseconds using `setTimeout`.",
-    "solutionStub": "// Challenge 172 - Asynchronous Sleep (setTimeout Promise)\n//\n// INSTRUCTIONS:\n// Export a function `sleep(ms)` returning Promise resolved after ms.\n",
+    "solutionStub": "",
     "exportedName": "async_sleep"
   },
   {
@@ -1900,7 +1900,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export async function addAsync(a, b) {\n  const x = await Promise.resolve(a);\n  const y = await Promise.resolve(b);\n  return x + y;\n}",
     "example": "async function compute() { const data = await fetchData(); return data; }",
     "task": "Export an `async function addAsync(a, b)` that awaits both values from `Promise.resolve` and returns their sum.",
-    "solutionStub": "// Challenge 173 - Async / Await Syntax\n//\n// INSTRUCTIONS:\n// Export an async function `addAsync(a, b)` returning sum using await.\n",
+    "solutionStub": "",
     "exportedName": "async_await"
   },
   {
@@ -1911,7 +1911,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function fetchAll(promises) {\n  return Promise.all(promises);\n}",
     "example": "Promise.all([Promise.resolve(1), Promise.resolve(2)]); // [1, 2]",
     "task": "Export a function `fetchAll(promises)` returning `Promise.all(promises)`.",
-    "solutionStub": "// Challenge 174 - Concurrency with Promise.all\n//\n// INSTRUCTIONS:\n// Export a function `fetchAll(promises)` returning Promise.all(promises).\n",
+    "solutionStub": "",
     "exportedName": "promise_all"
   },
   {
@@ -1922,7 +1922,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getFastest(promises) {\n  return Promise.race(promises);\n}",
     "example": "Promise.race([slowPromise, fastPromise]);",
     "task": "Export a function `getFastest(promises)` returning `Promise.race(promises)`.",
-    "solutionStub": "// Challenge 175 - First Settled with Promise.race\n//\n// INSTRUCTIONS:\n// Export a function `getFastest(promises)` returning Promise.race(promises).\n",
+    "solutionStub": "",
     "exportedName": "promise_race"
   },
   {
@@ -1933,7 +1933,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function checkAllOutcomes(promises) {\n  return Promise.allSettled(promises);\n}",
     "example": "Promise.allSettled([Promise.resolve(1), Promise.reject(\"err\")]);",
     "task": "Export a function `checkAllOutcomes(promises)` returning `Promise.allSettled(promises)`.",
-    "solutionStub": "// Challenge 176 - Complete Outcomes with Promise.allSettled\n//\n// INSTRUCTIONS:\n// Export a function `checkAllOutcomes(promises)` returning Promise.allSettled(promises).\n",
+    "solutionStub": "",
     "exportedName": "promise_all_settled"
   },
   {
@@ -1944,7 +1944,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function createEmitter() {\n  const map = {};\n  return { on(e, fn) {}, emit(e, ...args) {} };\n}",
     "example": "const emitter = createEmitter(); emitter.on(\"go\", fn);",
     "task": "Export a function `createEmitter()` returning `{ on(name, fn), emit(name, data) }`.",
-    "solutionStub": "// Challenge 177 - Event Emitter Pattern (Pub/Sub)\n//\n// INSTRUCTIONS:\n// Export a function `createEmitter()` returning { on, emit }.\n",
+    "solutionStub": "",
     "exportedName": "event_emitter"
   },
   {
@@ -1955,7 +1955,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export async function* rangeAsync(start, end) {\n  for (let i = start; i <= end; i++) {\n    yield await Promise.resolve(i);\n  }\n}",
     "example": "const gen = rangeAsync(1, 3);",
     "task": "Export an `async function* rangeAsync(start, end)` yielding integers from `start` to `end`.",
-    "solutionStub": "// Challenge 178 - Async Generators (async function*)\n//\n// INSTRUCTIONS:\n// Export an `async function* rangeAsync(start, end)`.\n",
+    "solutionStub": "",
     "exportedName": "async_generator"
   },
   {
@@ -1966,7 +1966,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export async function collectAsync(asyncIterable) {\n  const results = [];\n  for await (const item of asyncIterable) {\n    results.push(item);\n  }\n  return results;\n}",
     "example": "const all = await collectAsync(asyncGen());",
     "task": "Export an `async function collectAsync(asyncIterable)` collecting all yielded items into an array.",
-    "solutionStub": "// Challenge 179 - Async Iteration (for await..of)\n//\n// INSTRUCTIONS:\n// Export an async function `collectAsync(asyncIterable)`.\n",
+    "solutionStub": "",
     "exportedName": "for_await_of"
   },
   {
@@ -1977,7 +1977,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function dogYears(planet, seconds) {\n  const earthSeconds = 31557600;\n  const ratios = { earth: 1, mercury: 0.2408467 };\n  const earthYears = seconds / earthSeconds;\n  const planetYears = earthYears / ratios[planet];\n  return Number((planetYears * 7).toFixed(2));\n}",
     "example": "dogYears(\"earth\", 1000000000); // 221.82",
     "task": "Export a function `dogYears(planet, seconds)` supporting earth (`1`) and mercury (`0.2408467`) returning dog age rounded to 2 decimals.",
-    "solutionStub": "// Challenge 180 - Domain Modeling: Dog Years\n//\n// INSTRUCTIONS:\n// Export a function `dogYears(planet, seconds)`.\n",
+    "solutionStub": "",
     "exportedName": "dog_years"
   },
   {
@@ -1988,7 +1988,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function getAcceleration(obj) {\n  if (obj.f !== undefined && obj.m !== undefined) return obj.f / obj.m;\n  if (obj.Δv !== undefined && obj.Δt !== undefined) return obj.Δv / obj.Δt;\n  if (obj.d !== undefined && obj.t !== undefined) return (2 * obj.d) / (obj.t * obj.t);\n  return \"impossible\";\n}",
     "example": "getAcceleration({ f: 10, m: 2 }); // 5",
     "task": "Export `getAcceleration(obj)` returning the computed acceleration or `\"impossible\"`.",
-    "solutionStub": "// Challenge 181 - Domain Modeling: Physics Acceleration\n//\n// INSTRUCTIONS:\n// Export a function `getAcceleration(obj)` calculating acceleration from available physics properties.\n",
+    "solutionStub": "",
     "exportedName": "physics_acceleration"
   },
   {
@@ -1999,7 +1999,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function superTypeOf(val) {\n  if (val === null) return \"null\";\n  if (val === undefined) return \"undefined\";\n  return Object.prototype.toString.call(val).slice(8, -1).toLowerCase();\n}",
     "example": "superTypeOf([]); // \"array\"\nsuperTypeOf(new Map()); // \"map\"",
     "task": "Export a function `superTypeOf(val)` that returns lowercase type names (`\"number\"`, `\"string\"`, `\"array\"`, `\"null\"`, `\"undefined\"`, `\"map\"`, `\"set\"`).",
-    "solutionStub": "// Challenge 182 - Reflection: superTypeOf\n//\n// INSTRUCTIONS:\n// Export a function `superTypeOf(val)`.\n",
+    "solutionStub": "",
     "exportedName": "super_type_of"
   },
   {
@@ -2010,7 +2010,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function hashCode(str) {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    hash = (hash * 31 + str.charCodeAt(i)) | 0;\n  }\n  return hash;\n}",
     "example": "hashCode(\"hello\"); // 99162322",
     "task": "Export a function `hashCode(str)` that computes 32-bit polynomial hash for `str`.",
-    "solutionStub": "// Challenge 183 - Algorithms: 32-Bit Polynomial Hash\n//\n// INSTRUCTIONS:\n// Export a function `hashCode(str)` calculating 32-bit integer hash code.\n",
+    "solutionStub": "",
     "exportedName": "hash_code"
   },
   {
@@ -2021,7 +2021,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function blockChain(data, prev = { index: 0, hash: \"0\" }) {\n  // return node with index, data, prev, hash, chain(nextData)\n}",
     "example": "const b = blockChain({ v: 1 }); const next = b.chain({ v: 2 });",
     "task": "Export a function `blockChain(data, prev = { index: 0, hash: \"0\" })` returning node `{ index, data, prev, hash, chain }`.",
-    "solutionStub": "// Challenge 184 - Closures: Chained Blockchain Node\n//\n// INSTRUCTIONS:\n// Export a function `blockChain(data, prev = { index: 0, hash: \"0\" })`.\n",
+    "solutionStub": "",
     "exportedName": "block_chain"
   },
   {
@@ -2032,7 +2032,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function chunk(arr, size) {\n  const chunks = [];\n  for (let i = 0; i < arr.length; i += size) {\n    chunks.push(arr.slice(i, i + size));\n  }\n  return chunks;\n}",
     "example": "chunk([1, 2, 3, 4, 5], 2); // [[1, 2], [3, 4], [5]]",
     "task": "Export a function `chunk(arr, size)` that splits `arr` into chunks of length `size`.",
-    "solutionStub": "// Challenge 185 - Project Utility: Array Chunking\n//\n// INSTRUCTIONS:\n// Export a function `chunk(arr, size)` splitting array into chunks of length size.\n",
+    "solutionStub": "",
     "exportedName": "chunk_array"
   },
   {
@@ -2043,7 +2043,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function groupBy(arr, fn) {\n  return arr.reduce((acc, item) => {\n    const key = fn(item);\n    (acc[key] = acc[key] || []).push(item);\n    return acc;\n  }, {});\n}",
     "example": "groupBy([\"one\", \"two\", \"three\"], s => s.length); // { 3: [\"one\", \"two\"], 5: [\"three\"] }",
     "task": "Export a function `groupBy(arr, fn)` that groups array items into an object by keys from `fn(item)`.",
-    "solutionStub": "// Challenge 186 - Project Utility: Group By\n//\n// INSTRUCTIONS:\n// Export a function `groupBy(arr, fn)` grouping items by fn(item) return value.\n",
+    "solutionStub": "",
     "exportedName": "group_by"
   },
   {
@@ -2054,7 +2054,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function deepClone(obj) {\n  if (obj === null || typeof obj !== 'object') return obj;\n  if (Array.isArray(obj)) return obj.map(deepClone);\n  const copy = {};\n  for (const k of Object.keys(obj)) copy[k] = deepClone(obj[k]);\n  return copy;\n}",
     "example": "const clone = deepClone({ a: { b: 1 } });",
     "task": "Export a function `deepClone(obj)` that recursively clones nested objects and arrays.",
-    "solutionStub": "// Challenge 187 - Project Utility: Deep Clone\n//\n// INSTRUCTIONS:\n// Export a function `deepClone(obj)` recursively copying nested objects and arrays.\n",
+    "solutionStub": "",
     "exportedName": "deep_clone"
   },
   {
@@ -2065,7 +2065,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function parseQuery(queryStr) {\n  const clean = queryStr.startsWith('?') ? queryStr.slice(1) : queryStr;\n  if (!clean) return {};\n  return Object.fromEntries(clean.split('&').map(p => p.split('=').map(decodeURIComponent)));\n}",
     "example": "parseQuery(\"?name=Alice&age=25\"); // { name: \"Alice\", age: \"25\" }",
     "task": "Export a function `parseQuery(queryStr)` that returns a key-value object from a URL query string.",
-    "solutionStub": "// Challenge 188 - Project Utility: URL Query String Parser\n//\n// INSTRUCTIONS:\n// Export a function `parseQuery(queryStr)` converting query string into an object.\n",
+    "solutionStub": "",
     "exportedName": "query_string_parse"
   },
   {
@@ -2076,7 +2076,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function stringifyQuery(obj) {\n  const entries = Object.entries(obj);\n  if (entries.length === 0) return '';\n  return '?' + entries.map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');\n}",
     "example": "stringifyQuery({ q: \"cat\", page: 1 }); // \"?q=cat&page=1\"",
     "task": "Export a function `stringifyQuery(obj)` returning a URL query string starting with `?` (or `\"\"` if empty).",
-    "solutionStub": "// Challenge 189 - Project Utility: URL Query String Serializer\n//\n// INSTRUCTIONS:\n// Export a function `stringifyQuery(obj)` converting an object into a query string.\n",
+    "solutionStub": "",
     "exportedName": "query_string_stringify"
   },
   {
@@ -2087,7 +2087,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function debounce(fn, delay) {\n  let timer = null;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}",
     "example": "const debounced = debounce(() => console.log(\"searched\"), 300);",
     "task": "Export a function `debounce(fn, delay)` returning a debounced function wrapper.",
-    "solutionStub": "// Challenge 190 - Project Utility: Debounce Pattern\n//\n// INSTRUCTIONS:\n// Export a function `debounce(fn, delay)` returning a debounced wrapper.\n",
+    "solutionStub": "",
     "exportedName": "debounce_function"
   },
   {
@@ -2098,7 +2098,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function throttle(fn, interval) {\n  let last = 0;\n  return (...args) => { if (Date.now() - last >= interval) { last = Date.now(); fn(...args); } };\n}",
     "example": "const throttled = throttle(() => console.log(\"scroll\"), 200);",
     "task": "Export a function `throttle(fn, interval)` returning a throttled function wrapper.",
-    "solutionStub": "// Challenge 191 - Project Utility: Throttle Pattern\n//\n// INSTRUCTIONS:\n// Export a function `throttle(fn, interval)` returning a throttled wrapper.\n",
+    "solutionStub": "",
     "exportedName": "throttle_function"
   },
   {
@@ -2109,7 +2109,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export async function retryAsync(fn, maxRetries, delay = 0) {\n  let lastErr;\n  for (let i = 0; i <= maxRetries; i++) {\n    try { return await fn(); }\n    catch (err) { lastErr = err; if (delay > 0) await new Promise(r => setTimeout(r, delay)); }\n  }\n  throw lastErr;\n}",
     "example": "await retryAsync(() => fetchData(), 3, 100);",
     "task": "Export an async function `retryAsync(fn, maxRetries, delay = 0)` that retries until success or max retries.",
-    "solutionStub": "// Challenge 192 - Project Utility: Async Retry Wrapper\n//\n// INSTRUCTIONS:\n// Export an async function `retryAsync(fn, maxRetries, delay = 0)`.\n",
+    "solutionStub": "",
     "exportedName": "async_retry"
   },
   {
@@ -2120,7 +2120,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function validate(data, schema) {\n  const errors = [];\n  for (const [key, validator] of Object.entries(schema)) {\n    if (!validator(data[key])) errors.push(`Invalid field: ${key}`);\n  }\n  return { isValid: errors.length === 0, errors };\n}",
     "example": "validate({ age: 20 }, { age: n => n >= 18 });",
     "task": "Export a function `validate(data, schema)` returning `{ isValid, errors }`.",
-    "solutionStub": "// Challenge 193 - Project Utility: Schema Validator\n//\n// INSTRUCTIONS:\n// Export a function `validate(data, schema)` returning { isValid, errors }.\n",
+    "solutionStub": "",
     "exportedName": "data_validator"
   },
   {
@@ -2131,7 +2131,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function tag(name, attrs = {}, content = \"\") {\n  const attrStr = Object.entries(attrs).map(([k, v]) => ` ${k}=\"${v}\"`).join(\"\");\n  return `<${name}${attrStr}>${content}</${name}>`;\n}",
     "example": "tag(\"button\", { id: \"btn\", class: \"primary\" }, \"Click\"); // '<button id=\"btn\" class=\"primary\">Click</button>'",
     "task": "Export a function `tag(name, attrs = {}, content = \"\")` that returns an HTML tag string.",
-    "solutionStub": "// Challenge 194 - Project Utility: HTML Element Generator\n//\n// INSTRUCTIONS:\n// Export a function `tag(name, attrs = {}, content = \"\")` returning an HTML tag string.\n",
+    "solutionStub": "",
     "exportedName": "html_builder"
   },
   {
@@ -2142,7 +2142,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const biggie = Infinity;\nexport const smalls = -Infinity;",
     "example": "biggie > Number.MAX_VALUE; // true\nsmalls < -Number.MAX_VALUE; // true",
     "task": "Export constants `biggie = Infinity` and `smalls = -Infinity`.",
-    "solutionStub": "// Challenge 195 - Numeric Boundaries: Biggie Smalls\n//\n// INSTRUCTIONS:\n// Export constants `biggie = Infinity` and `smalls = -Infinity`.\n",
+    "solutionStub": "",
     "exportedName": "biggie_smalls"
   },
   {
@@ -2153,7 +2153,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sign(n) {\n  return n > 0 ? 1 : n < 0 ? -1 : 0;\n}",
     "example": "sign(10); // 1\nsign(-5); // -1\nsign(0); // 0",
     "task": "Export a function `sign(n)` that returns `1` for positive, `-1` for negative, and `0` for zero.",
-    "solutionStub": "// Challenge 196 - Signum Evaluation: sign\n//\n// INSTRUCTIONS:\n// Export a function `sign(n)` returning 1, -1, or 0.\n",
+    "solutionStub": "",
     "exportedName": "sign"
   },
   {
@@ -2164,7 +2164,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sameSign(a, b) {\n  const sign = n => n > 0 ? 1 : n < 0 ? -1 : 0;\n  return sign(a) === sign(b);\n}",
     "example": "sameSign(5, 10); // true\nsameSign(-3, 4); // false",
     "task": "Export a function `sameSign(a, b)` returning `true` if `a` and `b` share the same sign, else `false`.",
-    "solutionStub": "// Challenge 197 - Sign Parity: sameSign\n//\n// INSTRUCTIONS:\n// Export a function `sameSign(a, b)` returning true if signs match.\n",
+    "solutionStub": "",
     "exportedName": "same_sign"
   },
   {
@@ -2175,7 +2175,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function kiss(arg) {\n  return [arg[arg.length - 1], arg[0]];\n}",
     "example": "kiss([1, 2, 3]); // [3, 1]\nkiss(\"hello\"); // [\"o\", \"h\"]",
     "task": "Export a function `kiss(arg)` returning `[lastElement, firstElement]`.",
-    "solutionStub": "// Challenge 198 - Index Swapping: kiss\n//\n// INSTRUCTIONS:\n// Export a function `kiss(arg)` returning [last, first].\n",
+    "solutionStub": "",
     "exportedName": "kiss"
   },
   {
@@ -2186,7 +2186,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function keepFirstLast(str) {\n  if (str.length <= 4) return str;\n  return str.slice(0, 2) + str.slice(-2);\n}",
     "example": "keepFirstLast(\"abcdef\"); // \"abef\"\nkeepFirstLast(\"cat\"); // \"cat\"",
     "task": "Export a function `keepFirstLast(str)` returning the first 2 and last 2 characters or `str` if length <= 4.",
-    "solutionStub": "// Challenge 199 - Boundary Slicing: keepFirstLast\n//\n// INSTRUCTIONS:\n// Export a function `keepFirstLast(str)` combining first 2 and last 2 chars.\n",
+    "solutionStub": "",
     "exportedName": "keep_first_last"
   },
   {
@@ -2197,7 +2197,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function divide(a, b) {\n  if (b === 0) return a === 0 ? NaN : (a < 0 ? -Infinity : Infinity);\n  let x = Math.abs(a), y = Math.abs(b), q = 0;\n  while (x >= y) { x -= y; q++; }\n  return (a < 0) ^ (b < 0) ? -q : q;\n}",
     "example": "divide(10, 2); // 5",
     "task": "Export a function `divide(a, b)` computing integer quotient without using `/`.",
-    "solutionStub": "// Challenge 200 - Arithmetic Algorithm: Repeated Subtraction Division\n//\n// INSTRUCTIONS:\n// Export a function `divide(a, b)` computing quotient without using /.\n",
+    "solutionStub": "",
     "exportedName": "elementary_divide"
   },
   {
@@ -2208,7 +2208,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function modulo(a, b) {\n  if (b === 0) return NaN;\n  let x = Math.abs(a), y = Math.abs(b);\n  while (x >= y) x -= y;\n  return a < 0 ? -x : x;\n}",
     "example": "modulo(10, 3); // 1",
     "task": "Export a function `modulo(a, b)` computing remainder without using `%`.",
-    "solutionStub": "// Challenge 201 - Arithmetic Algorithm: Repeated Subtraction Modulo\n//\n// INSTRUCTIONS:\n// Export a function `modulo(a, b)` computing remainder without using %.\n",
+    "solutionStub": "",
     "exportedName": "elementary_modulo"
   },
   {
@@ -2219,7 +2219,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function nasa(n) {\n  return Array.from({ length: n }, (_, i) => {\n    const v = i + 1;\n    return v % 15 === 0 ? 'NASA' : v % 3 === 0 ? 'NA' : v % 5 === 0 ? 'SA' : v;\n  }).join(' ');\n}",
     "example": "nasa(5); // \"1 2 NA 4 SA\"",
     "task": "Export a function `nasa(n)` returning space-separated formatted numbers up to `n`.",
-    "solutionStub": "// Challenge 202 - Number Formatting: nasa\n//\n// INSTRUCTIONS:\n// Export a function `nasa(n)` returning space-separated string up to n.\n",
+    "solutionStub": "",
     "exportedName": "nasa"
   },
   {
@@ -2230,7 +2230,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function triangle(str, height) {\n  const lines = [];\n  for (let r = 1; r <= height; r++) lines.push(str.repeat(r));\n  return lines.join('\\n');\n}",
     "example": "triangle(\"*\", 3); // \"*\\n**\\n***\"",
     "task": "Export a function `triangle(str, height)` returning newline-separated triangle pattern.",
-    "solutionStub": "// Challenge 203 - Nested Loops: Triangle Pattern\n//\n// INSTRUCTIONS:\n// Export a function `triangle(str, height)` returning triangle pattern string.\n",
+    "solutionStub": "",
     "exportedName": "triangle"
   },
   {
@@ -2241,7 +2241,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function pyramid(str, height) {\n  const lines = [];\n  for (let r = 1; r <= height; r++) {\n    const pad = ' '.repeat((height - r) * str.length);\n    lines.push(pad + str.repeat(2 * r - 1));\n  }\n  return lines.join('\\n');\n}",
     "example": "pyramid(\"*\", 2); // \" *\\n***\"",
     "task": "Export a function `pyramid(str, height)` returning a centered pyramid pattern string.",
-    "solutionStub": "// Challenge 204 - Layout Algorithms: Pyramid Pattern\n//\n// INSTRUCTIONS:\n// Export a function `pyramid(str, height)` returning centered pyramid string.\n",
+    "solutionStub": "",
     "exportedName": "pyramid"
   },
   {
@@ -2252,7 +2252,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function DNA(strand) {\n  const map = { C: 'G', G: 'C', A: 'T', U: 'A' };\n  return strand.split('').map(c => map[c] || c).join('');\n}",
     "example": "DNA(\"CGAU\"); // \"GCTA\"",
     "task": "Export a function `DNA(strand)` transcribing RNA characters into DNA (`C->G, G->C, A->T, U->A`).",
-    "solutionStub": "// Challenge 205 - Genetic Transcription: RNA to DNA\n//\n// INSTRUCTIONS:\n// Export a function `DNA(strand)` transcribing RNA to DNA.\n",
+    "solutionStub": "",
     "exportedName": "molecules_dna"
   },
   {
@@ -2263,7 +2263,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function RNA(strand) {\n  const map = { G: 'C', C: 'G', T: 'A', A: 'U' };\n  return strand.split('').map(c => map[c] || c).join('');\n}",
     "example": "RNA(\"GCTA\"); // \"CGAU\"",
     "task": "Export a function `RNA(strand)` transcribing DNA characters into RNA (`G->C, C->G, T->A, A->U`).",
-    "solutionStub": "// Challenge 206 - Genetic Transcription: DNA to RNA\n//\n// INSTRUCTIONS:\n// Export a function `RNA(strand)` transcribing DNA to RNA.\n",
+    "solutionStub": "",
     "exportedName": "molecules_rna"
   },
   {
@@ -2274,7 +2274,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function reverse(data) {\n  const isStr = typeof data === 'string';\n  let res = isStr ? '' : [];\n  for (let i = data.length - 1; i >= 0; i--) isStr ? (res += data[i]) : res.push(data[i]);\n  return res;\n}",
     "example": "reverse(\"abc\"); // \"cba\"\nreverse([1, 2]); // [2, 1]",
     "task": "Export a function `reverse(data)` returning reversed string or array without `.reverse()`.",
-    "solutionStub": "// Challenge 207 - Manual Reversal: reverse\n//\n// INSTRUCTIONS:\n// Export a function `reverse(data)` reversing strings or arrays manually.\n",
+    "solutionStub": "",
     "exportedName": "reverser_manual"
   },
   {
@@ -2285,7 +2285,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function slice(data, start = 0, end = data.length) {\n  let s = start < 0 ? Math.max(0, data.length + start) : Math.min(start, data.length);\n  let e = end < 0 ? Math.max(0, data.length + end) : Math.min(end, data.length);\n  let res = typeof data === 'string' ? '' : [];\n  for (let i = s; i < e; i++) typeof data === 'string' ? (res += data[i]) : res.push(data[i]);\n  return res;\n}",
     "example": "slice(\"abcdef\", 1, 4); // \"bcd\"",
     "task": "Export a function `slice(data, start = 0, end = data.length)` slicing strings or arrays without `.slice()`.",
-    "solutionStub": "// Challenge 208 - Index Normalization: Manual slice\n//\n// INSTRUCTIONS:\n// Export a function `slice(data, start = 0, end = data.length)`.\n",
+    "solutionStub": "",
     "exportedName": "slicer_manual"
   },
   {
@@ -2296,7 +2296,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function split(str, sep = undefined) {\n  if (sep === undefined) return [str];\n  if (sep === '') return Array.from(str);\n  const res = []; let s = 0, idx;\n  while ((idx = str.indexOf(sep, s)) !== -1) { res.push(str.slice(s, idx)); s = idx + sep.length; }\n  res.push(str.slice(s));\n  return res;\n}",
     "example": "split(\"a,b,c\", \",\"); // [\"a\", \"b\", \"c\"]",
     "task": "Export a function `split(str, sep)` splitting `str` into array without built-in `.split()`.",
-    "solutionStub": "// Challenge 209 - Parsing Algorithms: Manual split\n//\n// INSTRUCTIONS:\n// Export a function `split(str, sep)` splitting string into array without .split().\n",
+    "solutionStub": "",
     "exportedName": "unbreakable_split"
   },
   {
@@ -2307,7 +2307,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function join(arr, sep = ',') {\n  let res = '';\n  for (let i = 0; i < arr.length; i++) {\n    if (i > 0) res += String(sep);\n    if (arr[i] !== null && arr[i] !== undefined) res += String(arr[i]);\n  }\n  return res;\n}",
     "example": "join([\"a\", \"b\", \"c\"], \"-\"); // \"a-b-c\"",
     "task": "Export a function `join(arr, sep = ',')` joining array items into a string without built-in `.join()`.",
-    "solutionStub": "// Challenge 210 - Formatting Algorithms: Manual join\n//\n// INSTRUCTIONS:\n// Export a function `join(arr, sep = ',')` joining array into string without .join().\n",
+    "solutionStub": "",
     "exportedName": "unbreakable_join"
   },
   {
@@ -2318,7 +2318,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function findExpression(target) {\n  function search(curr, expr) {\n    if (curr === target) return expr;\n    if (curr > target) return undefined;\n    return search(curr + 4, expr + ' +4') || search(curr * 2, expr + ' *2');\n  }\n  return search(1, '1');\n}",
     "example": "findExpression(8); // \"1 *2 *2 *2\" or \"1 +4 ... (valid sequence)\"",
     "task": "Export a function `findExpression(target)` returning sequence string from 1 to target or `undefined`.",
-    "solutionStub": "// Challenge 211 - Backtracking Search: findExpression\n//\n// INSTRUCTIONS:\n// Export a function `findExpression(target)` returning expression string.\n",
+    "solutionStub": "",
     "exportedName": "find_expression"
   },
   {
@@ -2329,7 +2329,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function sums(n) {\n  const res = [];\n  const build = (rem, min, p) => {\n    if (rem === 0) return res.push([...p]);\n    for (let v = min; v <= rem; v++) { if (v === n) continue; p.push(v); build(rem - v, v, p); p.pop(); }\n  };\n  if (n > 1) build(n, 1, []);\n  return res;\n}",
     "example": "sums(4); // [[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2]]",
     "task": "Export a function `sums(n)` returning all sorted partitions summing to `n`.",
-    "solutionStub": "// Challenge 212 - Backtracking Algorithms: Integer Partitions (sums)\n//\n// INSTRUCTIONS:\n// Export a function `sums(n)` returning sorted partitions summing to n.\n",
+    "solutionStub": "",
     "exportedName": "sums_partition"
   },
   {
@@ -2340,7 +2340,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function trunc(n) {\n  if (n === 0 || Number.isNaN(n) || !Number.isFinite(n)) return n;\n  const isNeg = n < 0; let val = Math.abs(n), low = 0, high = 1;\n  while (high <= val) high *= 2;\n  while (high - low > 1) { const mid = (low + high) / 2; if (mid <= val) low = mid; else high = mid; }\n  return isNeg ? -low : low;\n}",
     "example": "trunc(4.8); // 4\ntrunc(-4.8); // -4",
     "task": "Export a function `trunc(n)` truncating decimal without using `Math.trunc`.",
-    "solutionStub": "// Challenge 213 - Numerical Approximation: Custom trunc\n//\n// INSTRUCTIONS:\n// Export a function `trunc(n)` truncating decimal without Math.trunc.\n",
+    "solutionStub": "",
     "exportedName": "cut_corners_trunc"
   },
   {
@@ -2351,7 +2351,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export function round(n) {\n  if (n === 0 || Number.isNaN(n) || !Number.isFinite(n)) return n;\n  const trunc = (x) => { const isNeg = x < 0; let v = Math.abs(x), l = 0, h = 1; while (h <= v) h *= 2; while (h - l > 1) { const m = (l + h) / 2; if (m <= v) l = m; else h = m; } return isNeg ? -l : l; };\n  const int = trunc(n); const diff = n - int;\n  if (diff >= 0.5) return int + 1;\n  if (diff < -0.5) return int - 1;\n  return int;\n}",
     "example": "round(4.6); // 5\nround(4.2); // 4",
     "task": "Export a function `round(n)` rounding numbers without using `Math.round`.",
-    "solutionStub": "// Challenge 214 - Numerical Approximation: Custom round\n//\n// INSTRUCTIONS:\n// Export a function `round(n)` rounding numbers without Math.round.\n",
+    "solutionStub": "",
     "exportedName": "cut_corners_round"
   },
   {
@@ -2362,7 +2362,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const is = {\n  num: n => typeof n === 'number', str: s => typeof s === 'string', bool: b => typeof b === 'boolean',\n  arr: a => Array.isArray(a), obj: o => typeof o === 'object' && o !== null && !Array.isArray(o),\n  fun: f => typeof f === 'function', truthy: t => Boolean(t), falsy: f => !f\n};",
     "example": "is.num(42); // true\nis.arr([1]); // true",
     "task": "Export an object `is` with type checking methods: `num, str, bool, arr, obj, fun, truthy, falsy`.",
-    "solutionStub": "// Challenge 215 - Type Guard Namespace: is\n//\n// INSTRUCTIONS:\n// Export an object `is` containing type checking helper functions.\n",
+    "solutionStub": "",
     "exportedName": "is_namespace"
   },
   {
@@ -2373,7 +2373,7 @@ export const CHALLENGE_BANK = [
     "syntax": "export const arrToStr = (arr) => arr.join('');\nexport const setToArr = (set) => Array.from(set);\nexport const strToArr = (str) => str.split('');\nexport const strToSet = (str) => new Set(str);",
     "example": "arrToStr(['a', 'b']); // \"ab\"\nstrToSet(\"aba\"); // Set {'a', 'b'}",
     "task": "Export conversion functions `arrToStr(arr)`, `setToArr(set)`, `strToArr(str)`, and `strToSet(str)`.",
-    "solutionStub": "// Challenge 216 - Cross-Collection Conversions\n//\n// INSTRUCTIONS:\n// Export conversion functions: arrToStr, setToArr, strToArr, strToSet.\n",
+    "solutionStub": "",
     "exportedName": "collections_conversions"
   }
 ];
