@@ -70,7 +70,7 @@ if (profilePillEl) {
 let selectedWagers = {
   royale: 100,
   duel: 250,
-  gauntlet: 50
+  gauntlet: 0
 };
 
 // Curriculum Tiers Definition
@@ -133,7 +133,7 @@ function renderLobbyView(state) {
     <div class="lobby-hero">
       <div class="hero-pill">⚡ PISCINE CODING ARENA • 216 ATOMIC CHALLENGES</div>
       <h1 class="hero-title">MASTER JAVASCRIPT. <span>LEVEL BY LEVEL.</span></h1>
-      <p class="hero-subtitle">Solve atomic challenges sequentially from beginner to master with lenient practice pacing, or wage coins in competitive sudden-death duels.</p>
+      <p class="hero-subtitle">Solve atomic challenges sequentially from beginner to master with accumulating coin bounties, or wager in competitive sudden-death duels.</p>
     </div>
 
     <!-- Navigation Tabs -->
@@ -174,9 +174,11 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
         <span class="gauntlet-level">🔥 SEQUENTIAL PROGRESSION • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
         <h2 class="gauntlet-title">${activeChallenge.title}</h2>
         <p class="gauntlet-desc">${activeChallenge.concept}</p>
-        <span style="font-size: 11px; color: var(--accent-emerald); font-weight: 700;">
-          ⏱️ Lenient Mode: Take all the time you need to write, format (✨), and test your solution!
-        </span>
+        <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 12px; font-weight: 700;">
+          <span style="color: var(--accent-gold);">💰 Level Bounty: +🪙 ${(100 + currentChallengeIdx * 5)}</span>
+          <span style="color: var(--accent-emerald);">⚡ Speed Bonus: +🪙 50</span>
+          ${user.currentStreak >= 2 ? `<span style="color: var(--accent-cyan);">🔥 Streak: ${user.currentStreak} in a row</span>` : ''}
+        </div>
       </div>
 
       <button class="btn-gauntlet-play" id="btn-start-gauntlet">
@@ -253,7 +255,7 @@ function attachModesListeners() {
 
   document.getElementById("btn-start-gauntlet").addEventListener("click", () => {
     sound.playClick();
-    arena.createMatch({ mode: "gauntlet", wager: 50 });
+    arena.createMatch({ mode: "gauntlet", wager: 0 });
   });
 
   document.getElementById("btn-start-royale").addEventListener("click", () => {
@@ -328,7 +330,7 @@ function attachCurriculumListeners() {
     node.addEventListener("click", () => {
       if (idx <= userProgress) {
         sound.playClick();
-        arena.createMatch({ mode: "custom", challengeIdx: idx, wager: 25 });
+        arena.createMatch({ mode: "custom", challengeIdx: idx, wager: 0 });
       } else {
         sound.playFail();
         alert(`🔒 Challenge #${idx + 1} is locked. Complete Challenge #${userProgress + 1} first to unlock!`);
@@ -360,7 +362,7 @@ function renderArenaView(match) {
       <!-- Top HUD -->
       <div class="arena-header">
         <div class="arena-pot">
-          <span>🏆 REWARD POOL:</span>
+          <span>🏆 REWARD BOUNTY:</span>
           <span class="pot-amount" id="hud-pot">🪙 ${match.pot.toLocaleString()}</span>
         </div>
 
@@ -449,7 +451,6 @@ function renderArenaView(match) {
     textarea.addEventListener("input", updateLineNumbers);
     updateLineNumbers();
 
-    // Prettier Formatting Trigger Function
     const handleFormat = async () => {
       const rawCode = textarea.value;
       const formatted = await formatJavaScriptCode(rawCode);
@@ -466,7 +467,6 @@ function renderArenaView(match) {
 
     btnFormat.addEventListener("click", handleFormat);
 
-    // Keyboard Shortcuts: Tab, Run (Cmd+Enter), Format (Shift+Alt+F / Shift+Option+F)
     textarea.addEventListener("keydown", (e) => {
       if (e.key === "Tab") {
         e.preventDefault();
@@ -523,7 +523,6 @@ function renderArenaView(match) {
     }, 50);
 
   } else {
-    // Fine-grained updates on tick
     const timerEl = document.getElementById("hud-timer");
     if (timerEl) {
       if (match.isLenient) {
@@ -580,7 +579,7 @@ function renderPlayerTiles(players) {
 }
 
 // -------------------------------------------------------------
-// VICTORY / DEFEAT MODAL VIEW
+// VICTORY / DEFEAT MODAL VIEW (Accumulated Rewards Breakdown)
 // -------------------------------------------------------------
 function renderVictoryView(match) {
   if (!match) return;
@@ -592,6 +591,7 @@ function renderVictoryView(match) {
   const human = match.players.find(p => p.isHuman);
   const solvedTime = human && human.solvedTime !== null ? human.solvedTime : null;
   const beatTarget = solvedTime !== null && match.targetTime && solvedTime <= match.targetTime;
+  const summary = match.rewardSummary;
 
   appRoot.innerHTML = `
     <div class="modal-overlay">
@@ -600,32 +600,37 @@ function renderVictoryView(match) {
         <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'LEVEL MASTERED!' : 'ELIMINATED!'}</h2>
         
         <p style="color: var(--text-secondary); font-size: 14px;">
-          ${isWin ? `Congratulations! You conquered Challenge #${match.currentChallenge.id}. Level progress saved.` : 'You did not pass the challenge. Review the concept and try again!'}
+          ${isWin ? `Awesome work, ${user.username}! You solved Challenge #${match.currentChallenge.id}. Progress permanently saved.` : 'Challenge failed. Review the concept and try again!'}
         </p>
 
-        ${isWin && solvedTime !== null ? `
-          <div style="margin: 16px 0; background: rgba(0, 240, 255, 0.08); border: 1px solid var(--accent-cyan); border-radius: var(--radius-sm); padding: 12px;">
-            <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #FFFFFF;">
-              ⏱️ Time Taken: <span style="color: var(--accent-cyan);">${formatDuration(solvedTime)}</span>
-            </div>
-            <div style="font-size: 12px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-top: 4px;">
-              ${beatTarget ? `⚡ Target Crushed! (Target: ${formatDuration(match.targetTime)})` : `✔ Level Unlocked! (Target was ${formatDuration(match.targetTime)} — keep practicing to increase speed!)`}
+        ${isWin && summary ? `
+          <div class="payout-box" style="margin: 16px 0; padding: 18px;">
+            <span style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 800; letter-spacing: 0.5px;">REWARDS ACCUMULATED</span>
+            <div class="payout-amount" style="margin: 6px 0;">+🪙 ${summary.totalWon.toLocaleString()}</div>
+            
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+              <div>Base Bounty: <span style="color: var(--accent-gold); font-weight: 700;">+🪙 ${match.pot}</span></div>
+              ${summary.bonusCoins > 0 ? `<div>Speed Bonus: <span style="color: var(--accent-emerald); font-weight: 700;">+🪙 ${summary.bonusCoins}</span></div>` : ''}
+              <div>Win Streak: <span style="color: var(--accent-cyan); font-weight: 700;">🔥 ${summary.newStreak} in a row</span></div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; margin-top: 4px; font-weight: 700; color: #FFFFFF;">
+                Total Wallet Balance: 🪙 ${summary.newCoins.toLocaleString()}
+              </div>
             </div>
           </div>
         ` : ''}
 
-        ${isWin ? `
-          <div class="payout-box" style="margin: 12px 0;">
-            <span style="font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">REWARD EARNED</span>
-            <div class="payout-amount">+🪙 ${match.pot.toLocaleString()}</div>
+        ${isWin && solvedTime !== null ? `
+          <div style="margin: 12px 0; background: rgba(0, 240, 255, 0.06); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px;">
+            <div style="font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #FFFFFF;">
+              ⏱️ Solved in: <span style="color: var(--accent-cyan);">${formatDuration(solvedTime)}</span>
+            </div>
+            <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--accent-gold)'}; font-weight: 700; margin-top: 2px;">
+              ${beatTarget ? `⚡ Target Crushed! (Target: ${formatDuration(match.targetTime)})` : `✔ Level Unlocked! (Target was ${formatDuration(match.targetTime)})`}
+            </div>
           </div>
-        ` : `
-          <div style="margin: 20px 0; font-family: var(--font-display); font-weight: 700; color: var(--text-muted);">
-            LOST ENTRY WAGER: 🪙 ${match.wager.toLocaleString()}
-          </div>
-        `}
+        ` : ''}
 
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
           ${isWin && hasNext ? `
             <button class="btn-play" id="btn-next-level" style="background: linear-gradient(135deg, var(--accent-emerald), #059669); box-shadow: 0 4px 20px var(--accent-emerald-glow);">
               ▶ NEXT LEVEL (CHALLENGE #${nextChallengeIdx + 1})
@@ -643,7 +648,7 @@ function renderVictoryView(match) {
   if (isWin && hasNext) {
     document.getElementById("btn-next-level").addEventListener("click", () => {
       sound.playClick();
-      arena.createMatch({ mode: "gauntlet", challengeIdx: nextChallengeIdx, wager: 50 });
+      arena.createMatch({ mode: "gauntlet", challengeIdx: nextChallengeIdx, wager: 0 });
     });
   }
 
@@ -680,7 +685,7 @@ function renderModal(state) {
         <button class="icon-btn" id="btn-close-modal">✕</button>
       </div>
 
-      <div class="stats-grid">
+      <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
         <div class="stat-box">
           <div class="stat-number">${(user.completedChallenges || []).length} / 216</div>
           <div class="stat-label">Mastered</div>
@@ -692,6 +697,10 @@ function renderModal(state) {
         <div class="stat-box">
           <div class="stat-number">${user.mmr}</div>
           <div class="stat-label">MMR</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number" style="color: var(--accent-gold);">🪙 ${(user.coins || 0).toLocaleString()}</div>
+          <div class="stat-label">Wallet</div>
         </div>
       </div>
 

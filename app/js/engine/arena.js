@@ -18,18 +18,22 @@ class ArenaEngine {
     this.aiIntervals = [];
   }
 
-  createMatch({ mode = "gauntlet", wager = 50, challengeIdx = null }) {
+  createMatch({ mode = "gauntlet", wager = 0, challengeIdx = null }) {
     const user = store.getState().user;
-    if (wager > 0 && !store.deductWager(wager)) {
+    const isLenient = (mode === "gauntlet" || mode === "custom" || mode === "solo");
+
+    // Practice modes have 0 entry wager (pure reward bounties)
+    const effectiveWager = isLenient ? 0 : wager;
+
+    if (effectiveWager > 0 && !store.deductWager(effectiveWager)) {
       alert("Insufficient coins to place wager! Click +FAUCET in the top bar for free coins.");
       return null;
     }
 
-    if (wager > 0) sound.playCoin();
+    if (effectiveWager > 0) sound.playCoin();
 
     let startIdx = 0;
     let matchChallenges = [];
-    const isLenient = (mode === "gauntlet" || mode === "custom" || mode === "solo");
 
     if (mode === "gauntlet") {
       startIdx = challengeIdx !== null ? challengeIdx : (user.currentProgressIdx || 0);
@@ -66,14 +70,16 @@ class ArenaEngine {
       }))
     ];
 
-    const pot = wager * playerCount;
+    // Calculate Dynamic Bounty: Base 100 + 5 per challenge level
+    const dynamicBounty = 100 + (startIdx * 5);
+    const pot = effectiveWager > 0 ? (effectiveWager * playerCount) : dynamicBounty;
     const targetTime = Math.min(120, Math.max(45, 45 + Math.floor(startIdx / 10) * 5));
 
     const match = {
       id: "match_" + Date.now(),
       mode,
-      wager,
-      pot: pot > 0 ? pot : 100, // minimum bounty
+      wager: effectiveWager,
+      pot,
       round: 1,
       maxRounds: matchChallenges.length,
       isLenient,
@@ -87,7 +93,8 @@ class ArenaEngine {
       currentChallenge: matchChallenges[0],
       players,
       isSequential: (mode === "gauntlet"),
-      status: "playing"
+      status: "playing",
+      rewardSummary: null
     };
 
     store.setState({ match, currentView: "arena" });
@@ -111,6 +118,7 @@ class ArenaEngine {
     match.elapsedSeconds = 0;
     match.timeLeft = match.totalTime;
     match.status = "playing";
+    match.rewardSummary = null;
 
     store.setState({ match: { ...match } });
 
@@ -120,11 +128,9 @@ class ArenaEngine {
       if (!curr || !curr.isRunning || curr.status !== "playing") return;
 
       if (curr.isLenient) {
-        // Lenient mode: count UP continuously without cutting the player off
         curr.elapsedSeconds++;
         store.setState({ match: { ...curr } });
       } else {
-        // Strict sudden-death countdown mode (Royale / Duel)
         if (curr.timeLeft <= 1) {
           this.endRound();
         } else {
@@ -190,7 +196,6 @@ class ArenaEngine {
 
     store.setState({ match: { ...match } });
 
-    // In lenient gauntlet or custom mode, if human passes, end match immediately!
     if (isPass && match.isLenient) {
       setTimeout(() => this.endRound(), 600);
       return;
@@ -214,22 +219,30 @@ class ArenaEngine {
       human.alive = false;
       sound.playElimination();
       match.status = "defeated";
-      store.updateUser({ losses: store.getState().user.losses + 1 });
+      store.recordDefeat(match.wager);
       store.setState({ match: { ...match }, currentView: "victory" });
       return;
     }
 
-    // Mark challenge completed in store and advance sequential level
-    store.markChallengeCompleted(match.challengeIdx, match.currentChallenge.dir);
+    // Determine Speed Bonus
+    const beatTarget = human.solvedTime !== null && human.solvedTime <= match.targetTime;
+    const bonusCoins = beatTarget ? 50 : 0;
+    const mmrGain = beatTarget ? 50 : 25;
 
-    // If human passed, grant victory & reward
-    sound.playVictory();
-    match.status = "victory";
-    store.addCoins(match.pot);
-    store.updateUser({
-      wins: store.getState().user.wins + 1,
-      mmr: store.getState().user.mmr + 25
+    // Atomically award reward, accumulate coins, win streak, and MMR
+    const rewardSummary = store.awardChallengeVictory({
+      rewardCoins: match.pot,
+      bonusCoins,
+      mmrGain,
+      challengeIdx: match.challengeIdx,
+      challengeDir: match.currentChallenge.dir
     });
+
+    match.rewardSummary = rewardSummary;
+    match.status = "victory";
+
+    sound.playCoin();
+    sound.playVictory();
 
     store.setState({ match: { ...match }, currentView: "victory" });
   }

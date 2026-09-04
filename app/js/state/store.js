@@ -26,9 +26,11 @@ function createDefaultProfile(username = "NoviceDev", avatar = "⚡") {
     wins: 0,
     losses: 0,
     earnings: 0,
+    currentStreak: 0,
+    bestStreak: 0,
     level: 1,
     currentProgressIdx: 0, // 0 = Challenge 01 (Beginner)
-    completedChallenges: [] // List of challenge IDs
+    completedChallenges: [] // List of challenge directory strings
   };
 }
 
@@ -97,19 +99,57 @@ class Store {
     });
   }
 
-  markChallengeCompleted(challengeIdx, challengeId) {
+  // Atomic Reward & Progression Engine
+  awardChallengeVictory({
+    rewardCoins = 100,
+    bonusCoins = 0,
+    mmrGain = 25,
+    challengeIdx,
+    challengeDir
+  }) {
     const user = { ...this.state.user };
+
+    // 1. Accumulate coins & earnings
+    const totalWon = Math.max(0, rewardCoins + bonusCoins);
+    user.coins = (user.coins || 0) + totalWon;
+    user.earnings = (user.earnings || 0) + totalWon;
+
+    // 2. Accumulate wins and win streak
+    user.wins = (user.wins || 0) + 1;
+    user.currentStreak = (user.currentStreak || 0) + 1;
+    user.bestStreak = Math.max(user.bestStreak || 0, user.currentStreak);
+
+    // 3. Accumulate MMR
+    user.mmr = (user.mmr || 1200) + mmrGain;
+
+    // 4. Mark challenge completed & level up
     const completedSet = new Set(user.completedChallenges || []);
-    completedSet.add(challengeId);
+    if (challengeDir) completedSet.add(challengeDir);
     user.completedChallenges = Array.from(completedSet);
 
-    // Advance progress index if solving the current or higher challenge
-    if (challengeIdx >= user.currentProgressIdx) {
+    if (challengeIdx !== undefined && challengeIdx >= (user.currentProgressIdx || 0)) {
       user.currentProgressIdx = challengeIdx + 1;
-      user.level = Math.floor(user.currentProgressIdx / 5) + 1;
     }
+    user.level = Math.floor(user.completedChallenges.length / 5) + 1;
 
-    this.updateUser(user);
+    // 5. Atomic state update & persist
+    this.setState({ user });
+    return {
+      totalWon,
+      bonusCoins,
+      newStreak: user.currentStreak,
+      newCoins: user.coins,
+      newMmr: user.mmr,
+      level: user.level,
+      completedCount: user.completedChallenges.length
+    };
+  }
+
+  recordDefeat(wagerLost = 0) {
+    const user = { ...this.state.user };
+    user.losses = (user.losses || 0) + 1;
+    user.currentStreak = 0;
+    this.setState({ user });
   }
 
   resetProgress() {
@@ -119,6 +159,9 @@ class Store {
       completedChallenges: [],
       level: 1,
       coins: 1500,
+      earnings: 0,
+      currentStreak: 0,
+      bestStreak: 0,
       wins: 0,
       losses: 0,
       mmr: 1200
@@ -127,12 +170,13 @@ class Store {
   }
 
   addCoins(amount) {
-    const coins = Math.max(0, this.state.user.coins + amount);
-    const earnings = amount > 0 ? this.state.user.earnings + amount : this.state.user.earnings;
+    const coins = Math.max(0, (this.state.user.coins || 0) + amount);
+    const earnings = amount > 0 ? (this.state.user.earnings || 0) + amount : (this.state.user.earnings || 0);
     this.updateUser({ coins, earnings });
   }
 
   deductWager(amount) {
+    if (amount <= 0) return true;
     if (this.state.user.coins < amount) return false;
     this.updateUser({ coins: this.state.user.coins - amount });
     return true;
