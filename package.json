@@ -5,6 +5,8 @@
   "main": "solution.js",
   "scripts": {
     "start": "node runner.js",
+    "app": "node server.mjs",
+    "serve": "node server.mjs",
     "drill": "node runner.js",
     "watch": "node watch.js",
     "current": "node current.js",

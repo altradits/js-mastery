@@ -1,0 +1,41 @@
+:root {
+  /* Color Palette - Cyber-Piscine Palette */
+  --bg-darkest: #06080D;
+  --bg-dark: #0B0F19;
+  --bg-card: rgba(16, 22, 36, 0.7);
+  --bg-card-hover: rgba(22, 30, 48, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(0, 240, 255, 0.3);
+  --border-active: rgba(0, 240, 255, 0.7);
+
+  --accent-cyan: #00F0FF;
+  --accent-cyan-glow: rgba(0, 240, 255, 0.35);
+  --accent-emerald: #00FF88;
+  --accent-emerald-glow: rgba(0, 255, 136, 0.35);
+  --accent-crimson: #FF2A5F;
+  --accent-crimson-glow: rgba(255, 42, 95, 0.35);
+  --accent-purple: #9333EA;
+  --accent-purple-glow: rgba(147, 51, 234, 0.35);
+  --accent-gold: #FBBF24;
+  --accent-gold-glow: rgba(251, 191, 36, 0.4);
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+
+  /* Typography */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Shadows & Glass */
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  --shadow-neon: 0 0 20px var(--accent-cyan-glow);
+  --glass-blur: blur(16px);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}

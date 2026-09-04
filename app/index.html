@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Royale: Last Man Standing — JavaScript Wager Arena</title>
+  <meta name="description" content="Competitive multiplayer JavaScript coding battle royale. Wager coins, solve atomic programming challenges in sudden-death elimination rounds, and survive to win the entire jackpot pool.">
+  <meta name="theme-color" content="#06080D">
+
+  <!-- Typography: Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/editor.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- Top Global Navigation Bar -->
+  <header class="navbar">
+    <a href="#" class="nav-brand" id="nav-brand-logo">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">CODE ROYALE</div>
+      <span class="brand-tag">PISCINE ARENA</span>
+    </a>
+
+    <div class="nav-stats">
+      <button class="wallet-badge" id="btn-free-coins" title="Click to claim +500 free bonus coins">
+        <span id="nav-wallet">🪙 1,500</span>
+        <span style="font-size: 11px; background: rgba(251,191,36,0.2); padding: 2px 6px; border-radius: 4px;">+FAUCET</span>
+      </button>
+
+      <div class="profile-pill">
+        <span class="avatar" id="nav-avatar">⚡</span>
+        <span class="player-name" id="nav-name">Player</span>
+        <span class="mmr-badge" id="nav-mmr">1250 MMR</span>
+      </div>
+
+      <button class="icon-btn" id="btn-sound" title="Toggle Sound FX">🔊</button>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="app-container" id="app-root">
+    <!-- Injected dynamically by app.js -->
+  </main>
+
+  <!-- Application Logic -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
