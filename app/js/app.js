@@ -20,7 +20,12 @@ function formatDuration(sec) {
 // Markdown & Code Snippet Formatter for Instructions
 function formatMarkdown(text) {
   if (!text) return "";
-  return text.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+    .replace(/\n\n+/g, '</p><p>')
+    .replace(/\n/g, '<br>');
 }
 
 function escapeHtml(str) {
@@ -429,16 +434,41 @@ function renderArenaView(match) {
 
     appRoot.innerHTML = `
       <div class="arena-split-layout">
-        <!-- Left: Instructions Panel -->
+        <!-- Left: Focused & Resourceful Instructions Panel -->
         <div class="instructions-panel">
-          <div class="task-box">
-            <span class="section-label task-label">Task</span>
-            <div class="task-text">${formatMarkdown(challenge.task)}</div>
-          </div>
-          <div class="panel-section">
+          <!-- 1. Concept: What you are learning & how it is applied -->
+          <div class="panel-section concept-section">
             <div class="section-label">Concept</div>
-            <div class="concept-box">${formatMarkdown(challenge.concept)}</div>
+            <div class="concept-box">
+              <div class="concept-text"><p>${formatMarkdown(challenge.concept)}</p></div>
+            </div>
           </div>
+
+          <!-- 2. Instructions / Task: The Question -->
+          <div class="panel-section task-section">
+            <div class="section-label task-label">Instructions</div>
+            <div class="task-box">
+              <div class="task-text"><p>${formatMarkdown(challenge.task)}</p></div>
+            </div>
+          </div>
+
+          <!-- 3. Strategically Placed Hint (Hidden/Collapsed at bottom) -->
+          ${(challenge.example || challenge.syntax) ? `
+            <details class="hint-details">
+              <summary class="hint-summary">
+                <span>Hint</span>
+                <span class="hint-arrow">▾</span>
+              </summary>
+              <div class="hint-content">
+                <div class="hint-code-box">
+                  <button class="btn-copy-hint" title="Copy code">Copy</button>
+                  <pre><code>${escapeHtml((challenge.example || challenge.syntax).trim())}</code></pre>
+                </div>
+              </div>
+            </details>
+          ` : ''}
+
+          <!-- Contenders (multiplayer) -->
           ${match.mode !== 'gauntlet' ? `
             <div class="radar-compact">
               <div class="radar-compact-header">
@@ -648,6 +678,21 @@ function renderArenaView(match) {
         }
       });
     }
+
+    document.querySelectorAll(".btn-copy-hint").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const codeEl = btn.closest(".hint-code-box")?.querySelector("code");
+        if (codeEl) {
+          navigator.clipboard.writeText(codeEl.textContent || "");
+          btn.textContent = "Copied";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+          }, 1500);
+        }
+      });
+    });
 
     setTimeout(() => {
       textarea.focus();

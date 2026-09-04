@@ -496,8 +496,33 @@ html, body {
   color: var(--accent-cyan);
 }
 
+.concept-box {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #CBD5E1;
+  line-height: 1.65;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.concept-box p {
+  margin: 0 0 6px 0;
+}
+
+.concept-box p:last-child {
+  margin-bottom: 0;
+}
+
+.concept-box strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
 .task-box {
-  background: #06090E;
+  background: #050811;
   border: 1px solid rgba(0, 240, 255, 0.25);
   border-left: 3px solid var(--accent-cyan);
   border-radius: var(--radius-sm);
@@ -507,36 +532,117 @@ html, body {
 
 .task-text {
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: 13.5px;
   font-weight: 500;
   color: #FFFFFF;
-  line-height: var(--leading-normal);
+  line-height: 1.55;
 }
 
-.concept-box {
-  font-family: var(--font-body);
-  font-size: var(--text-xs);
-  color: var(--text-secondary);
-  line-height: var(--leading-relaxed);
-  background: #06090E;
-  padding: 12px 14px;
+.task-text p {
+  margin: 0 0 6px 0;
+}
+
+.task-text p:last-child {
+  margin-bottom: 0;
+}
+
+.task-text strong {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+/* Strategically Placed Collapsible Hint */
+.hint-details {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin-top: auto;
+  transition: all 0.2s;
 }
 
-.syntax-box {
+.hint-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  list-style: none;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.hint-summary::-webkit-details-marker {
+  display: none;
+}
+
+.hint-summary:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hint-details[open] .hint-summary {
+  color: var(--accent-gold);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hint-arrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.hint-details[open] .hint-arrow {
+  transform: rotate(180deg);
+}
+
+.hint-content {
+  padding: 10px 12px;
+  background: #030509;
+}
+
+.hint-code-box {
+  position: relative;
+  background: #070B14;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+.hint-code-box pre {
+  margin: 0;
   font-family: var(--font-code);
   font-size: var(--text-xs);
-  background: #06090E;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
   color: #A5B4FC;
-  line-height: var(--leading-relaxed);
+  line-height: 1.5;
   white-space: pre-wrap;
-  font-variant-ligatures: normal;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.btn-copy-hint {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-copy-hint:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .inline-code, code {
