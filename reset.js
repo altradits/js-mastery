@@ -1,178 +1,213 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const templates = {
-  "01-how-2-js": `export const message = "Hello World";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const challengesDir = path.join(__dirname, "challenges");
 
-export function logHello() {
-  // TODO: implement
-}
-`,
-  "02-primitives": `export const str = "";
-export const num = 0;
-export const bool = false;
-export const undef = null;
-`,
-  "03-declarations": `export const escapeStr = "";
-export const arr = [];
-export const obj = {};
-export const nested = {};
-`,
-  "04-mutability": `export const person = {
-  name: "Rick",
-  age: 77,
-  country: "US",
+const stubs = {
+  "01-constant-variable": "// Challenge 01 - Constant Variable & Export\n//\n// INSTRUCTIONS:\n// Export a constant named `message` with the value \"Hello World\".\n",
+  "02-basic-function": "// Challenge 02 - Basic Function & Console Output\n//\n// INSTRUCTIONS:\n// Export a function named `sayHello` that calls console.log(\"Hello\").\n",
+  "03-function-parameter": "// Challenge 03 - Function Parameter\n//\n// INSTRUCTIONS:\n// Export a function named `logMessage(msg)` that prints `msg` using console.log(msg).\n",
+  "04-return-statement": "// Challenge 04 - Return Statement\n//\n// INSTRUCTIONS:\n// Export a function named `getMessage` that returns \"Hello World\".\n",
+  "05-return-parameter": "// Challenge 05 - Returning a Parameter\n//\n// INSTRUCTIONS:\n// Export a function named `id(arg)` that returns `arg`.\n",
+  "06-primitive-string": "// Challenge 06 - String Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `str` containing a string.\n",
+  "07-primitive-number": "// Challenge 07 - Number Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `num` containing a number.\n",
+  "08-primitive-boolean": "// Challenge 08 - Boolean Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `bool` with value true.\n",
+  "09-primitive-undefined": "// Challenge 09 - Undefined Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `undef` with value undefined.\n",
+  "10-primitive-null": "// Challenge 10 - Null Primitive\n//\n// INSTRUCTIONS:\n// Export a constant named `nullVal` with value null.\n",
+  "11-escape-characters": "// Challenge 11 - Escape Characters in Strings\n//\n// INSTRUCTIONS:\n// Export a constant `escapeStr` containing backtick, backslash, double-quote, slash, single-quote.\n",
+  "12-template-literals": "// Challenge 12 - Template Literals & Interpolation\n//\n// INSTRUCTIONS:\n// Export a function `greet(name)` returning `Hello, ${name}!` using template literals.\n",
+  "13-string-length": "// Challenge 13 - String Length Property\n//\n// INSTRUCTIONS:\n// Export a function `strLength(str)` returning str.length.\n",
+  "14-string-char-at": "// Challenge 14 - String charAt Method\n//\n// INSTRUCTIONS:\n// Export a function `getCharAt(str, index)` returning str.charAt(index).\n",
+  "15-string-at-method": "// Challenge 15 - String at Method (.at())\n//\n// INSTRUCTIONS:\n// Export a function `getAt(str, index)` returning str.at(index).\n",
+  "16-string-primitive-vs-object": "// Challenge 16 - String Primitives vs String Objects\n//\n// INSTRUCTIONS:\n// Export a function `getPrimitiveValue(strObj)` returning strObj.valueOf().\n",
+  "17-string-raw": "// Challenge 17 - String.raw Static Method\n//\n// INSTRUCTIONS:\n// Export a function `getRawPath()` returning String.raw`C:\\Windows\\System32`.\n",
+  "18-string-concat": "// Challenge 18 - String Concatenation\n//\n// INSTRUCTIONS:\n// Export a function `joinWords(a, b)` returning a + \" \" + b.\n",
+  "19-increment": "// Challenge 19 - Increment Function\n//\n// INSTRUCTIONS:\n// Export a function `more(n)` returning n + 1.\n",
+  "20-decrement": "// Challenge 20 - Decrement Function\n//\n// INSTRUCTIONS:\n// Export a function `less(n)` returning n - 1.\n",
+  "21-addition": "// Challenge 21 - Addition Operator (+)\n//\n// INSTRUCTIONS:\n// Export a function `add(a, b)` returning a + b.\n",
+  "22-subtraction": "// Challenge 22 - Subtraction Operator (-)\n//\n// INSTRUCTIONS:\n// Export a function `sub(a, b)` returning a - b.\n",
+  "23-multiplication": "// Challenge 23 - Multiplication Operator (*)\n//\n// INSTRUCTIONS:\n// Export a function `multiply(a, b)` returning a * b.\n",
+  "24-division": "// Challenge 24 - Division Operator (/)\n//\n// INSTRUCTIONS:\n// Export a function `divide(a, b)` returning a / b.\n",
+  "25-remainder": "// Challenge 25 - Remainder / Modulo Operator (%)\n//\n// INSTRUCTIONS:\n// Export a function `modulo(a, b)` returning a % b.\n",
+  "26-exponentiation": "// Challenge 26 - Exponentiation Operator (**)\n//\n// INSTRUCTIONS:\n// Export a function `power(base, exp)` returning base ** exp.\n",
+  "27-unary-plus": "// Challenge 27 - Unary Plus Operator (+)\n//\n// INSTRUCTIONS:\n// Export a function `toNum(val)` returning +val.\n",
+  "28-unary-negation": "// Challenge 28 - Unary Negation Operator (-)\n//\n// INSTRUCTIONS:\n// Export a function `negate(val)` returning -val.\n",
+  "29-addition-assignment": "// Challenge 29 - Addition Assignment (+=)\n//\n// INSTRUCTIONS:\n// Export a function `addAssign(initial, addend)` using total += addend.\n",
+  "30-multiplication-assignment": "// Challenge 30 - Multiplication Assignment (*=)\n//\n// INSTRUCTIONS:\n// Export a function `multAssign(initial, factor)` using total *= factor.\n",
+  "31-logical-and-assignment": "// Challenge 31 - Logical AND Assignment (&&=)\n//\n// INSTRUCTIONS:\n// Export a function `andAssign(x, y)` using val &&= y.\n",
+  "32-logical-or-assignment": "// Challenge 32 - Logical OR Assignment (||=)\n//\n// INSTRUCTIONS:\n// Export a function `orAssign(x, y)` using val ||= y.\n",
+  "33-nullish-assignment": "// Challenge 33 - Nullish Coalescing Assignment (??=)\n//\n// INSTRUCTIONS:\n// Export a function `nullishAssign(x, y)` using val ??= y.\n",
+  "34-strict-equality": "// Challenge 34 - Strict Equality (===)\n//\n// INSTRUCTIONS:\n// Export a function `isEqual(a, b)` returning a === b.\n",
+  "35-strict-inequality": "// Challenge 35 - Strict Inequality (!==)\n//\n// INSTRUCTIONS:\n// Export a function `notEqual(a, b)` returning a !== b.\n",
+  "36-greater-than": "// Challenge 36 - Greater Than Operator (>)\n//\n// INSTRUCTIONS:\n// Export a function `isGreater(a, b)` returning a > b.\n",
+  "37-less-than": "// Challenge 37 - Less Than Operator (<)\n//\n// INSTRUCTIONS:\n// Export a function `isLess(a, b)` returning a < b.\n",
+  "38-greater-or-equal": "// Challenge 38 - Greater Than or Equal (>=)\n//\n// INSTRUCTIONS:\n// Export a function `isGreaterOrEqual(a, b)` returning a >= b.\n",
+  "39-less-or-equal": "// Challenge 39 - Less Than or Equal (<=)\n//\n// INSTRUCTIONS:\n// Export a function `isLessOrEqual(a, b)` returning a <= b.\n",
+  "40-in-operator": "// Challenge 40 - The 'in' Operator\n//\n// INSTRUCTIONS:\n// Export a function `hasKey(obj, prop)` returning prop in obj.\n",
+  "41-instanceof-operator": "// Challenge 41 - The 'instanceof' Operator\n//\n// INSTRUCTIONS:\n// Export a function `isInstanceOf(obj, constructor)` returning obj instanceof constructor.\n",
+  "42-logical-not": "// Challenge 42 - Logical NOT Operator (!)\n//\n// INSTRUCTIONS:\n// Export a function `invert(val)` returning !val.\n",
+  "43-double-not": "// Challenge 43 - Double NOT (!!) for Truthiness\n//\n// INSTRUCTIONS:\n// Export a function `toBool(val)` returning !!val.\n",
+  "44-logical-and": "// Challenge 44 - Logical AND Operator (&&)\n//\n// INSTRUCTIONS:\n// Export a function `both(a, b)` returning a && b.\n",
+  "45-logical-or": "// Challenge 45 - Logical OR Operator (||)\n//\n// INSTRUCTIONS:\n// Export a function `either(a, b)` returning a || b.\n",
+  "46-nullish-coalescing": "// Challenge 46 - Nullish Coalescing Operator (??)\n//\n// INSTRUCTIONS:\n// Export a function `fallback(a, b)` returning a ?? b.\n",
+  "47-ternary-operator": "// Challenge 47 - Conditional (Ternary) Operator (? :)\n//\n// INSTRUCTIONS:\n// Export a function `passOrFail(score)` returning \"Pass\" if score >= 50, else \"Fail\".\n",
+  "48-object-literal": "// Challenge 48 - Object Initializer Syntax\n//\n// INSTRUCTIONS:\n// Export an object `user` with name: \"Alice\" and age: 25.\n",
+  "49-dynamic-get": "// Challenge 49 - Dynamic Property Lookup\n//\n// INSTRUCTIONS:\n// Export a function `get(obj, key)` returning obj[key].\n",
+  "50-dynamic-set": "// Challenge 50 - Dynamic Property Assignment\n//\n// INSTRUCTIONS:\n// Export a function `set(obj, key, value)` that sets obj[key] = value and returns value.\n",
+  "51-delete-operator": "// Challenge 51 - The 'delete' Operator\n//\n// INSTRUCTIONS:\n// Export a function `removeKey(obj, key)` that deletes obj[key] and returns obj.\n",
+  "52-optional-chaining": "// Challenge 52 - Optional Chaining (?.)\n//\n// INSTRUCTIONS:\n// Export a function `getCity(user)` returning user?.address?.city.\n",
+  "53-object-reference": "// Challenge 53 - Object References in Memory\n//\n// INSTRUCTIONS:\n// Export `person = { age: 30 }` and `samePerson = person`.\n",
+  "54-freeze-object": "// Challenge 54 - Freezing an Object\n//\n// INSTRUCTIONS:\n// Export a constant `obj` with { str: \"hello\" } frozen with Object.freeze().\n",
+  "55-deep-freeze": "// Challenge 55 - Deep Object Immutability\n//\n// INSTRUCTIONS:\n// Export a constant `nested` with both outer and inner object frozen.\n",
+  "56-clone-assign": "// Challenge 56 - Shallow Cloning with Object.assign\n//\n// INSTRUCTIONS:\n// Export `original = { name: \"JS\" }` and `clone1` using Object.assign({}, original).\n",
+  "57-clone-spread": "// Challenge 57 - Shallow Cloning with Spread Operator\n//\n// INSTRUCTIONS:\n// Export `original = { city: \"Paris\" }` and `clone2 = { ...original }`.\n",
+  "58-circular-reference": "// Challenge 58 - Circular Object Reference\n//\n// INSTRUCTIONS:\n// Export an object `circular` where circular.circular === circular.\n",
+  "59-array-literal": "// Challenge 59 - Array Initializer Syntax\n//\n// INSTRUCTIONS:\n// Export a constant `numbers` containing [1, 2, 3].\n",
+  "60-first-element": "// Challenge 60 - Zero-Based Indexing (First Element)\n//\n// INSTRUCTIONS:\n// Export a function `first(arr)` returning arr[0].\n",
+  "61-last-element": "// Challenge 61 - Last Element Indexing\n//\n// INSTRUCTIONS:\n// Export a function `last(arr)` returning arr[arr.length - 1].\n",
+  "62-array-push-pop": "// Challenge 62 - Array Mutation: push & pop\n//\n// INSTRUCTIONS:\n// Export a function `appendAndPop(arr, item)` using push and pop.\n",
+  "63-array-spread": "// Challenge 63 - Array Spread Syntax ([...arr])\n//\n// INSTRUCTIONS:\n// Export a function `merge(a, b)` returning [...a, ...b].\n",
+  "64-freeze-array": "// Challenge 64 - Freezing an Array\n//\n// INSTRUCTIONS:\n// Export a constant `arr` initialized with Object.freeze([1, 2, 3]).\n",
+  "65-array-destructuring": "// Challenge 65 - Array Destructuring\n//\n// INSTRUCTIONS:\n// Export a function `getPair(arr)` using const [first, second] = arr.\n",
+  "66-object-destructuring": "// Challenge 66 - Object Destructuring\n//\n// INSTRUCTIONS:\n// Export a function `getNameAndAge(user)` using const { name, age } = user.\n",
+  "67-while-counter": "// Challenge 67 - While Loop (Counter)\n//\n// INSTRUCTIONS:\n// Export a function `countTo(limit)` that uses a while loop to increment count from 0 to limit.\n",
+  "68-while-accumulate": "// Challenge 68 - While Loop (Accumulator)\n//\n// INSTRUCTIONS:\n// Export a function `times5(n)` that uses a while loop to add n to a result 5 times.\n",
+  "69-for-loop-counter": "// Challenge 69 - Standard For Loop\n//\n// INSTRUCTIONS:\n// Export a function `sumUpTo(n)` that sums 1 to n using a for loop.\n",
+  "70-for-of-array": "// Challenge 70 - For..Of Loop (Array Iteration)\n//\n// INSTRUCTIONS:\n// Export a function `sumArray(numbers)` that sums all numbers in an array using for..of.\n",
+  "71-for-of-string": "// Challenge 71 - For..Of Loop (String Search & Counting)\n//\n// INSTRUCTIONS:\n// Export a function `countLetter(str, target)` that counts occurrences of target in str using for..of.\n",
+  "72-for-in-object": "// Challenge 72 - For..In Loop (Object Keys)\n//\n// INSTRUCTIONS:\n// Export a function `getKeys(obj)` collecting keys with for..in.\n",
+  "73-break-continue": "// Challenge 73 - Loop Control (break & continue)\n//\n// INSTRUCTIONS:\n// Export a function `sumUntilNegative(numbers)` using break on negative numbers.\n",
+  "74-recursion-counter": "// Challenge 74 - Recursion (Counter)\n//\n// INSTRUCTIONS:\n// Export a recursive function `countTo(limit, count = 0)` that increments count until limit.\n",
+  "75-recursion-accumulate": "// Challenge 75 - Recursion (Accumulator)\n//\n// INSTRUCTIONS:\n// Export a recursive function `times5(n, count = 0, result = 0)` that adds n to result 5 times.\n",
+  "76-recursion-factorial": "// Challenge 76 - Recursion (Factorial)\n//\n// INSTRUCTIONS:\n// Export a recursive function `factorial(n)` returning n!.\n",
+  "77-multiply-without-operator": "// Challenge 77 - Repeated Addition Multiplication\n//\n// INSTRUCTIONS:\n// Export a function `multiplyLoop(a, b)` that multiplies without using *.\n",
+  "78-multiply-recursive": "// Challenge 78 - Recursive Multiplication\n//\n// INSTRUCTIONS:\n// Export a recursive function `multiplyRecursive(a, b)` multiplying without *.\n",
+  "79-string-split": "// Challenge 79 - Splitting Strings (.split())\n//\n// INSTRUCTIONS:\n// Export a function `words(str)` that splits str by space.\n",
+  "80-string-join": "// Challenge 80 - Joining Arrays into Strings (.join())\n//\n// INSTRUCTIONS:\n// Export a function `sentence(arr)` joining array with space.\n",
+  "81-string-uppercase": "// Challenge 81 - Uppercase Transformation (.toUpperCase())\n//\n// INSTRUCTIONS:\n// Export a function `yell(str)` returning str.toUpperCase().\n",
+  "82-string-lowercase": "// Challenge 82 - Lowercase Transformation (.toLowerCase())\n//\n// INSTRUCTIONS:\n// Export a function `whisper(str)` returning str.toLowerCase().\n",
+  "83-string-capitalize": "// Challenge 83 - String Capitalization\n//\n// INSTRUCTIONS:\n// Export a function `capitalize(str)` returning Capitalized string.\n",
+  "84-jaden-case": "// Challenge 84 - Jaden Casing Strings\n//\n// INSTRUCTIONS:\n// Export a function `toJadenCase(str)` capitalizing every word.\n",
+  "85-string-cut-first": "// Challenge 85 - Cut First Characters (cutFirst)\n//\n// INSTRUCTIONS:\n// Export a function `cutFirst(str)` returning str.slice(2).\n",
+  "86-string-cut-last": "// Challenge 86 - Cut Last Characters (cutLast)\n//\n// INSTRUCTIONS:\n// Export a function `cutLast(str)` returning str.slice(0, -2).\n",
+  "87-string-cut-first-last": "// Challenge 87 - Cut First & Last (cutFirstLast)\n//\n// INSTRUCTIONS:\n// Export a function `cutFirstLast(str)` returning str.slice(2, -2).\n",
+  "88-string-keep-first": "// Challenge 88 - Keep First Characters (keepFirst)\n//\n// INSTRUCTIONS:\n// Export a function `keepFirst(str)` returning str.slice(0, 2).\n",
+  "89-string-keep-last": "// Challenge 89 - Keep Last Characters (keepLast)\n//\n// INSTRUCTIONS:\n// Export a function `keepLast(str)` returning str.slice(-2).\n",
+  "90-string-repeat": "// Challenge 90 - String Repeat (.repeat())\n//\n// INSTRUCTIONS:\n// Export a function `repeatStr(str, count)` returning str.repeat(count).\n",
+  "91-string-includes": "// Challenge 91 - String Inclusion Check (.includes())\n//\n// INSTRUCTIONS:\n// Export a function `hasSubstring(str, target)` returning str.includes(target).\n",
+  "92-string-starts-with": "// Challenge 92 - Prefix Check (.startsWith())\n//\n// INSTRUCTIONS:\n// Export a function `startsWithPrefix(str, prefix)` returning str.startsWith(prefix).\n",
+  "93-string-ends-with": "// Challenge 93 - Suffix Check (.endsWith())\n//\n// INSTRUCTIONS:\n// Export a function `endsWithSuffix(str, suffix)` returning str.endsWith(suffix).\n",
+  "94-string-index-of": "// Challenge 94 - Finding Substring Index (.indexOf())\n//\n// INSTRUCTIONS:\n// Export a function `findIndex(str, search)` returning str.indexOf(search).\n",
+  "95-string-last-index-of": "// Challenge 95 - Last Substring Occurrence (.lastIndexOf())\n//\n// INSTRUCTIONS:\n// Export a function `findLastIndex(str, search)` returning str.lastIndexOf(search).\n",
+  "96-string-slice": "// Challenge 96 - Slicing Strings (.slice())\n//\n// INSTRUCTIONS:\n// Export a function `getSubstring(str, start, end)` returning str.slice(start, end).\n",
+  "97-string-substring": "// Challenge 97 - Extracting with .substring()\n//\n// INSTRUCTIONS:\n// Export a function `extractSub(str, start, end)` returning str.substring(start, end).\n",
+  "98-string-trim": "// Challenge 98 - Trimming Whitespace (.trim())\n//\n// INSTRUCTIONS:\n// Export a function `cleanStr(str)` returning str.trim().\n",
+  "99-string-trim-start-end": "// Challenge 99 - Trimming Start & End (.trimStart & .trimEnd)\n//\n// INSTRUCTIONS:\n// Export a function `trimSides(str)` returning { start: str.trimStart(), end: str.trimEnd() }.\n",
+  "100-string-pad-start": "// Challenge 100 - Padding Start (.padStart())\n//\n// INSTRUCTIONS:\n// Export a function `padZero(str, targetLength)` returning str.padStart(targetLength, \"0\").\n",
+  "101-string-pad-end": "// Challenge 101 - Padding End (.padEnd())\n//\n// INSTRUCTIONS:\n// Export a function `padDots(str, targetLength)` returning str.padEnd(targetLength, \".\").\n",
+  "102-string-replace": "// Challenge 102 - Replacing Substrings (.replace())\n//\n// INSTRUCTIONS:\n// Export a function `replaceFirst(str, pattern, replacement)` returning str.replace(pattern, replacement).\n",
+  "103-string-replace-all": "// Challenge 103 - Replacing All Substrings (.replaceAll())\n//\n// INSTRUCTIONS:\n// Export a function `replaceEvery(str, pattern, replacement)` returning str.replaceAll(pattern, replacement).\n",
+  "104-string-char-code-at": "// Challenge 104 - Character Code (.charCodeAt())\n//\n// INSTRUCTIONS:\n// Export a function `getCodeAt(str, index)` returning str.charCodeAt(index).\n",
+  "105-string-from-char-code": "// Challenge 105 - String.fromCharCode Static Method\n//\n// INSTRUCTIONS:\n// Export a function `fromCodes(...codes)` returning String.fromCharCode(...codes).\n",
+  "106-string-code-point-at": "// Challenge 106 - Unicode Code Point (.codePointAt())\n//\n// INSTRUCTIONS:\n// Export a function `getCodePoint(str, index)` returning str.codePointAt(index).\n",
+  "107-string-from-code-point": "// Challenge 107 - String.fromCodePoint Static Method\n//\n// INSTRUCTIONS:\n// Export a function `fromPoints(...points)` returning String.fromCodePoint(...points).\n",
+  "108-string-case-insensitive-compare": "// Challenge 108 - Case-Insensitive String Equality\n//\n// INSTRUCTIONS:\n// Export a function `areEqualCaseInsensitive(a, b)`.\n",
+  "109-string-locale-compare": "// Challenge 109 - Locale-Aware Comparison (.localeCompare())\n//\n// INSTRUCTIONS:\n// Export a function `compareLocale(a, b)` returning a.localeCompare(b).\n",
+  "110-string-is-well-formed": "// Challenge 110 - Well-Formed Unicode Strings (.isWellFormed())\n//\n// INSTRUCTIONS:\n// Export a function `checkWellFormed(str)` returning str.isWellFormed().\n",
+  "111-math-floor-ceil": "// Challenge 111 - Math.floor & Math.ceil\n//\n// INSTRUCTIONS:\n// Export `roundDown(n)` and `roundUp(n)`.\n",
+  "112-math-round-trunc": "// Challenge 112 - Math.round & Math.trunc\n//\n// INSTRUCTIONS:\n// Export `roundNearest(n)` and `truncate(n)`.\n",
+  "113-math-max-min": "// Challenge 113 - Math.max & Math.min\n//\n// INSTRUCTIONS:\n// Export a function `findExtremes(...nums)` returning { max, min }.\n",
+  "114-math-abs": "// Challenge 114 - Math.abs Function\n//\n// INSTRUCTIONS:\n// Export a function `absolute(n)` returning Math.abs(n).\n",
+  "115-math-sqrt-pow": "// Challenge 115 - Math.sqrt & Math.pow\n//\n// INSTRUCTIONS:\n// Export a function `squareRoot(n)` returning Math.sqrt(n).\n",
+  "116-math-random-range": "// Challenge 116 - Random Number Range (Math.random)\n//\n// INSTRUCTIONS:\n// Export a function `getRandomInt(min, max)` returning random integer inclusive.\n",
+  "117-number-parse-int": "// Challenge 117 - Number.parseInt Function\n//\n// INSTRUCTIONS:\n// Export a function `parseInteger(str)` returning Number.parseInt(str, 10).\n",
+  "118-number-parse-float": "// Challenge 118 - Number.parseFloat Function\n//\n// INSTRUCTIONS:\n// Export a function `parseDecimal(str)` returning Number.parseFloat(str).\n",
+  "119-number-is-integer": "// Challenge 119 - Number.isInteger Type Guard\n//\n// INSTRUCTIONS:\n// Export a function `isInt(val)` returning Number.isInteger(val).\n",
+  "120-number-is-finite": "// Challenge 120 - Number.isFinite Type Guard\n//\n// INSTRUCTIONS:\n// Export a function `checkFinite(val)` returning Number.isFinite(val).\n",
+  "121-array-shift": "// Challenge 121 - Array Mutation: shift()\n//\n// INSTRUCTIONS:\n// Export a function `removeFirst(arr)` returning arr.shift().\n",
+  "122-array-unshift": "// Challenge 122 - Array Mutation: unshift()\n//\n// INSTRUCTIONS:\n// Export a function `prependItem(arr, item)` adding item to start.\n",
+  "123-array-splice": "// Challenge 123 - Array Splicing (.splice())\n//\n// INSTRUCTIONS:\n// Export a function `removeAndInsert(arr, start, deleteCount, newItem)` using splice.\n",
+  "124-array-reverse": "// Challenge 124 - Array Reversing (.reverse())\n//\n// INSTRUCTIONS:\n// Export a function `reverseCopy(arr)` returning arr.slice().reverse().\n",
+  "125-array-fill": "// Challenge 125 - Array Fill (.fill())\n//\n// INSTRUCTIONS:\n// Export a function `fillArray(arr, val)` returning arr.fill(val).\n",
+  "126-array-for-each": "// Challenge 126 - Array Iteration (.forEach())\n//\n// INSTRUCTIONS:\n// Export a function `tally(numbers)` summing numbers using .forEach().\n",
+  "127-array-map": "// Challenge 127 - Array Transformation (.map())\n//\n// INSTRUCTIONS:\n// Export a function `doubleAll(numbers)` returning numbers.map(n => n * 2).\n",
+  "128-array-filter": "// Challenge 128 - Array Filtering (.filter())\n//\n// INSTRUCTIONS:\n// Export a function `getEvens(numbers)` returning numbers.filter(n => n % 2 === 0).\n",
+  "129-array-reduce": "// Challenge 129 - Array Reduction (.reduce())\n//\n// INSTRUCTIONS:\n// Export a function `sum(numbers)` returning sum using .reduce().\n",
+  "130-array-reduce-right": "// Challenge 130 - Right-to-Left Reduction (.reduceRight())\n//\n// INSTRUCTIONS:\n// Export a function `concatRight(words)` using .reduceRight().\n",
+  "131-array-find": "// Challenge 131 - Finding an Element (.find())\n//\n// INSTRUCTIONS:\n// Export a function `findFirstNegative(numbers)` returning numbers.find(n => n < 0).\n",
+  "132-array-find-index": "// Challenge 132 - Finding Element Index (.findIndex())\n//\n// INSTRUCTIONS:\n// Export a function `findIndexOfTarget(arr, target)` using .findIndex().\n",
+  "133-array-some": "// Challenge 133 - Array Predicate Check (.some())\n//\n// INSTRUCTIONS:\n// Export a function `hasAnyNegative(numbers)` returning numbers.some(n => n < 0).\n",
+  "134-array-every": "// Challenge 134 - Universal Predicate Check (.every())\n//\n// INSTRUCTIONS:\n// Export a function `allPositive(numbers)` returning numbers.every(n => n > 0).\n",
+  "135-array-includes": "// Challenge 135 - Array Inclusion Check (.includes())\n//\n// INSTRUCTIONS:\n// Export a function `containsItem(arr, item)` returning arr.includes(item).\n",
+  "136-array-sort": "// Challenge 136 - Array Sorting (.sort())\n//\n// INSTRUCTIONS:\n// Export a function `sortNumbers(numbers)` returning sorted numbers ascending.\n",
+  "137-array-flat": "// Challenge 137 - Array Flattening (.flat())\n//\n// INSTRUCTIONS:\n// Export a function `flattenArray(arr, depth = 1)` returning arr.flat(depth).\n",
+  "138-array-flat-map": "// Challenge 138 - Array FlatMap (.flatMap())\n//\n// INSTRUCTIONS:\n// Export a function `duplicateEach(arr)` returning arr.flatMap(x => [x, x]).\n",
+  "139-array-of": "// Challenge 139 - Array.of Static Method\n//\n// INSTRUCTIONS:\n// Export a function `makeArray(...elements)` returning Array.of(...elements).\n",
+  "140-object-keys": "// Challenge 140 - Object.keys Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectKeys(obj)` returning Object.keys(obj).\n",
+  "141-object-values": "// Challenge 141 - Object.values Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectValues(obj)` returning Object.values(obj).\n",
+  "142-object-entries": "// Challenge 142 - Object.entries Function\n//\n// INSTRUCTIONS:\n// Export a function `getObjectEntries(obj)` returning Object.entries(obj).\n",
+  "143-object-has-own": "// Challenge 143 - Object.hasOwn Function\n//\n// INSTRUCTIONS:\n// Export a function `hasOwnProperty(obj, prop)` returning Object.hasOwn(obj, prop).\n",
+  "144-deep-get": "// Challenge 144 - Deep Property Lookup (deepGet)\n//\n// INSTRUCTIONS:\n// Export a function `deepGet(obj, path)` traversing nested path.\n",
+  "145-deep-set": "// Challenge 145 - Deep Property Assignment (deepSet)\n//\n// INSTRUCTIONS:\n// Export a function `deepSet(obj, path, value)`.\n",
+  "146-set-data-structure": "// Challenge 146 - Set Data Structure\n//\n// INSTRUCTIONS:\n// Export a function `getUnique(arr)` returning unique elements array with Set.\n",
+  "147-map-data-structure": "// Challenge 147 - Map Data Structure\n//\n// INSTRUCTIONS:\n// Export a function `createMap(pairs)` returning new Map(pairs).\n",
+  "148-map-to-object": "// Challenge 148 - Map to Plain Object\n//\n// INSTRUCTIONS:\n// Export a function `mapToObj(map)` returning Object.fromEntries(map).\n",
+  "149-object-to-map": "// Challenge 149 - Plain Object to Map\n//\n// INSTRUCTIONS:\n// Export a function `objToMap(obj)` returning new Map(Object.entries(obj)).\n",
+  "150-bitwise-and": "// Challenge 150 - Bitwise AND Operator (&)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseAnd(a, b)` returning a & b.\n",
+  "151-bitwise-or": "// Challenge 151 - Bitwise OR Operator (|)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseOr(a, b)` returning a | b.\n",
+  "152-bitwise-xor": "// Challenge 152 - Bitwise XOR Operator (^)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseXor(a, b)` returning a ^ b.\n",
+  "153-bitwise-not": "// Challenge 153 - Bitwise NOT Operator (~)\n//\n// INSTRUCTIONS:\n// Export a function `bitwiseNot(a)` returning ~a.\n",
+  "154-bitwise-left-shift": "// Challenge 154 - Bitwise Left Shift (<<)\n//\n// INSTRUCTIONS:\n// Export a function `leftShift(a, b)` returning a << b.\n",
+  "155-bitwise-right-shift": "// Challenge 155 - Bitwise Right Shift (>>)\n//\n// INSTRUCTIONS:\n// Export a function `rightShift(a, b)` returning a >> b.\n",
+  "156-callback-apply": "// Challenge 156 - Passing Functions as Values (Callbacks)\n//\n// INSTRUCTIONS:\n// Export a function `applyCallback(fn, value)` returning fn(value).\n",
+  "157-arrow-function": "// Challenge 157 - Arrow Functions\n//\n// INSTRUCTIONS:\n// Export an arrow function `addNumbers = (a, b) => a + b`.\n",
+  "158-default-parameters": "// Challenge 158 - Default Function Parameters\n//\n// INSTRUCTIONS:\n// Export a function `greetUser(name = \"Guest\")`.\n",
+  "159-rest-parameters": "// Challenge 159 - Rest Parameters (...args)\n//\n// INSTRUCTIONS:\n// Export a function `sumAll(...numbers)` returning total sum of arguments.\n",
+  "160-function-closure": "// Challenge 160 - Closures (Private State)\n//\n// INSTRUCTIONS:\n// Export a function `createCounter()` returning a counter closure.\n",
+  "161-currying": "// Challenge 161 - Currying Functions\n//\n// INSTRUCTIONS:\n// Export a function `curryAdd(a)` returning function(b) returning a + b.\n",
+  "162-memoization": "// Challenge 162 - Memoization Pattern\n//\n// INSTRUCTIONS:\n// Export a function `memoize(fn)` caching results with Map.\n",
+  "163-function-composition": "// Challenge 163 - Function Composition (pipe)\n//\n// INSTRUCTIONS:\n// Export a function `pipe(f, g)` returning x => g(f(x)).\n",
+  "164-class-declaration": "// Challenge 164 - Class Declarations\n//\n// INSTRUCTIONS:\n// Export a class `Person` with constructor(name, age).\n",
+  "165-class-methods": "// Challenge 165 - Class Instance Methods\n//\n// INSTRUCTIONS:\n// Export a class `Greeter` with greet() method.\n",
+  "166-class-getters-setters": "// Challenge 166 - Getters and Setters\n//\n// INSTRUCTIONS:\n// Export a class `Circle` with getter and setter for diameter.\n",
+  "167-class-inheritance": "// Challenge 167 - Class Inheritance (extends & super)\n//\n// INSTRUCTIONS:\n// Export class `Animal` and class `Dog extends Animal`.\n",
+  "168-class-static-methods": "// Challenge 168 - Static Methods\n//\n// INSTRUCTIONS:\n// Export class `MathHelper` with static add(a, b).\n",
+  "169-try-catch": "// Challenge 169 - Error Handling with try..catch\n//\n// INSTRUCTIONS:\n// Export a function `safeJsonParse(str, fallbackVal)` using try..catch.\n",
+  "170-throw-error": "// Challenge 170 - Throwing Errors\n//\n// INSTRUCTIONS:\n// Export a function `requirePositive(n)` throwing Error if n <= 0.\n",
+  "171-promise-resolve": "// Challenge 171 - Promises (Promise.resolve)\n//\n// INSTRUCTIONS:\n// Export a function `getAsyncValue(val)` returning Promise.resolve(val).\n",
+  "172-async-sleep": "// Challenge 172 - Asynchronous Sleep (setTimeout Promise)\n//\n// INSTRUCTIONS:\n// Export a function `sleep(ms)` returning Promise resolved after ms.\n",
+  "173-async-await": "// Challenge 173 - Async / Await Syntax\n//\n// INSTRUCTIONS:\n// Export an async function `addAsync(a, b)` returning sum using await.\n",
+  "174-promise-all": "// Challenge 174 - Concurrency with Promise.all\n//\n// INSTRUCTIONS:\n// Export a function `fetchAll(promises)` returning Promise.all(promises).\n",
+  "175-promise-race": "// Challenge 175 - First Settled with Promise.race\n//\n// INSTRUCTIONS:\n// Export a function `getFastest(promises)` returning Promise.race(promises).\n",
+  "176-promise-all-settled": "// Challenge 176 - Complete Outcomes with Promise.allSettled\n//\n// INSTRUCTIONS:\n// Export a function `checkAllOutcomes(promises)` returning Promise.allSettled(promises).\n",
+  "177-event-emitter": "// Challenge 177 - Event Emitter Pattern (Pub/Sub)\n//\n// INSTRUCTIONS:\n// Export a function `createEmitter()` returning { on, emit }.\n",
+  "178-async-generator": "// Challenge 178 - Async Generators (async function*)\n//\n// INSTRUCTIONS:\n// Export an `async function* rangeAsync(start, end)`.\n",
+  "179-for-await-of": "// Challenge 179 - Async Iteration (for await..of)\n//\n// INSTRUCTIONS:\n// Export an async function `collectAsync(asyncIterable)`.\n",
+  "180-dog-years": "// Challenge 180 - Domain Modeling: Dog Years\n//\n// INSTRUCTIONS:\n// Export a function `dogYears(planet, seconds)`.\n",
+  "181-physics-acceleration": "// Challenge 181 - Domain Modeling: Physics Acceleration\n//\n// INSTRUCTIONS:\n// Export a function `getAcceleration(obj)` calculating acceleration from available physics properties.\n",
+  "182-super-type-of": "// Challenge 182 - Reflection: superTypeOf\n//\n// INSTRUCTIONS:\n// Export a function `superTypeOf(val)`.\n",
+  "183-hash-code": "// Challenge 183 - Algorithms: 32-Bit Polynomial Hash\n//\n// INSTRUCTIONS:\n// Export a function `hashCode(str)` calculating 32-bit integer hash code.\n",
+  "184-block-chain": "// Challenge 184 - Closures: Chained Blockchain Node\n//\n// INSTRUCTIONS:\n// Export a function `blockChain(data, prev = { index: 0, hash: \"0\" })`.\n",
+  "185-chunk-array": "// Challenge 185 - Project Utility: Array Chunking\n//\n// INSTRUCTIONS:\n// Export a function `chunk(arr, size)` splitting array into chunks of length size.\n",
+  "186-group-by": "// Challenge 186 - Project Utility: Group By\n//\n// INSTRUCTIONS:\n// Export a function `groupBy(arr, fn)` grouping items by fn(item) return value.\n",
+  "187-deep-clone": "// Challenge 187 - Project Utility: Deep Clone\n//\n// INSTRUCTIONS:\n// Export a function `deepClone(obj)` recursively copying nested objects and arrays.\n",
+  "188-query-string-parse": "// Challenge 188 - Project Utility: URL Query String Parser\n//\n// INSTRUCTIONS:\n// Export a function `parseQuery(queryStr)` converting query string into an object.\n",
+  "189-query-string-stringify": "// Challenge 189 - Project Utility: URL Query String Serializer\n//\n// INSTRUCTIONS:\n// Export a function `stringifyQuery(obj)` converting an object into a query string.\n",
+  "190-debounce-function": "// Challenge 190 - Project Utility: Debounce Pattern\n//\n// INSTRUCTIONS:\n// Export a function `debounce(fn, delay)` returning a debounced wrapper.\n",
+  "191-throttle-function": "// Challenge 191 - Project Utility: Throttle Pattern\n//\n// INSTRUCTIONS:\n// Export a function `throttle(fn, interval)` returning a throttled wrapper.\n",
+  "192-async-retry": "// Challenge 192 - Project Utility: Async Retry Wrapper\n//\n// INSTRUCTIONS:\n// Export an async function `retryAsync(fn, maxRetries, delay = 0)`.\n",
+  "193-data-validator": "// Challenge 193 - Project Utility: Schema Validator\n//\n// INSTRUCTIONS:\n// Export a function `validate(data, schema)` returning { isValid, errors }.\n",
+  "194-html-builder": "// Challenge 194 - Project Utility: HTML Element Generator\n//\n// INSTRUCTIONS:\n// Export a function `tag(name, attrs = {}, content = \"\")` returning an HTML tag string.\n"
 };
 
-export const clone1 = null;
-export const clone2 = null;
-export const samePerson = null;
-`,
-  "05-more-or-less": `export function more(n) {
-  // TODO: implement
+console.log("Resetting all challenge solution.js files to starter comment stubs...");
+
+for (const [dir, stub] of Object.entries(stubs)) {
+  const solPath = path.join(challengesDir, dir, "solution.js");
+  fs.writeFileSync(solPath, stub, "utf8");
 }
 
-export function less(n) {
-  // TODO: implement
-}
-
-export function add(a, b) {
-  // TODO: implement
-}
-
-export function sub(a, b) {
-  // TODO: implement
-}
-`,
-  "06-returns": `export function id(arg) {
-  // TODO: implement
-}
-
-export function getLength(arg) {
-  // TODO: implement
-}
-`,
-  "07-last-first-kiss": `export function first(arg) {
-  // TODO: implement
-}
-
-export function last(arg) {
-  // TODO: implement
-}
-
-export function kiss(arg) {
-  // TODO: implement
-}
-`,
-  "08-concat-str": `export function concatStr(a, b) {
-  // TODO: implement
-}
-`,
-  "09-change": `export const sourceObject = {};
-
-export function get(key) {
-  // TODO: implement
-}
-
-export function set(key, value) {
-  // TODO: implement
-}
-`,
-  "10-circular": `export const circular = {};
-// TODO: attach circular reference
-`,
-  "11-biggie-smalls": `export const biggie = 0;
-export const smalls = 0;
-`,
-  "12-method-man": `export function words(str) {
-  // TODO: implement
-}
-
-export function sentence(arr) {
-  // TODO: implement
-}
-
-export function yell(str) {
-  // TODO: implement
-}
-
-export function whisper(str) {
-  // TODO: implement
-}
-
-export function capitalize(str) {
-  // TODO: implement
-}
-`,
-  "13-abs": `export function isPositive(num) {
-  // TODO: implement
-}
-
-export function abs(num) {
-  // TODO: implement (Do NOT use Math.abs)
-}
-`,
-  "14-min-max": `export function max(a, b) {
-  // TODO: implement (Do NOT use Math.max)
-}
-
-export function min(a, b) {
-  // TODO: implement (Do NOT use Math.min)
-}
-`,
-  "15-sign": `export function sign(n) {
-  // TODO: implement (Do NOT use Math.sign)
-}
-
-export function sameSign(a, b) {
-  // TODO: implement
-}
-`,
-  "16-is": `export const is = {};
-// TODO: attach predicate methods
-`,
-  "17-dog-years": `export function dogYears(planet, seconds) {
-  // TODO: implement
-}
-`,
-  "18-physics": `export function getAcceleration(obj) {
-  // TODO: implement
-}
-`,
-  "19-collections": `export const arrToSet = (arr) => {};
-export const arrToStr = (arr) => {};
-export const setToArr = (set) => {};
-export const setToStr = (set) => {};
-export const strToArr = (str) => {};
-export const strToSet = (str) => {};
-export const mapToObj = (map) => {};
-export const objToArr = (obj) => {};
-export const objToMap = (obj) => {};
-export const arrToObj = (arr) => {};
-export const strToObj = (str) => {};
-export const superTypeOf = (val) => {};
-`,
-  "20-block-chain": `export function hashCode(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash |= 0;
-  }
-  return Math.abs(hash).toString(16);
-}
-
-export function blockChain(data, prev = { index: 0, hash: "0" }) {
-  // TODO: implement
-}
-`
-};
-
-for (const [dir, code] of Object.entries(templates)) {
-  const file = path.join("./challenges", dir, "solution.js");
-  if (fs.existsSync(path.dirname(file))) {
-    fs.writeFileSync(file, code);
-  }
-}
-
-console.log("\x1b[33mAll 20 challenge solutions reset to blank stubs.\x1b[0m");
+console.log("✔ All 194 challenge solutions reset successfully!");
