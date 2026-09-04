@@ -428,7 +428,6 @@ function renderArenaView(match) {
               <span class="editor-badge">ESM JavaScript</span>
             </div>
             <div class="editor-controls">
-              <span style="color: var(--accent-cyan); font-weight: 600;">✨ Auto-Brackets & Prettier Enabled</span>
             </div>
           </div>
 
