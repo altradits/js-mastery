@@ -244,4 +244,10 @@ for (const dir of allDirs) {
   }
 }
 
-console.log(`✔ All ${resetCount} challenge solutions reset successfully!`);
+// Reset root solution.js to Challenge 01
+const rootSolutionPath = path.join(__dirname, "solution.js");
+const metaStatePath = path.join(__dirname, ".current_challenge.json");
+fs.writeFileSync(rootSolutionPath, stubs["01-constant-variable"] || "// Challenge 01\n", "utf8");
+fs.writeFileSync(metaStatePath, JSON.stringify({ activeDir: "01-constant-variable", updatedAt: Date.now() }, null, 2), "utf8");
+
+console.log(`✔ All ${resetCount} challenge solutions and root solution.js reset to Challenge 01!`);

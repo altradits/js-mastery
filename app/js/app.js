@@ -214,7 +214,7 @@ function renderStatusbar(state) {
     appStatusbar.innerHTML = `
       <div class="statusbar-group-left">
         <span class="statusbar-item" title="Active Quest">
-          <span>⚡ Quest #${levelNumber} / 216</span>
+          <span>⚡ Quest #${levelNumber} / ${CHALLENGE_BANK.length}</span>
         </span>
         <span class="statusbar-item" title="Developer Rank Tier">
           <span>Rank: ${rank.title}</span>
@@ -315,7 +315,7 @@ function renderLobbyView(state) {
 
   appRoot.innerHTML = `
     <div class="lobby-hero">
-      <div class="hero-pill">PISCINE ARENA • 216 ATOMIC CHALLENGES</div>
+      <div class="hero-pill">PISCINE ARENA • ${CHALLENGE_BANK.length} ATOMIC CHALLENGES</div>
       <h1 class="hero-title">MASTER JAVASCRIPT. <span>LEVEL BY LEVEL.</span></h1>
       <p class="hero-subtitle">Focus on clean, atomic coding challenges with instant validation and accumulating bounties.</p>
     </div>
@@ -360,7 +360,7 @@ function renderModesTab(user, activeChallenge, currentChallengeIdx) {
     <!-- Sequential Gauntlet Featured Banner -->
     <div class="gauntlet-card">
       <div class="gauntlet-info">
-        <span class="gauntlet-level">NEXT LEVEL • CHALLENGE #${currentChallengeIdx + 1} OF 216</span>
+        <span class="gauntlet-level">NEXT LEVEL • CHALLENGE #${currentChallengeIdx + 1} OF ${CHALLENGE_BANK.length}</span>
         <h2 class="gauntlet-title">${escapeHtml(activeChallenge.title)}</h2>
         <p class="gauntlet-desc">${escapeHtml(activeChallenge.task)}</p>
       </div>
@@ -525,9 +525,9 @@ function renderRulesTab() {
     <div class="rules-card">
       <h2>Piscine Gauntlet & Code Royale Rules</h2>
       <ul>
-        <li><strong>Piscine Gauntlet</strong>: Master JavaScript through 216 atomic levels. Practice at your own pace with instant test validation.</li>
+        <li><strong>Piscine Gauntlet</strong>: Master JavaScript through ${CHALLENGE_BANK.length} atomic levels. Practice at your own pace with instant test validation.</li>
         <li><strong>Test Action</strong>: Run tests in the bottom terminal as many times as you like without penalties (shortcut: <code>Cmd + '</code> or <code>Ctrl + '</code>).</li>
-        <li><strong>Submission</strong>: Submit your final code in the terminal header or with <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>). On the victory popup, press <code>Enter</code> to immediately advance to the next level.</li>
+        <li><strong>Submission</strong>: Submit your final code in the terminal header or with <code>Cmd + Enter</code> (or <code>Ctrl + Enter</code>). Code passes automatically promote to the next quest!</li>
         <li><strong>Battle Royale & Duels</strong>: Sudden death elimination wager matches against competitive AIs. The last surviving programmer claims the entire jackpot bounty.</li>
       </ul>
     </div>
@@ -561,7 +561,7 @@ function renderArenaView(match) {
           <!-- Gamified Quest Meta Header -->
           <div class="quest-meta-banner">
             <div class="quest-meta-row">
-              <span class="quest-level-tag">QUEST #${String(levelNumber).padStart(3, '0')} OF 216</span>
+              <span class="quest-level-tag">QUEST #${String(levelNumber).padStart(3, '0')} OF ${CHALLENGE_BANK.length}</span>
               <span class="quest-difficulty">${getDifficultyStars(levelNumber)} Tier ${Math.ceil(levelNumber / 27)}</span>
             </div>
             <div class="quest-meta-row">

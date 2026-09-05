@@ -246,6 +246,15 @@ class ArenaEngine {
     sound.playCoin();
     sound.playVictory();
 
+    // In sequential Gauntlet mode, automatically promote and switch to next challenge
+    if (match.mode === "gauntlet" && (match.challengeIdx + 1) < CHALLENGE_BANK.length) {
+      const nextIdx = match.challengeIdx + 1;
+      setTimeout(() => {
+        this.createMatch({ mode: "gauntlet", challengeIdx: nextIdx, wager: 0 });
+      }, 600);
+      return;
+    }
+
     store.setState({ match: { ...match }, currentView: "victory" });
   }
 

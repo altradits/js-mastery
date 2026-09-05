@@ -29,17 +29,21 @@ Experience JavaScript coding as a competitive esports arena and interactive lear
 
 ### Mode 2: High-Velocity Terminal CLI (VS Code / Terminal)
 
-A focused, zero-clutter terminal drill environment:
+A focused, zero-clutter terminal drill environment featuring **automatic challenge promotion** and **auto-switching `solution.js`**:
+
+- 📝 **Single Active File**: Leave `solution.js` open in your editor. Whenever your code passes, `solution.js` automatically reloads with the next challenge's starter code.
+- 🚀 **Auto-Promotion**: Every time your test passes, you are instantly advanced to the next level without touching folder trees.
+- ⚡ **Live Watch Engine**: Run `npm run watch` — save your file (`Cmd + S`) and watch it test, pass, and switch to the next quest in real time.
 
 ```bash
-# 1. Step-by-step interactive drill runner (shows passed badges + clean PASS/FAIL):
+# 1. Step-by-step interactive drill runner (auto-promotes and switches solution.js):
 npm start
 # or: npm run drill
 
-# 2. Live auto-detecting watch mode (re-tests automatically on Cmd + S):
+# 2. Live auto-detecting watch mode (re-tests, promotes & switches on save):
 npm run watch
 
-# 3. Test current active challenge:
+# 3. Test current active challenge (evaluates & promotes):
 npm test
 # or: npm run current
 
