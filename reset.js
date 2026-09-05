@@ -227,9 +227,21 @@ const stubs = {
 
 console.log("Resetting all challenge solution.js files to starter comment stubs...");
 
-for (const [dir, stub] of Object.entries(stubs)) {
+const allDirs = fs.readdirSync(challengesDir).filter(d => fs.statSync(path.join(challengesDir, d)).isDirectory());
+
+let resetCount = 0;
+for (const dir of allDirs) {
   const solPath = path.join(challengesDir, dir, "solution.js");
-  fs.writeFileSync(solPath, stub, "utf8");
+  const exercisePath = path.join(challengesDir, dir, "exercise.js");
+
+  if (stubs[dir]) {
+    fs.writeFileSync(solPath, stubs[dir], "utf8");
+    resetCount++;
+  } else if (fs.existsSync(exercisePath)) {
+    const exerciseContent = fs.readFileSync(exercisePath, "utf8");
+    fs.writeFileSync(solPath, exerciseContent, "utf8");
+    resetCount++;
+  }
 }
 
-console.log("✔ All 216 challenge solutions reset successfully!");
+console.log(`✔ All ${resetCount} challenge solutions reset successfully!`);

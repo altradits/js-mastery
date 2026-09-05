@@ -1,7 +1,7 @@
 {
   "name": "js-mastery",
   "version": "1.0.0",
-  "description": "Code Royale: Competitive Last Man Standing JavaScript Piscine Arena & 216-Challenge Practice Engine",
+  "description": "Code Royale: Competitive Last Man Standing JavaScript Piscine Arena & 247-Challenge Practice Engine",
   "main": "solution.js",
   "scripts": {
     "start": "node runner.js",

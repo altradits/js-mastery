@@ -1,4 +1,4 @@
-// Auto-generated challenge bank for Code Royale Arena
+// Full 247 Challenge Bank (Foundations + 31 Checkpoint Milestone Projects)
 export const CHALLENGE_BANK = [
   {
     "id": 1,
@@ -2375,5 +2375,346 @@ export const CHALLENGE_BANK = [
     "task": "Export conversion functions `arrToStr(arr)`, `setToArr(set)`, `strToArr(str)`, and `strToSet(str)`.",
     "solutionStub": "",
     "exportedName": "collections_conversions"
+  },
+  {
+    "id": 217,
+    "dir": "217-reverse-chunks",
+    "title": "217 — Checkpoint: Array Reverse Chunks",
+    "concept": "Array chunking divides an array into fixed-size subarrays and reverses elements within each partition.",
+    "syntax": "export function reverseChunks(arr, chunkSize) {\n  if (!Array.isArray(arr) || chunkSize <= 0) return [...arr];\n  const res = [];\n  for (let i = 0; i < arr.length; i += chunkSize) {\n    const chunk = arr.slice(i, i + chunkSize);\n    res.push(...chunk.reverse());\n  }\n  return res;\n}",
+    "example": "reverseChunks([1, 2, 3, 4, 5, 6, 7, 8], 3); // [3, 2, 1, 6, 5, 4, 8, 7]",
+    "task": "Export `reverseChunks(arr, chunkSize)` that partitions `arr` into chunks of length `chunkSize` and reverses each chunk.",
+    "solutionStub": "export function reverseChunks(arr, chunkSize) {\n  // Your code here\n}",
+    "exportedName": "reverse_chunks"
+  },
+  {
+    "id": 218,
+    "dir": "218-bubble-sort-analyzer",
+    "title": "218 — Checkpoint: Bubble Sort Analyzer",
+    "concept": "Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if out of order, tracking comparison and swap metrics.",
+    "syntax": "export function bubbleSortAnalyzer(arr, comparator = (a, b) => a - b) {\n  const sortedArray = [...arr];\n  let totalSwaps = 0, totalComparisons = 0, passes = 0;\n  let swapped = true;\n  while (swapped) {\n    swapped = false;\n    passes++;\n    for (let i = 0; i < sortedArray.length - 1; i++) {\n      totalComparisons++;\n      if (comparator(sortedArray[i], sortedArray[i + 1]) > 0) {\n        [sortedArray[i], sortedArray[i + 1]] = [sortedArray[i + 1], sortedArray[i]];\n        totalSwaps++;\n        swapped = true;\n      }\n    }\n  }\n  return { sortedArray, totalSwaps, totalComparisons, passes };\n}",
+    "example": "bubbleSortAnalyzer([4, 2, 1]); // { sortedArray: [1, 2, 4], totalSwaps: 3, totalComparisons: 4, passes: 2 }",
+    "task": "Export `bubbleSortAnalyzer(arr, comparator)` returning `{ sortedArray, totalSwaps, totalComparisons, passes }`.",
+    "solutionStub": "export function bubbleSortAnalyzer(arr, comparator = (a, b) => a - b) {\n  // Your code here\n}",
+    "exportedName": "bubble_sort_analyzer"
+  },
+  {
+    "id": 219,
+    "dir": "219-curried-character-creator",
+    "title": "219 — Checkpoint: Curried Character Maker",
+    "concept": "Curried factory functions build complex stateful objects incrementally through chained single-argument closures.",
+    "syntax": "export function createCurriedCharacterCreator(initialChar) {\n  return (name) => (role) => (statsMod) => {\n    const stats = {\n      hp: (initialChar.stats?.hp || 100) + (statsMod.hp || 0),\n      attack: (initialChar.stats?.attack || 10) + (statsMod.attack || 0),\n      defense: (initialChar.stats?.defense || 5) + (statsMod.defense || 0),\n      speed: (initialChar.stats?.speed || 10) + (statsMod.speed || 0)\n    };\n    return {\n      name,\n      role,\n      stats,\n      attackTarget(target) {\n        const damage = Math.max(1, this.stats.attack - target.stats.defense);\n        target.stats.hp = Math.max(0, target.stats.hp - damage);\n        return damage;\n      },\n      takeDamage(amount) {\n        this.stats.hp = Math.max(0, this.stats.hp - amount);\n        return this.stats.hp;\n      }\n    };\n  };\n}",
+    "example": "const builder = createCurriedCharacterCreator(base)(\"Arthur\")(\"Knight\")({ hp: 50 });",
+    "task": "Export `createCurriedCharacterCreator(initialChar)` returning curried `(name) => (role) => (statsMod) => Character`.",
+    "solutionStub": "export function createCurriedCharacterCreator(initialChar) {\n  // Your code here\n}",
+    "exportedName": "curried_character_creator"
+  },
+  {
+    "id": 220,
+    "dir": "220-deep-clone-advanced",
+    "title": "220 — Checkpoint: Advanced Deep Clone",
+    "concept": "Deep cloning creates an exact structural duplicate of objects, arrays, Maps, Sets, and Dates with circular reference protection.",
+    "syntax": "export function deepClone(obj, map = new WeakMap()) {\n  if (obj === null || typeof obj !== \"object\") return obj;\n  if (obj instanceof Date) return new Date(obj.getTime());\n  if (obj instanceof RegExp) return new RegExp(obj.source, obj.flags);\n  if (map.has(obj)) return map.get(obj);\n\n  if (obj instanceof Map) {\n    const clone = new Map();\n    map.set(obj, clone);\n    obj.forEach((v, k) => clone.set(deepClone(k, map), deepClone(v, map)));\n    return clone;\n  }\n  if (obj instanceof Set) {\n    const clone = new Set();\n    map.set(obj, clone);\n    obj.forEach(v => clone.add(deepClone(v, map)));\n    return clone;\n  }\n\n  const clone = Array.isArray(obj) ? [] : {};\n  map.set(obj, clone);\n  for (const key of Object.keys(obj)) {\n    clone[key] = deepClone(obj[key], map);\n  }\n  return clone;\n}",
+    "example": "const clone = deepClone({ a: [1, 2], b: { c: 3 } });",
+    "task": "Export `deepClone(obj)` that deep copies nested structures, Dates, Maps, Sets, and handles circular references.",
+    "solutionStub": "export function deepClone(obj) {\n  // Your code here\n}",
+    "exportedName": "deep_clone_advanced"
+  },
+  {
+    "id": 221,
+    "dir": "221-deep-equal",
+    "title": "221 — Checkpoint: Deep Equal Comparison",
+    "concept": "Deep equality recursively verifies that two values have identical types, keys, and values across nested structures.",
+    "syntax": "export function deepEqual(a, b) {\n  if (a === b) return true;\n  if (typeof a !== \"object\" || a === null || typeof b !== \"object\" || b === null) return false;\n  if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();\n  if (Array.isArray(a) !== Array.isArray(b)) return false;\n  const keysA = Object.keys(a), keysB = Object.keys(b);\n  if (keysA.length !== keysB.length) return false;\n  return keysA.every(k => Object.prototype.hasOwnProperty.call(b, k) && deepEqual(a[k], b[k]));\n}",
+    "example": "deepEqual({ x: [1, 2] }, { x: [1, 2] }); // true",
+    "task": "Export `deepEqual(objA, objB)` returning `true` if both values are deeply structurally identical, else `false`.",
+    "solutionStub": "export function deepEqual(objA, objB) {\n  // Your code here\n}",
+    "exportedName": "deep_equal"
+  },
+  {
+    "id": 222,
+    "dir": "222-deep-find",
+    "title": "222 — Checkpoint: Deep Property Finder",
+    "concept": "Resolves nested properties along dot-separated path strings (`'user.profile.name'`) safely returning `undefined` on missing keys.",
+    "syntax": "export function deepFind(obj, path) {\n  if (!obj || typeof path !== \"string\") return undefined;\n  return path.split('.').reduce((acc, key) => (acc !== null && acc !== undefined ? acc[key] : undefined), obj);\n}",
+    "example": "deepFind({ user: { address: { city: \"Paris\" } } }, \"user.address.city\"); // \"Paris\"",
+    "task": "Export `deepFind(obj, path)` that safely retrieves a nested property along a dot-delimited path string.",
+    "solutionStub": "export function deepFind(obj, path) {\n  // Your code here\n}",
+    "exportedName": "deep_find"
+  },
+  {
+    "id": 223,
+    "dir": "223-deep-freeze-recursive",
+    "title": "223 — Checkpoint: Deep Freeze Immutability",
+    "concept": "`deepFreeze` prevents mutation by recursively calling `Object.freeze` on an object and all of its nested objects and functions.",
+    "syntax": "export function deepFreeze(obj) {\n  if (obj === null || typeof obj !== \"object\") return obj;\n  Object.freeze(obj);\n  for (const key of Object.keys(obj)) {\n    if (typeof obj[key] === \"object\" && obj[key] !== null && !Object.isFrozen(obj[key])) {\n      deepFreeze(obj[key]);\n    }\n  }\n  return obj;\n}",
+    "example": "const frozen = deepFreeze({ a: { b: 1 } }); Object.isFrozen(frozen.a); // true",
+    "task": "Export `deepFreeze(obj)` that deeply freezes `obj` and all nested objects, returning the frozen object.",
+    "solutionStub": "export function deepFreeze(obj) {\n  // Your code here\n}",
+    "exportedName": "deep_freeze_recursive"
+  },
+  {
+    "id": 224,
+    "dir": "224-divisor-finder",
+    "title": "224 — Checkpoint: Divisor Finder",
+    "concept": "Divisor calculation finds all positive integers that divide `n` without remainder.",
+    "syntax": "export function divisors(n) {\n  if (n <= 0) return [];\n  const res = [];\n  for (let i = 1; i <= n; i++) {\n    if (n % i === 0) res.push(i);\n  }\n  return res;\n}",
+    "example": "divisors(12); // [1, 2, 3, 4, 6, 12]",
+    "task": "Export `divisors(n)` returning an ascending array of all positive divisors of `n`.",
+    "solutionStub": "export function divisors(n) {\n  // Your code here\n}",
+    "exportedName": "divisor_finder"
+  },
+  {
+    "id": 225,
+    "dir": "225-election-mix",
+    "title": "225 — Checkpoint: Curried Filter and Map",
+    "concept": "Curried functional pipelines decouple filtering criteria from mapping transforms over dictionary objects.",
+    "syntax": "export function createCurriedFilterAndMap(predicate) {\n  return (transformFn) => (object) => {\n    const result = {};\n    for (const [key, value] of Object.entries(object || {})) {\n      if (predicate(value, key)) {\n        result[key] = transformFn(value, key);\n      }\n    }\n    return result;\n  };\n}",
+    "example": "createCurriedFilterAndMap(v => typeof v === \"number\")(v => v * 2)({ a: 5, b: \"hi\" }); // { a: 10 }",
+    "task": "Export `createCurriedFilterAndMap(predicate)(transformFn)(object)` that filters object entries by predicate and maps the remaining values.",
+    "solutionStub": "export function createCurriedFilterAndMap(predicate) {\n  // Your code here\n}",
+    "exportedName": "election_mix"
+  },
+  {
+    "id": 226,
+    "dir": "226-even-sum",
+    "title": "226 — Checkpoint: Even Numbers Summation",
+    "concept": "Aggregating elements meeting a parity condition using modulo arithmetic and array accumulation.",
+    "syntax": "export function evenSum(arr) {\n  if (!Array.isArray(arr)) return 0;\n  return arr.filter(n => typeof n === \"number\" && n % 2 === 0).reduce((a, b) => a + b, 0);\n}",
+    "example": "evenSum([1, 2, 3, 4, 5, 6]); // 12",
+    "task": "Export `evenSum(arr)` that returns the sum of all even numbers in `arr`.",
+    "solutionStub": "export function evenSum(arr) {\n  // Your code here\n}",
+    "exportedName": "even_sum"
+  },
+  {
+    "id": 227,
+    "dir": "227-exam-grader",
+    "title": "227 — Checkpoint: Exam Grader Analytics",
+    "concept": "Calculates weighted score averages, determines pass/fail thresholds, and assigns letter grades based on performance criteria.",
+    "syntax": "export function examGrader(exercises, passingGrade = 60) {\n  if (!Array.isArray(exercises) || exercises.length === 0) {\n    return { average: 0, passed: false, grade: 'F', passedCount: 0 };\n  }\n  const totalWeight = exercises.reduce((sum, e) => sum + (e.weight || 1), 0);\n  const weightedScore = exercises.reduce((sum, e) => sum + (e.score * (e.weight || 1)), 0);\n  const average = Math.round((weightedScore / totalWeight) * 100) / 100;\n  const passed = average >= passingGrade;\n  let grade = 'F';\n  if (average >= 90) grade = 'A';\n  else if (average >= 80) grade = 'B';\n  else if (average >= 70) grade = 'C';\n  else if (average >= 60) grade = 'D';\n\n  const passedCount = exercises.filter(e => e.score >= passingGrade).length;\n  return { average, passed, grade, passedCount };\n}",
+    "example": "examGrader([{ score: 90, weight: 2 }, { score: 70, weight: 1 }]); // { average: 83.33, passed: true, grade: 'B', passedCount: 2 }",
+    "task": "Export `examGrader(exercises, passingGrade)` calculating `{ average, passed, grade, passedCount }`.",
+    "solutionStub": "export function examGrader(exercises, passingGrade = 60) {\n  // Your code here\n}",
+    "exportedName": "exam_grader"
+  },
+  {
+    "id": 228,
+    "dir": "228-factorial-recursive",
+    "title": "228 — Checkpoint: Factorial Sequence",
+    "concept": "Recursive mathematical calculation multiplying all positive integers up to `n`.",
+    "syntax": "export function factorial(n) {\n  if (n < 0) return 0;\n  if (n <= 1) return 1;\n  return n * factorial(n - 1);\n}",
+    "example": "factorial(5); // 120",
+    "task": "Export `factorial(n)` returning `n!` (`0! = 1`).",
+    "solutionStub": "export function factorial(n) {\n  // Your code here\n}",
+    "exportedName": "factorial_recursive"
+  },
+  {
+    "id": 229,
+    "dir": "229-fibonacci-sequence",
+    "title": "229 — Checkpoint: Fibonacci Generator",
+    "concept": "Fibonacci sequence where each number is the sum of the two preceding ones: `F(n) = F(n-1) + F(n-2)`.",
+    "syntax": "export function fibonacci(n) {\n  if (n < 0) return 0;\n  if (n <= 1) return n;\n  let a = 0, b = 1;\n  for (let i = 2; i <= n; i++) {\n    const c = a + b;\n    a = b;\n    b = c;\n  }\n  return b;\n}",
+    "example": "fibonacci(7); // 13",
+    "task": "Export `fibonacci(n)` that returns the nth Fibonacci number (`fib(0)=0, fib(1)=1, fib(2)=1...`).",
+    "solutionStub": "export function fibonacci(n) {\n  // Your code here\n}",
+    "exportedName": "fibonacci_sequence"
+  },
+  {
+    "id": 230,
+    "dir": "230-final-attempt",
+    "title": "230 — Checkpoint: Final Attempt Async Retry",
+    "concept": "Asynchronous resilience pattern attempting an operation up to `maxRetries` with delay intervals before failing.",
+    "syntax": "export async function FinalAttempt(asyncFn, maxRetries = 3, delay = 50) {\n  let lastError;\n  for (let attempt = 1; attempt <= maxRetries; attempt++) {\n    try {\n      return await asyncFn();\n    } catch (err) {\n      lastError = err;\n      if (attempt < maxRetries) {\n        await new Promise(res => setTimeout(res, delay));\n      }\n    }\n  }\n  throw lastError;\n}",
+    "example": "const res = await FinalAttempt(fetchData, 3, 100);",
+    "task": "Export `FinalAttempt(asyncFn, maxRetries, delay)` retrying `asyncFn` up to `maxRetries` before throwing.",
+    "solutionStub": "export async function FinalAttempt(asyncFn, maxRetries = 3, delay = 50) {\n  // Your code here\n}",
+    "exportedName": "final_attempt"
+  },
+  {
+    "id": 231,
+    "dir": "231-flatten-and-map",
+    "title": "231 — Checkpoint: Flatten and Map Objects",
+    "concept": "Recursively collapses nested dictionary structures into dot-path keys and transforms all leaf values.",
+    "syntax": "export function flattenAndMap(nestedObj, mapFn) {\n  const result = {};\n  function recurse(curr, prefix = \"\") {\n    for (const key of Object.keys(curr || {})) {\n      const val = curr[key];\n      const newKey = prefix ? `${prefix}.${key}` : key;\n      if (val !== null && typeof val === \"object\" && !Array.isArray(val) && Object.keys(val).length > 0) {\n        recurse(val, newKey);\n      } else {\n        result[newKey] = mapFn(val, newKey);\n      }\n    }\n  }\n  recurse(nestedObj);\n  return result;\n}",
+    "example": "flattenAndMap({ a: { b: \"hello\" } }, s => s.toUpperCase()); // { \"a.b\": \"HELLO\" }",
+    "task": "Export `flattenAndMap(nestedObj, mapFn)` returning a flattened object with dot-keys and mapped values.",
+    "solutionStub": "export function flattenAndMap(nestedObj, mapFn) {\n  // Your code here\n}",
+    "exportedName": "flatten_and_map"
+  },
+  {
+    "id": 232,
+    "dir": "232-flatten-object",
+    "title": "232 — Checkpoint: Flatten Nested Object",
+    "concept": "Converts hierarchical nested objects into flat key-value pairs where keys reflect their hierarchy joined by dots.",
+    "syntax": "export function flattenObject(obj) {\n  const res = {};\n  function traverse(curr, path = \"\") {\n    for (const k of Object.keys(curr || {})) {\n      const val = curr[k];\n      const fullPath = path ? `${path}.${k}` : k;\n      if (val !== null && typeof val === \"object\" && !Array.isArray(val) && Object.keys(val).length > 0) {\n        traverse(val, fullPath);\n      } else {\n        res[fullPath] = val;\n      }\n    }\n  }\n  traverse(obj);\n  return res;\n}",
+    "example": "flattenObject({ a: { b: 1, c: { d: 2 } } }); // { \"a.b\": 1, \"a.c.d\": 2 }",
+    "task": "Export `flattenObject(obj)` that flattens nested objects into dot-separated paths.",
+    "solutionStub": "export function flattenObject(obj) {\n  // Your code here\n}",
+    "exportedName": "flatten_object"
+  },
+  {
+    "id": 233,
+    "dir": "233-grid-words-finder",
+    "title": "233 — Checkpoint: Grid Words Finder (Horizontal & Vertical)",
+    "concept": "Scanning 2D character grids horizontally and vertically to locate occurrences of target words.",
+    "syntax": "export function gridWordsFinder(grid, words) {\n  if (!Array.isArray(grid) || !Array.isArray(words)) return [];\n  const rows = grid.map(r => r.join(''));\n  const cols = grid[0].map((_, c) => grid.map(r => r[c]).join(''));\n  const allLines = [...rows, ...cols];\n  return words.filter(word => allLines.some(line => line.includes(word) || line.split('').reverse().join('').includes(word)));\n}",
+    "example": "gridWordsFinder([['C','A','T'],['D','O','G']], ['CAT', 'DOG']); // ['CAT', 'DOG']",
+    "task": "Export `gridWordsFinder(grid, words)` that returns an array of words found in horizontal or vertical lines.",
+    "solutionStub": "export function gridWordsFinder(grid, words) {\n  // Your code here\n}",
+    "exportedName": "grid_words_finder"
+  },
+  {
+    "id": 234,
+    "dir": "234-grid-words-finder-2",
+    "title": "234 — Checkpoint: Grid Word Finder 2 (8 Directions)",
+    "concept": "Scanning 2D matrix grids across all 8 cardinal directions (horizontal, vertical, and diagonals).",
+    "syntax": "export function gridWordFinder2(grid, words) {\n  if (!Array.isArray(grid) || grid.length === 0) return [];\n  const R = grid.length, C = grid[0].length;\n  const dirs = [\n    [0, 1], [1, 0], [0, -1], [-1, 0],\n    [1, 1], [1, -1], [-1, 1], [-1, -1]\n  ];\n  function hasWord(word) {\n    for (let r = 0; r < R; r++) {\n      for (let c = 0; c < C; c++) {\n        for (const [dr, dc] of dirs) {\n          let match = true;\n          for (let i = 0; i < word.length; i++) {\n            const nr = r + dr * i, nc = c + dc * i;\n            if (nr < 0 || nr >= R || nc < 0 || nc >= C || grid[nr][nc] !== word[i]) {\n              match = false; break;\n            }\n          }\n          if (match) return true;\n        }\n      }\n    }\n    return false;\n  }\n  return words.filter(hasWord);\n}",
+    "example": "gridWordFinder2(grid, [\"DIAG\", \"CAT\"]);",
+    "task": "Export `gridWordFinder2(grid, words)` scanning all 8 directions (horizontal, vertical, diagonal).",
+    "solutionStub": "export function gridWordFinder2(grid, words) {\n  // Your code here\n}",
+    "exportedName": "grid_words_finder_2"
+  },
+  {
+    "id": 235,
+    "dir": "235-insertion-sort-analyzer",
+    "title": "235 — Checkpoint: Insertion Sort Analyzer",
+    "concept": "Insertion Sort builds the final sorted array one element at a time by shifting larger elements right.",
+    "syntax": "export function insertionSortAnalyzer(arr, comparator = (a, b) => a - b) {\n  const sortedArray = [...arr];\n  let totalShifts = 0, totalComparisons = 0, iterations = 0;\n  for (let i = 1; i < sortedArray.length; i++) {\n    iterations++;\n    const current = sortedArray[i];\n    let j = i - 1;\n    while (j >= 0) {\n      totalComparisons++;\n      if (comparator(sortedArray[j], current) > 0) {\n        sortedArray[j + 1] = sortedArray[j];\n        totalShifts++;\n        j--;\n      } else {\n        break;\n      }\n    }\n    sortedArray[j + 1] = current;\n  }\n  return { sortedArray, totalShifts, totalComparisons, iterations };\n}",
+    "example": "insertionSortAnalyzer([5, 2, 4, 6]);",
+    "task": "Export `insertionSortAnalyzer(arr, comparator)` returning `{ sortedArray, totalShifts, totalComparisons, iterations }`.",
+    "solutionStub": "export function insertionSortAnalyzer(arr, comparator = (a, b) => a - b) {\n  // Your code here\n}",
+    "exportedName": "insertion_sort_analyzer"
+  },
+  {
+    "id": 236,
+    "dir": "236-nested-array-reverser",
+    "title": "236 — Checkpoint: Deep Nested Array Reverser",
+    "concept": "Recursively reverses an array and every nested subarray at all depths.",
+    "syntax": "export function nestedArrayReverser(arr) {\n  if (!Array.isArray(arr)) return arr;\n  return arr.map(item => Array.isArray(item) ? nestedArrayReverser(item) : item).reverse();\n}",
+    "example": "nestedArrayReverser([1, [2, 3], [4, [5, 6]]]); // [[[6, 5], 4], [3, 2], 1]",
+    "task": "Export `nestedArrayReverser(arr)` that deeply reverses arrays and all nested subarrays recursively.",
+    "solutionStub": "export function nestedArrayReverser(arr) {\n  // Your code here\n}",
+    "exportedName": "nested_array_reverser"
+  },
+  {
+    "id": 237,
+    "dir": "237-object-lab",
+    "title": "237 — Checkpoint: Object Lab (Merge & Transform)",
+    "concept": "Merges an array of objects into a unified schema and applies registered transform functions to specific keys.",
+    "syntax": "export function mergeAndTransform(objArray, transforms = {}) {\n  const merged = Object.assign({}, ...objArray);\n  const result = {};\n  for (const [key, val] of Object.entries(merged)) {\n    result[key] = typeof transforms[key] === \"function\" ? transforms[key](val) : val;\n  }\n  return result;\n}",
+    "example": "mergeAndTransform([{ a: 1 }, { b: 2 }], { a: v => v * 10 }); // { a: 10, b: 2 }",
+    "task": "Export `mergeAndTransform(objArray, transforms)` that merges objects and applies key-specific transform functions.",
+    "solutionStub": "export function mergeAndTransform(objArray, transforms = {}) {\n  // Your code here\n}",
+    "exportedName": "object_lab"
+  },
+  {
+    "id": 238,
+    "dir": "238-palindromic-chain",
+    "title": "238 — Checkpoint: Palindromic Chain (196 Algorithm)",
+    "concept": "Repeatedly adds a number to its reversed digits until a palindromic number is formed, recording step history.",
+    "syntax": "export function palindromicChain(n) {\n  let curr = n;\n  let steps = 0;\n  const isPal = num => String(num) === String(num).split('').reverse().join('');\n  while (!isPal(curr) && steps < 1000) {\n    const rev = parseInt(String(curr).split('').reverse().join(''), 10);\n    curr += rev;\n    steps++;\n  }\n  return { steps, palindrome: curr };\n}",
+    "example": "palindromicChain(87); // { steps: 4, palindrome: 4884 }",
+    "task": "Export `palindromicChain(n)` returning `{ steps, palindrome }` by adding reverse digits until palindrome.",
+    "solutionStub": "export function palindromicChain(n) {\n  // Your code here\n}",
+    "exportedName": "palindromic_chain"
+  },
+  {
+    "id": 239,
+    "dir": "239-perfect-number",
+    "title": "239 — Checkpoint: Perfect Number Validator",
+    "concept": "A perfect number is a positive integer that is equal to the sum of its positive proper divisors (excluding itself).",
+    "syntax": "export function isPerfectNum(n) {\n  if (n <= 1) return false;\n  let sum = 0;\n  for (let i = 1; i <= Math.floor(n / 2); i++) {\n    if (n % i === 0) sum += i;\n  }\n  return sum === n;\n}",
+    "example": "isPerfectNum(6); // true (1 + 2 + 3 = 6); isPerfectNum(28); // true",
+    "task": "Export `isPerfectNum(n)` returning `true` if `n` is a perfect number, else `false`.",
+    "solutionStub": "export function isPerfectNum(n) {\n  // Your code here\n}",
+    "exportedName": "perfect_number"
+  },
+  {
+    "id": 240,
+    "dir": "240-functional-pipeline",
+    "title": "240 — Checkpoint: Functional Pipeline with Audit Trace",
+    "concept": "Data pipelines thread values through a sequence of unary functions and record intermediate execution states.",
+    "syntax": "export function pipeline(initialValue, ...fns) {\n  let current = initialValue;\n  const steps = [];\n  fns.forEach((fn, idx) => {\n    const input = current;\n    current = fn(input);\n    steps.push({ step: idx + 1, input, output: current });\n  });\n  return { initialValue, steps, result: current };\n}",
+    "example": "pipeline(5, x => x * 2, x => x + 3); // { initialValue: 5, steps: [...], result: 13 }",
+    "task": "Export `pipeline(initialValue, ...fns)` returning `{ initialValue, steps: [...], result }`.",
+    "solutionStub": "export function pipeline(initialValue, ...fns) {\n  // Your code here\n}",
+    "exportedName": "functional_pipeline"
+  },
+  {
+    "id": 241,
+    "dir": "241-sentence-pyramid",
+    "title": "241 — Checkpoint: Sentence Pyramid",
+    "concept": "Constructing incremental tokenized prefix lines that build up to a complete sentence.",
+    "syntax": "export function sentencePyramid(sentence) {\n  if (typeof sentence !== \"string\" || !sentence.trim()) return [];\n  const words = sentence.trim().split(/\\s+/);\n  const result = [];\n  for (let i = 1; i <= words.length; i++) {\n    result.push(words.slice(0, i).join(' '));\n  }\n  return result;\n}",
+    "example": "sentencePyramid(\"A simple test\"); // [\"A\", \"A simple\", \"A simple test\"]",
+    "task": "Export `sentencePyramid(sentence)` returning an array of prefix sentence strings expanding word by word.",
+    "solutionStub": "export function sentencePyramid(sentence) {\n  // Your code here\n}",
+    "exportedName": "sentence_pyramid"
+  },
+  {
+    "id": 242,
+    "dir": "242-sleep-breaker",
+    "title": "242 — Checkpoint: Sleep Breaker Asynchronous Timer",
+    "concept": "Combines `setTimeout` delays with asynchronous breaker interrupt promises using `Promise.race` cancellation semantics.",
+    "syntax": "export function sleepBreaker(delay, breaker) {\n  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(\"timeout\"), delay));\n  const breakerPromise = Promise.resolve(typeof breaker === \"function\" ? breaker() : breaker).then(() => \"broken\");\n  return Promise.race([timeoutPromise, breakerPromise]);\n}",
+    "example": "await sleepBreaker(1000, async () => { await wait(100); });",
+    "task": "Export `sleepBreaker(delay, breaker)` resolving when delay finishes or immediately when `breaker` resolves.",
+    "solutionStub": "export function sleepBreaker(delay, breaker) {\n  // Your code here\n}",
+    "exportedName": "sleep_breaker"
+  },
+  {
+    "id": 243,
+    "dir": "243-snake-path-validator",
+    "title": "243 — Checkpoint: Snake Path Validator (No Loops)",
+    "concept": "Recursively traversing a 2D matrix graph to validate that `1`s form a single continuous non-branching path without loops.",
+    "syntax": "export function isSnakePath(grid) {\n  if (!Array.isArray(grid) || grid.length === 0) return false;\n  const R = grid.length, C = grid[0].length;\n  const ones = [];\n  grid.forEach((row, r) => row.forEach((val, c) => { if (val === 1) ones.push(`${r},${c}`); }));\n  if (ones.length === 0) return false;\n  if (ones.length === 1) return true;\n\n  const neighbors = (r, c) => [\n    [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]\n  ].filter(([nr, nc]) => nr >= 0 && nr < R && nc >= 0 && nc < C && grid[nr][nc] === 1);\n\n  const endpoints = ones.map(k => {\n    const [r, c] = k.split(',').map(Number);\n    return { r, c, deg: neighbors(r, c).length };\n  });\n\n  if (endpoints.some(e => e.deg > 2)) return false;\n  const tails = endpoints.filter(e => e.deg === 1);\n  if (tails.length !== 2) return false;\n\n  const visited = new Set();\n  function walk(r, c) {\n    visited.add(`${r},${c}`);\n    const next = neighbors(r, c).filter(([nr, nc]) => !visited.has(`${nr},${nc}`));\n    if (next.length > 0) walk(next[0][0], next[0][1]);\n  }\n  walk(tails[0].r, tails[0].c);\n  return visited.size === ones.length;\n}",
+    "example": "isSnakePath([[1, 0], [1, 1], [0, 1]]); // true",
+    "task": "Export `isSnakePath(grid)` verifying that `1`s form a single contiguous snake path without using loops.",
+    "solutionStub": "export function isSnakePath(grid) {\n  // Your code here\n}",
+    "exportedName": "snake_path_validator"
+  },
+  {
+    "id": 244,
+    "dir": "244-swappable-object",
+    "title": "244 — Checkpoint: Swappable Proxy Object",
+    "concept": "ES6 Proxies intercept property lookups to enable dynamic bidirectional resolution across both keys and values.",
+    "syntax": "export function swappableObject(obj) {\n  return new Proxy(obj, {\n    get(target, prop) {\n      if (prop in target) return target[prop];\n      for (const [k, v] of Object.entries(target)) {\n        if (String(v) === String(prop)) return k;\n      }\n      return undefined;\n    }\n  });\n}",
+    "example": "const obj = swappableObject({ a: \"apple\" }); obj.a; // \"apple\"; obj.apple; // \"a\"",
+    "task": "Export `swappableObject(obj)` returning an ES6 Proxy where keys access values and values access keys.",
+    "solutionStub": "export function swappableObject(obj) {\n  // Your code here\n}",
+    "exportedName": "swappable_object"
+  },
+  {
+    "id": 245,
+    "dir": "245-transform-keys",
+    "title": "245 — Checkpoint: Recursive Key Transformer",
+    "concept": "Deeply renames dictionary keys across hierarchical objects while preserving original values.",
+    "syntax": "export function transformKeys(obj, transformFn) {\n  if (obj === null || typeof obj !== \"object\") return obj;\n  if (Array.isArray(obj)) return obj.map(item => transformKeys(item, transformFn));\n  const res = {};\n  for (const [key, value] of Object.entries(obj)) {\n    const newKey = transformFn(key);\n    res[newKey] = transformKeys(value, transformFn);\n  }\n  return res;\n}",
+    "example": "transformKeys({ FirstName: \"Alice\" }, k => k.toLowerCase()); // { firstname: \"Alice\" }",
+    "task": "Export `transformKeys(obj, transformFn)` that recursively transforms all keys using `transformFn`.",
+    "solutionStub": "export function transformKeys(obj, transformFn) {\n  // Your code here\n}",
+    "exportedName": "transform_keys"
+  },
+  {
+    "id": 246,
+    "dir": "246-trap-object",
+    "title": "246 — Checkpoint: Trap Object Interceptor",
+    "concept": "ES6 Proxies intercept internal engine `get` and `set` operations to execute observer callbacks with mutation parameters.",
+    "syntax": "export function trapObject(obj, fn) {\n  return new Proxy(obj, {\n    get(target, prop, receiver) {\n      const val = Reflect.get(target, prop, receiver);\n      if (typeof prop === \"string\" && prop in target) {\n        fn(\"get\", prop, val);\n      }\n      return val;\n    },\n    set(target, prop, newValue, receiver) {\n      const oldVal = target[prop];\n      const success = Reflect.set(target, prop, newValue, receiver);\n      if (typeof prop === \"string\") {\n        fn(\"set\", prop, oldVal, newValue);\n      }\n      return success;\n    }\n  });\n}",
+    "example": "const trapped = trapObject({ x: 10 }, (action, key, val, newVal) => console.log(action, key));",
+    "task": "Export `trapObject(obj, fn)` invoking `fn('get' | 'set', ...)` on every property access and modification.",
+    "solutionStub": "export function trapObject(obj, fn) {\n  // Your code here\n}",
+    "exportedName": "trap_object"
+  },
+  {
+    "id": 247,
+    "dir": "247-zoo-race",
+    "title": "247 — Checkpoint: Zoo Race Physics Simulation",
+    "concept": "Piecewise multi-stage velocity physics calculations resolving animal racers through `Promise.race` concurrency.",
+    "syntax": "export function animal(name, maxSpeed, maxSpeedRange, midSpeed, midSpeedRange, speed, distance) {\n  let time = 0;\n  if (distance <= maxSpeedRange) {\n    time = distance / maxSpeed;\n  } else if (distance <= maxSpeedRange + midSpeedRange) {\n    time = (maxSpeedRange / maxSpeed) + ((distance - maxSpeedRange) / midSpeed);\n  } else {\n    time = (maxSpeedRange / maxSpeed) + (midSpeedRange / midSpeed) + ((distance - maxSpeedRange - midSpeedRange) / speed);\n  }\n  const delayMs = Math.max(10, Math.round(time * 10));\n  return new Promise(resolve => setTimeout(() => resolve(name), delayMs));\n}\n\nexport function zooRace(animals) {\n  return Promise.race(animals);\n}",
+    "example": "const winner = await zooRace([animal(\"Cheetah\", 30, 80, 15, 100, 10, 200), animal(\"Turtle\", 5, 20, 3, 50, 1, 200)]);",
+    "task": "Export `animal(...)` calculating piecewise race durations as a Promise and `zooRace(animals)` resolving the winner.",
+    "solutionStub": "export function animal(name, maxSpeed, maxSpeedRange, midSpeed, midSpeedRange, speed, distance) {\n  // Your code here\n}\n\nexport function zooRace(animals) {\n  // Your code here\n}",
+    "exportedName": "zoo_race"
   }
 ];

@@ -5,16 +5,22 @@ import { execSync } from "node:child_process";
 const challengesDir = path.resolve("./challenges");
 const dirs = fs.readdirSync(challengesDir).filter((d) =>
   fs.statSync(path.join(challengesDir, d)).isDirectory()
-).sort();
+).sort((a, b) => {
+  const numA = parseInt(a.match(/^(\d+)/)?.[1] || "0", 10);
+  const numB = parseInt(b.match(/^(\d+)/)?.[1] || "0", 10);
+  return numA - numB;
+});
 
 const passedChallenges = [];
 let currentChallenge = null;
 
 for (const dir of dirs) {
-  const testPath = path.join("challenges", dir, "solution.test.js");
+  const testPath = fs.existsSync(path.join("challenges", dir, "solution.test.js"))
+    ? path.join("challenges", dir, "solution.test.js")
+    : path.join("challenges", dir, "test.js");
 
   try {
-    execSync(`node --test ${testPath}`, { stdio: "pipe" });
+    execSync(`node --test "${testPath}"`, { stdio: "pipe" });
     passedChallenges.push(dir);
   } catch (error) {
     currentChallenge = { dir, testPath };

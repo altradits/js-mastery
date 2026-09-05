@@ -12,13 +12,13 @@ const appStatusbar = document.getElementById("app-statusbar");
 
 // Developer Rank & Gamification Helpers
 export function getDeveloperRank(completedCount) {
-  if (completedCount >= 200) return { title: "Grandmaster", tier: "V", badge: "GM" };
-  if (completedCount >= 170) return { title: "Engine Sorcerer", tier: "IV", badge: "SRC" };
-  if (completedCount >= 140) return { title: "Async Warlord", tier: "III", badge: "WAR" };
-  if (completedCount >= 100) return { title: "Runtime Architect", tier: "II", badge: "ARC" };
-  if (completedCount >= 60)  return { title: "Algorithm Master", tier: "I", badge: "MST" };
-  if (completedCount >= 30)  return { title: "Function Crafter", tier: "III", badge: "CRF" };
-  if (completedCount >= 10)  return { title: "Syntax Crafter", tier: "II", badge: "SYN" };
+  if (completedCount >= 235) return { title: "Grandmaster", tier: "V", badge: "GM" };
+  if (completedCount >= 200) return { title: "Engine Sorcerer", tier: "IV", badge: "SRC" };
+  if (completedCount >= 170) return { title: "Async Warlord", tier: "III", badge: "WAR" };
+  if (completedCount >= 140) return { title: "Runtime Architect", tier: "II", badge: "ARC" };
+  if (completedCount >= 100) return { title: "Algorithm Master", tier: "I", badge: "MST" };
+  if (completedCount >= 60)  return { title: "Function Crafter", tier: "III", badge: "CRF" };
+  if (completedCount >= 20)  return { title: "Syntax Crafter", tier: "II", badge: "SYN" };
   return { title: "Script Novice", tier: "I", badge: "NOV" };
 }
 
@@ -88,7 +88,7 @@ let selectedWagers = {
   gauntlet: 0
 };
 
-// Curriculum Tiers Definition (Acts I - VIII)
+// Curriculum Tiers Definition (Acts I - IX)
 const CURRICULUM_MODULES = [
   { act: "Act I", name: "Foundations & Control Flow", range: [1, 20] },
   { act: "Act II", name: "Data Structures & Algorithms", range: [21, 50] },
@@ -97,7 +97,8 @@ const CURRICULUM_MODULES = [
   { act: "Act V", name: "RegEx, Parsing & Dates", range: [111, 140] },
   { act: "Act VI", name: "Async, Promises & Streams", range: [141, 170] },
   { act: "Act VII", name: "Real-World Modules & Utilities", range: [171, 200] },
-  { act: "Act VIII", name: "Advanced CS Data Structures", range: [201, 216] }
+  { act: "Act VIII", name: "Piscine Algorithms & Logic", range: [201, 216] },
+  { act: "Act IX", name: "Checkpoint Capstone Mini-Projects", range: [217, 247] }
 ];
 
 // View Tracking State
