@@ -668,13 +668,6 @@ function renderArenaView(match) {
     setupSmartCodeEditor(textarea, linesEl, handleSubmit, handleTestRun);
 
     async function handleTestRun() {
-      const rawCode = textarea.value;
-      const formatted = await formatJavaScriptCode(rawCode);
-      if (formatted && formatted !== rawCode) {
-        textarea.value = formatted;
-        linesEl.innerHTML = Array.from({ length: Math.max(5, formatted.split("\n").length) }, (_, i) => i + 1).join("<br>");
-      }
-
       const userCode = textarea.value;
       const btnTest = document.getElementById("btn-terminal-test");
 
@@ -739,13 +732,6 @@ function renderArenaView(match) {
     }
 
     async function handleSubmit() {
-      const rawCode = textarea.value;
-      const formatted = await formatJavaScriptCode(rawCode);
-      if (formatted && formatted !== rawCode) {
-        textarea.value = formatted;
-        linesEl.innerHTML = Array.from({ length: Math.max(5, formatted.split("\n").length) }, (_, i) => i + 1).join("<br>");
-      }
-
       const userCode = textarea.value;
       const btnSubmit = document.getElementById("btn-terminal-submit");
 
