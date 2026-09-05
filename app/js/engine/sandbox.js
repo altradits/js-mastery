@@ -1,4 +1,5 @@
-// In-Browser Sandboxed Code Evaluator with Timeout Protection
+// In-Browser Sandboxed Code Evaluator with Strict Semicolon & Timeout Protection
+import { validateJavaScriptSyntax } from "./validator.js";
 
 export async function evaluateSubmission(userCode, challenge) {
   const startTime = performance.now();
@@ -6,6 +7,23 @@ export async function evaluateSubmission(userCode, challenge) {
   const originalLog = console.log;
   const originalWarn = console.warn;
   const originalError = console.error;
+
+  // 0. Strict JavaScript Grammar & Semicolon Placement Validation
+  const syntaxCheck = validateJavaScriptSyntax(userCode);
+  if (!syntaxCheck.valid) {
+    const duration = Math.round(performance.now() - startTime);
+    return {
+      success: false,
+      results: syntaxCheck.errors.map(err => ({
+        name: "Syntax & Semicolon Verification",
+        pass: false,
+        error: err
+      })),
+      logs: [],
+      error: syntaxCheck.errors.join("\n"),
+      duration
+    };
+  }
 
   try {
     console.log = (...args) => {
