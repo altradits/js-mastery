@@ -118,8 +118,8 @@ html, body {
 
 /* App Main Container: Fixed Viewport Height */
 .app-container {
-  height: calc(100vh - 38px);
-  max-height: calc(100vh - 38px);
+  height: calc(100vh - 38px - 24px);
+  max-height: calc(100vh - 38px - 24px);
   width: 100%;
   margin: 0 auto;
   padding: 8px 10px;
@@ -555,14 +555,73 @@ html, body {
   background: #1e1e1e;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 14px 16px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   overflow-y: auto;
   height: 100%;
   box-sizing: border-box;
   color: #cccccc;
+}
+
+/* Gamified Quest Meta Header */
+.quest-meta-banner {
+  background: #252526;
+  border: 1px solid #2d2d2d;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.quest-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quest-level-tag {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 700;
+  color: #3794ff;
+  letter-spacing: 0.5px;
+}
+
+.quest-difficulty {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 600;
+  color: #dcdcaa;
+}
+
+.quest-bounties {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: #858585;
+}
+
+.quest-bounty-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #cccccc;
+}
+
+.quest-speed-target {
+  font-size: 11px;
+  font-family: var(--font-code);
+  color: #89d185;
+  background: rgba(137, 209, 133, 0.08);
+  padding: 3px 6px;
+  border-radius: 2px;
+  border: 1px solid rgba(137, 209, 133, 0.2);
 }
 
 .panel-section {
@@ -952,4 +1011,75 @@ html, body {
 .text-input:focus {
   outline: none;
   border-color: #007acc;
+}
+
+/* ------------------------------------------------------------- */
+/* SIGNATURE VS CODE BOTTOM STATUS BAR                           */
+/* ------------------------------------------------------------- */
+.statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  background: #007acc;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  padding: 0 10px;
+  z-index: 100;
+  user-select: none;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.statusbar-group-left, .statusbar-group-center, .statusbar-group-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statusbar-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.statusbar-item.interactive {
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.statusbar-item.interactive:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.statusbar-progress-bar {
+  display: inline-flex;
+  width: 50px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 3px;
+  overflow: hidden;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.statusbar-progress-fill {
+  height: 100%;
+  background: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.statusbar-kbd {
+  font-family: var(--font-code);
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }

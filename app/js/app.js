@@ -8,6 +8,27 @@ import { getChallengeScenario } from "./engine/challengeQuestions.js";
 // DOM Elements
 const appNavbar = document.getElementById("app-navbar");
 const appRoot = document.getElementById("app-root");
+const appStatusbar = document.getElementById("app-statusbar");
+
+// Developer Rank & Gamification Helpers
+export function getDeveloperRank(completedCount) {
+  if (completedCount >= 200) return { title: "Grandmaster", tier: "V", badge: "GM" };
+  if (completedCount >= 170) return { title: "Engine Sorcerer", tier: "IV", badge: "SRC" };
+  if (completedCount >= 140) return { title: "Async Warlord", tier: "III", badge: "WAR" };
+  if (completedCount >= 100) return { title: "Runtime Architect", tier: "II", badge: "ARC" };
+  if (completedCount >= 60)  return { title: "Algorithm Master", tier: "I", badge: "MST" };
+  if (completedCount >= 30)  return { title: "Function Crafter", tier: "III", badge: "CRF" };
+  if (completedCount >= 10)  return { title: "Syntax Crafter", tier: "II", badge: "SYN" };
+  return { title: "Script Novice", tier: "I", badge: "NOV" };
+}
+
+export function getDifficultyStars(challengeId) {
+  if (challengeId <= 20) return "★☆☆☆☆";
+  if (challengeId <= 50) return "★★☆☆☆";
+  if (challengeId <= 110) return "★★★☆☆";
+  if (challengeId <= 170) return "★★★★☆";
+  return "★★★★★";
+}
 
 // Time Formatter Utility
 function formatDuration(sec) {
@@ -67,16 +88,16 @@ let selectedWagers = {
   gauntlet: 0
 };
 
-// Curriculum Tiers Definition
+// Curriculum Tiers Definition (Acts I - VIII)
 const CURRICULUM_MODULES = [
-  { name: "Foundations & Control Flow", range: [1, 20] },
-  { name: "Data Structures & Algorithms", range: [21, 50] },
-  { name: "Functional & String Engineering", range: [51, 80] },
-  { name: "Object Mechanics & Prototypes", range: [81, 110] },
-  { name: "RegEx, Parsing & Dates", range: [111, 140] },
-  { name: "Async, Promises & Streams", range: [141, 170] },
-  { name: "Real-World Modules & Utilities", range: [171, 200] },
-  { name: "Advanced CS Data Structures", range: [201, 216] }
+  { act: "Act I", name: "Foundations & Control Flow", range: [1, 20] },
+  { act: "Act II", name: "Data Structures & Algorithms", range: [21, 50] },
+  { act: "Act III", name: "Functional & String Engineering", range: [51, 80] },
+  { act: "Act IV", name: "Object Mechanics & Prototypes", range: [81, 110] },
+  { act: "Act V", name: "RegEx, Parsing & Dates", range: [111, 140] },
+  { act: "Act VI", name: "Async, Promises & Streams", range: [141, 170] },
+  { act: "Act VII", name: "Real-World Modules & Utilities", range: [171, 200] },
+  { act: "Act VIII", name: "Advanced CS Data Structures", range: [201, 216] }
 ];
 
 // View Tracking State
@@ -86,12 +107,14 @@ let activeChallengeId = null;
 // Global Store State Subscription
 store.subscribe((state) => {
   renderNavbar(state);
+  renderStatusbar(state);
   renderView(state);
   renderModal(state);
 });
 
 // Initial View Render
 renderNavbar(store.getState());
+renderStatusbar(store.getState());
 renderView(store.getState());
 
 // -------------------------------------------------------------
@@ -103,6 +126,7 @@ function renderNavbar(state) {
   const { currentView, match, user } = state;
   const isArena = (currentView === "arena" && match);
   const isMuted = sound.isMuted;
+  const streak = user.currentStreak || 0;
 
   if (isArena) {
     const challenge = match.currentChallenge;
@@ -112,11 +136,12 @@ function renderNavbar(state) {
     appNavbar.innerHTML = `
       <div class="nav-group-left">
         <button class="nav-btn" id="btn-arena-back" title="Return to Lobby">Lobby</button>
-        <span class="nav-badge" id="hud-level-badge">Level ${levelNumber}</span>
+        <span class="nav-badge" id="hud-level-badge">Quest #${levelNumber}</span>
         <span class="nav-challenge-title">${escapeHtml(cleanTitle)}</span>
       </div>
 
       <div class="nav-group-right">
+        ${streak > 0 ? `<span class="nav-stat-item" id="nav-streak" title="Current Win Streak">🔥 Streak ${streak}</span>` : ''}
         <span class="nav-stat-item" id="nav-coins">Coins ${user.coins.toLocaleString()}</span>
         <button class="nav-btn-icon" id="btn-nav-sound" title="Toggle Sound">${isMuted ? 'Muted' : 'Sound'}</button>
       </div>
@@ -137,15 +162,18 @@ function renderNavbar(state) {
   } else {
     // Lobby or Victory view
     const completedCount = (user.completedChallenges || []).length;
+    const rank = getDeveloperRank(completedCount);
 
     appNavbar.innerHTML = `
       <div class="nav-group-left">
         <span class="nav-brand-text">Mastery</span>
-        <span class="nav-badge">Progress ${completedCount}/${CHALLENGE_BANK.length}</span>
+        <span class="nav-badge">${rank.title}</span>
+        <span class="nav-badge">Quests ${completedCount}/${CHALLENGE_BANK.length}</span>
       </div>
 
       <div class="nav-group-right">
         <button class="nav-btn" id="btn-free-coins" title="Claim 500 Coins">Faucet</button>
+        ${streak > 0 ? `<span class="nav-stat-item" id="nav-streak" title="Current Win Streak">🔥 Streak ${streak}</span>` : ''}
         <span class="nav-stat-item" id="nav-coins">Coins ${user.coins.toLocaleString()}</span>
         <span class="nav-stat-item" id="nav-level">Level ${user.level}</span>
         <button class="nav-btn-icon" id="btn-nav-sound" title="Toggle Sound">${isMuted ? 'Muted' : 'Sound'}</button>
@@ -161,6 +189,97 @@ function renderNavbar(state) {
       const muted = sound.toggleMute();
       const btn = document.getElementById("btn-nav-sound");
       if (btn) btn.textContent = muted ? "Muted" : "Sound";
+    });
+  }
+}
+
+// -------------------------------------------------------------
+// SIGNATURE VS CODE BOTTOM STATUS BAR (Game HUD & Shortcuts)
+// -------------------------------------------------------------
+function renderStatusbar(state) {
+  if (!appStatusbar) return;
+
+  const { currentView, match, user } = state;
+  const completedCount = (user.completedChallenges || []).length;
+  const rank = getDeveloperRank(completedCount);
+  const percentMastered = Math.round((completedCount / CHALLENGE_BANK.length) * 100);
+  const isArena = (currentView === "arena" && match);
+
+  if (isArena) {
+    const challenge = match.currentChallenge;
+    const levelNumber = match.isSequential ? (match.challengeIdx + 1) : challenge.id;
+    const speedSec = match.targetTime || 15;
+
+    appStatusbar.innerHTML = `
+      <div class="statusbar-group-left">
+        <span class="statusbar-item" title="Active Quest">
+          <span>⚡ Quest #${levelNumber} / 216</span>
+        </span>
+        <span class="statusbar-item" title="Developer Rank Tier">
+          <span>Rank: ${rank.title}</span>
+        </span>
+        <span class="statusbar-item" title="Overall Mastery Progress">
+          <span>Mastery: ${completedCount}/${CHALLENGE_BANK.length}</span>
+          <span class="statusbar-progress-bar"><span class="statusbar-progress-fill" style="width: ${percentMastered}%;"></span></span>
+        </span>
+      </div>
+
+      <div class="statusbar-group-center">
+        <span class="statusbar-item">
+          <span><span class="statusbar-kbd">Cmd+'</span> Test</span>
+          <span><span class="statusbar-kbd">Cmd+Enter</span> Submit</span>
+        </span>
+      </div>
+
+      <div class="statusbar-group-right">
+        <span class="statusbar-item" title="Speed Run Bonus Objective">
+          <span>⚡ Target: &lt; ${speedSec}s (+50 Coins)</span>
+        </span>
+        <span class="statusbar-item">
+          <span>JavaScript ESM</span>
+        </span>
+        <span class="statusbar-item">
+          <span>UTF-8</span>
+        </span>
+      </div>
+    `;
+  } else {
+    // Lobby statusbar
+    appStatusbar.innerHTML = `
+      <div class="statusbar-group-left">
+        <span class="statusbar-item" title="Active Branch / Piscine Gauntlet">
+          <span>⚡ Piscine Gauntlet</span>
+        </span>
+        <span class="statusbar-item" title="Rank Title & Tier">
+          <span>Rank: ${rank.title}</span>
+        </span>
+        <span class="statusbar-item" title="Total Challenges Mastered">
+          <span>Mastery: ${completedCount}/${CHALLENGE_BANK.length} (${percentMastered}%)</span>
+          <span class="statusbar-progress-bar"><span class="statusbar-progress-fill" style="width: ${percentMastered}%;"></span></span>
+        </span>
+      </div>
+
+      <div class="statusbar-group-center">
+        <span class="statusbar-item">
+          <span>Level ${user.level} • ${user.mmr} MMR • ${(user.coins || 0).toLocaleString()} Coins</span>
+        </span>
+      </div>
+
+      <div class="statusbar-group-right">
+        <span class="statusbar-item interactive" id="statusbar-profile" title="Open Profile">
+          <span>${escapeHtml(user.username)}</span>
+        </span>
+        <span class="statusbar-item">
+          <span>JavaScript ESM</span>
+        </span>
+        <span class="statusbar-item">
+          <span>UTF-8</span>
+        </span>
+      </div>
+    `;
+
+    document.getElementById("statusbar-profile")?.addEventListener("click", () => {
+      store.setState({ isLoginModalOpen: true });
     });
   }
 }
@@ -332,7 +451,7 @@ function attachModesListeners() {
 }
 
 // -------------------------------------------------------------
-// CURRICULUM ROADMAP TAB (All 216 Levels)
+// CURRICULUM ROADMAP TAB (All 216 Levels grouped by Acts)
 // -------------------------------------------------------------
 function renderCurriculumTab(user) {
   const userProgress = user.currentProgressIdx || 0;
@@ -349,10 +468,10 @@ function renderCurriculumTab(user) {
           <div class="curriculum-module">
             <div class="module-header">
               <div class="module-title">
-                <span>${mod.name} (Challenges ${start} – ${end})</span>
+                <span>${mod.act}: ${mod.name} (Quests ${start} – ${end})</span>
               </div>
               <div class="module-progress">
-                ${moduleDone} / ${moduleChallenges.length} Done
+                ${moduleDone} / ${moduleChallenges.length} Mastered
               </div>
             </div>
 
@@ -368,7 +487,7 @@ function renderCurriculumTab(user) {
                     <div class="node-top">
                       <span class="node-idx">#${String(c.id).padStart(2, '0')}</span>
                       <span class="node-status">
-                        ${isCompleted ? 'Done' : isCurrent ? 'Play' : isUnlocked ? 'Open' : 'Locked'}
+                        ${isCompleted ? '✓' : isCurrent ? '▶ Play' : isUnlocked ? 'Open' : '🔒'}
                       </span>
                     </div>
                     <div class="node-title" title="${c.title}">${escapeHtml(c.title.replace(/^\d+\s*—\s*/, ''))}</div>
@@ -428,6 +547,7 @@ function renderArenaView(match) {
   if (isNewRound) {
     activeView = "arena";
     activeChallengeId = challenge.id;
+    const levelNumber = match.isSequential ? (match.challengeIdx + 1) : challenge.id;
 
     const cleanStarterCode = (challenge.solutionStub || "")
       .replace(/^\/\/[^\n]*\n+/gm, "")
@@ -437,15 +557,33 @@ function renderArenaView(match) {
       <div class="arena-split-layout">
         <!-- Left: Focused & Resourceful Instructions Panel -->
         <div class="instructions-panel">
+          <!-- Gamified Quest Meta Header -->
+          <div class="quest-meta-banner">
+            <div class="quest-meta-row">
+              <span class="quest-level-tag">QUEST #${String(levelNumber).padStart(3, '0')} OF 216</span>
+              <span class="quest-difficulty">${getDifficultyStars(levelNumber)} Tier ${Math.ceil(levelNumber / 27)}</span>
+            </div>
+            <div class="quest-meta-row">
+              <div class="quest-bounties">
+                <span class="quest-bounty-item">🪙 +100 Coins</span>
+                <span class="quest-bounty-item">⚡ +25 MMR</span>
+                <span class="quest-bounty-item">🔥 +1 Streak</span>
+              </div>
+            </div>
+            <div class="quest-speed-target">
+              ⚡ Speed Run: Solved in &lt; ${match.targetTime || 15}s for +50 Bonus Coins
+            </div>
+          </div>
+
           <!-- 1. Concept: What you are learning & how it is applied -->
           <div class="panel-section concept-section">
-            <div class="section-label">Concept</div>
+            <div class="section-label">1. Concept &amp; Mechanics</div>
             <div class="concept-text"><p>${formatMarkdown(challenge.concept)}</p></div>
           </div>
 
           <!-- 2. Question: Real-world problem & challenge -->
           <div class="panel-section challenge-section">
-            <div class="section-label task-label">Question</div>
+            <div class="section-label task-label">2. Mission Objective</div>
             <div class="task-text">
               <p><strong>Scenario:</strong> ${formatMarkdown(getChallengeScenario(challenge))}</p>
               <p><strong>Goal:</strong> ${formatMarkdown(challenge.task)}</p>
@@ -456,7 +594,7 @@ function renderArenaView(match) {
           ${(challenge.example || challenge.syntax) ? `
             <details class="hint-details">
               <summary class="hint-summary">
-                <span>Hint</span>
+                <span>Hint (Syntax Reference)</span>
                 <span class="hint-arrow">▾</span>
               </summary>
               <div class="hint-content">
@@ -491,7 +629,7 @@ function renderArenaView(match) {
                 <span class="editor-badge">ESM</span>
               </div>
               <div class="editor-controls">
-                <span>Challenge #${challenge.id}</span>
+                <span>Quest #${levelNumber}</span>
               </div>
             </div>
 
@@ -514,7 +652,7 @@ function renderArenaView(match) {
               </div>
             </div>
             <div class="terminal-body" id="terminal-output">
-              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "Test" or press Cmd+' to run assertions. Click "Submit" or press Cmd+Enter to submit.</div>
+              <div class="terminal-line" style="color: var(--text-muted);">$ terminal ready. Click "Test" (Cmd+') to run assertions. Click "Submit" (Cmd+Enter) to complete quest.</div>
             </div>
           </div>
         </div>
@@ -552,7 +690,7 @@ function renderArenaView(match) {
 
       const evalResult = await evaluateSubmission(userCode, challenge);
 
-      let linesHtml = `<div class="terminal-line cmd">$ test --challenge=#${challenge.id} "${escapeHtml(challenge.title)}"</div>`;
+      let linesHtml = `<div class="terminal-line cmd">$ vitest run quest-#${levelNumber} ("${escapeHtml(challenge.title)}")</div>`;
 
       if (evalResult.logs && evalResult.logs.length > 0) {
         linesHtml += `<div class="terminal-line" style="color: var(--text-muted); margin-top: 4px;">--- console.log output ---</div>`;
@@ -564,9 +702,9 @@ function renderArenaView(match) {
 
       evalResult.results.forEach((res, i) => {
         if (res.pass) {
-          linesHtml += `<div class="terminal-line pass">PASS [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name)}</div>`;
+          linesHtml += `<div class="terminal-line pass">  ✓ [PASS] Test ${i + 1}: ${escapeHtml(res.name)} (${evalResult.duration}ms)</div>`;
         } else {
-          linesHtml += `<div class="terminal-line fail">FAIL [${i + 1}/${evalResult.results.length}] ${escapeHtml(res.name || "Test Failed")}: ${escapeHtml(res.error || "Assertion failed")}</div>`;
+          linesHtml += `<div class="terminal-line fail">  ✗ [FAIL] Test ${i + 1}: ${escapeHtml(res.name || "Test Failed")}\n      Expected match, received: ${escapeHtml(res.error || "Assertion failed")}</div>`;
         }
       });
 
@@ -575,13 +713,17 @@ function renderArenaView(match) {
           terminalStatusPill.className = "terminal-status-pill pass";
           terminalStatusPill.textContent = `PASS (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-pass">All ${evalResult.results.length} assertions passed cleanly. Ready to submit!</div>`;
+        linesHtml += `
+          <div class="terminal-line summary-pass">✨ ALL ASSERTIONS PASSED (${evalResult.results.length}/${evalResult.results.length}) in ${evalResult.duration}ms</div>
+          <div class="terminal-line hint">🎁 Quest Bounty Ready: +100 Coins • +25 MMR • +1 Streak</div>
+          <div class="terminal-line" style="color: #3794ff; margin-top: 2px;">⚡ Press Cmd+Enter or click "Submit" to complete quest!</div>
+        `;
       } else {
         if (terminalStatusPill) {
           terminalStatusPill.className = "terminal-status-pill fail";
           terminalStatusPill.textContent = `FAIL (${evalResult.duration}ms)`;
         }
-        linesHtml += `<div class="terminal-line summary-fail">Test failed. Review your code and run Test again.</div>`;
+        linesHtml += `<div class="terminal-line summary-fail">💥 ${evalResult.results.filter(r => !r.pass).length} ASSERTION FAILED. Review mission objective and retry.</div>`;
       }
 
       if (terminalBody) {
@@ -901,14 +1043,14 @@ function renderVictoryView(match) {
   if (isWin && hasNext) {
     primaryButtonHtml = `
       <button class="modal-btn-primary" id="btn-next-level">
-        <span>Next Level (Challenge #${nextChallengeIdx + 1})</span>
+        <span>Next Quest (Quest #${nextChallengeIdx + 1})</span>
         <span class="btn-kbd-badge">Enter</span>
       </button>
     `;
   } else if (!isWin) {
     primaryButtonHtml = `
       <button class="modal-btn-primary" id="btn-retry-level">
-        <span>Retry Challenge #${match.currentChallenge.id}</span>
+        <span>Retry Quest #${match.currentChallenge.id}</span>
         <span class="btn-kbd-badge">Enter</span>
       </button>
     `;
@@ -917,24 +1059,24 @@ function renderVictoryView(match) {
   appRoot.innerHTML = `
     <div class="modal-overlay">
       <div class="modal-card">
-        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? 'Level Mastered' : 'Eliminated'}</h2>
+        <h2 class="modal-title ${isWin ? 'win' : 'lose'}">${isWin ? '✨ Quest Mastered!' : 'Quest Failed'}</h2>
         
         <p style="color: var(--text-secondary); font-size: 13px;">
-          ${isWin ? `Challenge #${match.currentChallenge.id} conquered.` : 'Challenge failed. Review the concept and try again.'}
+          ${isWin ? `Quest #${match.currentChallenge.id} (${escapeHtml(match.currentChallenge.title)}) conquered.` : 'Review the mission objective & concept, then try again.'}
         </p>
 
         ${isWin && summary ? `
           <div class="payout-box">
-            <div class="payout-amount">+${summary.totalWon.toLocaleString()} Coins</div>
+            <div class="payout-amount">+${summary.totalWon.toLocaleString()} Coins • +25 MMR</div>
             <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
-              Streak: ${summary.newStreak} • Balance: ${summary.newCoins.toLocaleString()} Coins
+              🔥 Streak: ${summary.newStreak}x • Balance: ${summary.newCoins.toLocaleString()} Coins
             </div>
           </div>
         ` : ''}
 
         ${isWin && solvedTime !== null ? `
           <div style="font-size: 11px; color: ${beatTarget ? 'var(--accent-emerald)' : 'var(--text-secondary)'}; font-weight: 600; margin-bottom: 12px;">
-            Solved in ${formatDuration(solvedTime)} ${beatTarget ? '(Speed Bonus)' : ''}
+            Solved in ${formatDuration(solvedTime)} ${beatTarget ? '⚡ (Speed Run Bonus +50 Coins)' : ''}
           </div>
         ` : ''}
 
