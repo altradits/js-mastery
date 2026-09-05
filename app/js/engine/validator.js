@@ -61,7 +61,11 @@ export function parseAndCheckSemicolons(code) {
         break; // End of current block
       }
 
+      const prevIdx = idx;
       parseStatement();
+      if (idx === prevIdx) {
+        next();
+      }
     }
   }
 
@@ -226,17 +230,23 @@ export function parseAndCheckSemicolons(code) {
 
   function parseClassBody() {
     while (idx < tokens.length && peek().value !== "}" && peek().type !== "eof") {
-      if (peek().value === ";") {
+      if (peek().type === "newline" || peek().value === ";") {
         next();
         continue;
       }
 
+      const prevIdx = idx;
+
       if (peek().value === "static") next();
       if (peek().value === "async") next();
-      if (peek().value === "get" || peek().value === "set") next();
+      if ((peek().value === "get" || peek().value === "set") && peek(1).type === "ident" && peek(1).value !== "(") {
+        next();
+      }
       if (peek().value === "*") next();
 
-      next(); // name
+      if (peek().value === "}") break;
+
+      next(); // name / ident
 
       if (peek().value === "=") {
         // field = value;
@@ -250,6 +260,10 @@ export function parseAndCheckSemicolons(code) {
           parseBlockOrProgram(false);
           if (peek().value === "}") next();
         }
+      }
+
+      if (idx === prevIdx) {
+        next();
       }
     }
   }
@@ -413,6 +427,71 @@ export function tokenize(code) {
       col++;
       i++;
       continue;
+    }
+
+    // Regular expression literal
+    if (c === "/" && code[i + 1] !== "/" && code[i + 1] !== "*") {
+      let isRegex = false;
+      let prevNonNewline = null;
+      for (let k = tokens.length - 1; k >= 0; k--) {
+        if (tokens[k].type !== "newline") {
+          prevNonNewline = tokens[k];
+          break;
+        }
+      }
+
+      if (!prevNonNewline) {
+        isRegex = true;
+      } else if (
+        prevNonNewline.type === "operator" ||
+        (prevNonNewline.type === "punct" && "([{},:;?=>".includes(prevNonNewline.value)) ||
+        (prevNonNewline.type === "ident" && ["return", "throw", "yield", "await", "case", "in", "typeof", "delete", "void"].includes(prevNonNewline.value))
+      ) {
+        isRegex = true;
+      }
+
+      if (isRegex) {
+        const startLine = line;
+        const startCol = col;
+        let val = "/";
+        i++;
+        col++;
+        let inCharClass = false;
+
+        while (i < len) {
+          const ch = code[i];
+          if (ch === "\n") break;
+
+          if (ch === "\\") {
+            val += ch + (code[i + 1] || "");
+            i += 2;
+            col += 2;
+            continue;
+          }
+
+          if (ch === "[") {
+            inCharClass = true;
+          } else if (ch === "]") {
+            inCharClass = false;
+          }
+
+          val += ch;
+          i++;
+          col++;
+
+          if (ch === "/" && !inCharClass) {
+            while (i < len && /[a-z]/i.test(code[i])) {
+              val += code[i];
+              i++;
+              col++;
+            }
+            break;
+          }
+        }
+
+        tokens.push({ type: "regex", value: val, line: startLine, col: startCol });
+        continue;
+      }
     }
 
     // Single-line comment

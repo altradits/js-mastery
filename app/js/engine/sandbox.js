@@ -352,6 +352,153 @@ function runChallengeAssertions(exportsObj, challenge) {
       const fnRace = exportsObj.zooRace || Object.values(exportsObj)[0];
       const pass = typeof fnAnimal === "function" && typeof fnRace === "function";
       results.push({ name: "animal and zooRace physics simulation functions", pass, error: pass ? null : "Expected animal and zooRace exports" });
+    } else if (dir === "248-fluent-query-builder") {
+      const fn = exportsObj.queryBuilder || Object.values(exportsObj)[0];
+      const res = fn([{ id: 1, age: 30 }, { id: 2, age: 20 }]).where(u => u.age >= 25).select("id").execute();
+      const pass = Array.isArray(res) && res.length === 1 && res[0].id === 1 && res[0].age === undefined;
+      results.push({ name: "queryBuilder supports where, select and execute", pass, error: pass ? null : "Expected filtered and projected dataset" });
+    } else if (dir === "249-schema-validator-sanitizer") {
+      const fn = exportsObj.createSchemaValidator || Object.values(exportsObj)[0];
+      const validator = fn({ name: { type: "string", required: true, trim: true }, age: { type: "number", default: 18 } });
+      const vRes = validator.validate({ name: "Alice", age: 20 });
+      const sRes = validator.sanitize({ name: "  Bob  " });
+      const pass = vRes.isValid && sRes.name === "Bob" && sRes.age === 18;
+      results.push({ name: "createSchemaValidator validates and sanitizes", pass, error: pass ? null : "Expected valid schema checking and sanitization" });
+    } else if (dir === "250-csv-json-bidirectional-parser") {
+      const csvFn = exportsObj.csvToJson;
+      const jsonFn = exportsObj.jsonToCsv;
+      const pass = typeof csvFn === "function" && typeof jsonFn === "function";
+      results.push({ name: "csvToJson and jsonToCsv are exported", pass, error: pass ? null : "Expected bidirectional parser exports" });
+    } else if (dir === "251-data-dedup-merge-engine") {
+      const fn = exportsObj.dedupAndMerge || Object.values(exportsObj)[0];
+      const res = fn([[{ id: 1, val: "A" }], [{ id: 1, val: "B" }]], x => x.id, (a, b) => ({ ...a, ...b }));
+      const pass = Array.isArray(res) && res.length === 1 && res[0].val === "B";
+      results.push({ name: "dedupAndMerge merges collections and resolves duplicate keys", pass, error: pass ? null : "Expected merged array" });
+    } else if (dir === "252-nested-object-path-lens") {
+      const fn = exportsObj.createLens || Object.values(exportsObj)[0];
+      const lens = fn("a.b");
+      const obj = { a: { b: 10 } };
+      const updated = lens.set(obj, 20);
+      const pass = lens.get(obj) === 10 && updated.a.b === 20 && obj.a.b === 10;
+      results.push({ name: "createLens gets and immutably sets nested paths", pass, error: pass ? null : "Expected immutable lens operations" });
+    } else if (dir === "253-finite-state-machine") {
+      const fn = exportsObj.createFSM || Object.values(exportsObj)[0];
+      const fsm = fn({ initial: "idle", states: { idle: { on: { START: "running" } }, running: {} } });
+      fsm.transition("START");
+      const pass = fsm.getState() === "running" && fsm.getHistory().length === 2;
+      results.push({ name: "createFSM handles state transitions and history", pass, error: pass ? null : "Expected state machine transition" });
+    } else if (dir === "254-wildcard-event-broker") {
+      const Broker = exportsObj.EventBroker || Object.values(exportsObj)[0];
+      const pass = typeof Broker === "function";
+      results.push({ name: "EventBroker is defined as class", pass, error: pass ? null : "Expected EventBroker class" });
+    } else if (dir === "255-undo-redo-history-manager") {
+      const Manager = exportsObj.HistoryManager || Object.values(exportsObj)[0];
+      const m = new Manager(1);
+      m.set(2);
+      m.undo();
+      const pass = m.getState() === 1 && m.canRedo() === true;
+      results.push({ name: "HistoryManager supports undo/redo transactions", pass, error: pass ? null : "Expected undo/redo functionality" });
+    } else if (dir === "256-reactive-store-signals") {
+      const fn = exportsObj.createReactiveSignalStore || Object.values(exportsObj)[0];
+      const store = fn({ count: 1 });
+      let val = 0;
+      store.effect(() => { val = store.state.count; });
+      store.state.count = 5;
+      const pass = val === 5;
+      results.push({ name: "createReactiveSignalStore automatically triggers effects", pass, error: pass ? null : "Expected reactive state signals" });
+    } else if (dir === "257-observer-middleware-pipeline") {
+      const fn = exportsObj.createPipeline || Object.values(exportsObj)[0];
+      const pass = typeof fn === "function";
+      results.push({ name: "createPipeline is exported", pass, error: pass ? null : "Expected pipeline factory" });
+    } else if (dir === "258-rate-limited-task-queue") {
+      const Queue = exportsObj.TaskQueue || Object.values(exportsObj)[0];
+      const pass = typeof Queue === "function";
+      results.push({ name: "TaskQueue is defined as class", pass, error: pass ? null : "Expected TaskQueue export" });
+    } else if (dir === "259-async-cache-ttl") {
+      const Cache = exportsObj.AsyncCache || Object.values(exportsObj)[0];
+      const pass = typeof Cache === "function";
+      results.push({ name: "AsyncCache is defined as class", pass, error: pass ? null : "Expected AsyncCache export" });
+    } else if (dir === "260-batch-request-dispatcher") {
+      const fn = exportsObj.createBatchDispatcher || Object.values(exportsObj)[0];
+      const pass = typeof fn === "function";
+      results.push({ name: "createBatchDispatcher is exported", pass, error: pass ? null : "Expected batch dispatcher function" });
+    } else if (dir === "261-circuit-breaker-guard") {
+      const fn = exportsObj.createCircuitBreaker || Object.values(exportsObj)[0];
+      const pass = typeof fn === "function";
+      results.push({ name: "createCircuitBreaker is exported", pass, error: pass ? null : "Expected circuit breaker function" });
+    } else if (dir === "262-promise-concurrency-pool") {
+      const fn = exportsObj.promisePool || Object.values(exportsObj)[0];
+      const pass = typeof fn === "function";
+      results.push({ name: "promisePool is exported", pass, error: pass ? null : "Expected promise pool function" });
+    } else if (dir === "263-markdown-micro-compiler") {
+      const fn = exportsObj.compileMarkdown || Object.values(exportsObj)[0];
+      const res = fn("# Hello\n**world**");
+      const pass = res && res.includes("<h1>Hello</h1>") && res.includes("<strong>world</strong>");
+      results.push({ name: "compileMarkdown converts markdown to semantic HTML", pass, error: pass ? null : "Expected compiled HTML output" });
+    } else if (dir === "264-shunting-yard-evaluator") {
+      const fn = exportsObj.evaluateMathExpression || Object.values(exportsObj)[0];
+      const pass = fn("3 + 4 * 2") === 11 && fn("(3 + 4) * 2") === 14;
+      results.push({ name: "evaluateMathExpression correctly evaluates infix math expressions", pass, error: pass ? null : "Expected Shunting-Yard evaluation" });
+    } else if (dir === "265-template-directive-engine") {
+      const fn = exportsObj.renderTemplate || Object.values(exportsObj)[0];
+      const res = fn("Hello {{name}}! {{#if active}}Active{{/if}}", { name: "Alice", active: true });
+      const pass = res && res.includes("Hello Alice!") && res.includes("Active");
+      results.push({ name: "renderTemplate parses variables, loops, and conditions", pass, error: pass ? null : "Expected rendered template output" });
+    } else if (dir === "266-token-bucket-rate-limiter") {
+      const Bucket = exportsObj.TokenBucket || Object.values(exportsObj)[0];
+      const pass = typeof Bucket === "function";
+      results.push({ name: "TokenBucket is defined as class", pass, error: pass ? null : "Expected TokenBucket class export" });
+    } else if (dir === "267-levenshtein-fuzzy-search") {
+      const fnDist = exportsObj.levenshteinDistance;
+      const fnSearch = exportsObj.fuzzySearch;
+      const pass = typeof fnDist === "function" && typeof fnSearch === "function" && fnDist("cat", "bat") === 1;
+      results.push({ name: "levenshteinDistance and fuzzySearch exports", pass, error: pass ? null : "Expected Levenshtein search exports" });
+    } else if (dir === "268-jwt-token-verifier") {
+      const fnCreate = exportsObj.createJWT;
+      const fnVerify = exportsObj.verifyJWT;
+      const pass = typeof fnCreate === "function" && typeof fnVerify === "function";
+      results.push({ name: "createJWT and verifyJWT cryptographic functions", pass, error: pass ? null : "Expected JWT token exports" });
+    } else if (dir === "269-lossless-text-compressor") {
+      const fnComp = exportsObj.compressText;
+      const fnDecomp = exportsObj.decompressText;
+      const original = "repeated text repeated text";
+      const pass = typeof fnComp === "function" && typeof fnDecomp === "function" && fnDecomp(fnComp(original)) === original;
+      results.push({ name: "compressText and decompressText roundtrip lossless compression", pass, error: pass ? null : "Expected lossless compression" });
+    } else if (dir === "270-json-patch-diff-engine") {
+      const fnDiff = exportsObj.jsonDiff;
+      const fnPatch = exportsObj.applyPatch;
+      const pass = typeof fnDiff === "function" && typeof fnPatch === "function";
+      results.push({ name: "jsonDiff and applyPatch RFC 6902 engine", pass, error: pass ? null : "Expected JSON Patch exports" });
+    } else if (dir === "271-lru-lfu-cache-engine") {
+      const Cache = exportsObj.CacheEngine || Object.values(exportsObj)[0];
+      const pass = typeof Cache === "function";
+      results.push({ name: "CacheEngine dual LRU/LFU cache class", pass, error: pass ? null : "Expected CacheEngine class" });
+    } else if (dir === "272-crypto-hash-chain") {
+      const fnBlock = exportsObj.createBlock;
+      const fnVerify = exportsObj.verifyChain;
+      const pass = typeof fnBlock === "function" && typeof fnVerify === "function";
+      results.push({ name: "createBlock and verifyChain cryptographic ledger", pass, error: pass ? null : "Expected Hash Chain exports" });
+    } else if (dir === "273-micro-redux-store") {
+      const fnStore = exportsObj.createStore;
+      const pass = typeof fnStore === "function";
+      results.push({ name: "createStore Micro Redux architecture", pass, error: pass ? null : "Expected createStore export" });
+    } else if (dir === "274-in-memory-sql-engine") {
+      const fnSql = exportsObj.MiniSQL;
+      const pass = typeof fnSql === "function";
+      results.push({ name: "MiniSQL relational query builder", pass, error: pass ? null : "Expected MiniSQL export" });
+    } else if (dir === "275-virtual-dom-reconciler") {
+      const fnH = exportsObj.h;
+      const fnDiff = exportsObj.diff;
+      const pass = typeof fnH === "function" && typeof fnDiff === "function";
+      results.push({ name: "h and diff Virtual DOM reconciliation engine", pass, error: pass ? null : "Expected Virtual DOM exports" });
+    } else if (dir === "276-dependency-injection-container") {
+      const Container = exportsObj.DIContainer || Object.values(exportsObj)[0];
+      const pass = typeof Container === "function";
+      results.push({ name: "DIContainer Inversion of Control container", pass, error: pass ? null : "Expected DIContainer class" });
+    } else if (dir === "277-full-reactive-kanban-engine") {
+      const Kanban = exportsObj.KanbanEngine || Object.values(exportsObj)[0];
+      const pass = typeof Kanban === "function";
+      results.push({ name: "KanbanEngine full reactive project state manager", pass, error: pass ? null : "Expected KanbanEngine class" });
     } else {
       // General heuristic verification
       if (typeof exportedVal === "function") {

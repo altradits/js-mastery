@@ -1,4 +1,4 @@
-// Full 247 Challenge Bank (Foundations + 31 Checkpoint Milestone Projects)
+// Full 277 Challenge Bank (Foundations + Checkpoints + Act X Production Subsystems)
 export const CHALLENGE_BANK = [
   {
     "id": 1,
@@ -2716,5 +2716,335 @@ export const CHALLENGE_BANK = [
     "task": "Export `animal(...)` calculating piecewise race durations as a Promise and `zooRace(animals)` resolving the winner.",
     "solutionStub": "export function animal(name, maxSpeed, maxSpeedRange, midSpeed, midSpeedRange, speed, distance) {\n  // Your code here\n}\n\nexport function zooRace(animals) {\n  // Your code here\n}",
     "exportedName": "zoo_race"
+  },
+  {
+    "id": 248,
+    "dir": "248-fluent-query-builder",
+    "title": "248 — Fluent Data Query Builder",
+    "concept": "Method chaining and query builders allow declarative data transformations by combining filter predicates, column selections, sort orders, and limits into a single reusable execution pipeline.",
+    "syntax": "export function queryBuilder(data) {\n  return {\n    where(predicate) { /* ... */ return this; },\n    select(...fields) { /* ... */ return this; },\n    orderBy(key, dir = 'asc') { /* ... */ return this; },\n    limit(count) { /* ... */ return this; },\n    execute() { /* ... */ }\n  };\n}",
+    "example": "export function queryBuilder(data) {\n  return {\n    where(predicate) { /* ... */ return this; },\n    select(...fields) { /* ... */ return this; },\n    orderBy(key, dir = 'asc') { /* ... */ return this; },\n    limit(count) { /* ... */ return this; },\n    execute() { /* ... */ }\n  };\n}",
+    "task": "Export a function `queryBuilder(data)` supporting chainable `.where()`, `.select()`, `.orderBy()`, `.limit()`, and `.execute()` methods without mutating the input dataset.",
+    "solutionStub": "export function queryBuilder(data) {\n  // Implement fluent query builder\n};",
+    "exportedName": "fluent_query_builder"
+  },
+  {
+    "id": 249,
+    "dir": "249-schema-validator-sanitizer",
+    "title": "249 — Schema Validator & Payload Sanitizer",
+    "concept": "Enterprise APIs require runtime schema validation and data sanitization combining recursive type checks, regex patterns, required field guards, and value transformations.",
+    "syntax": "export function createSchemaValidator(schema) {\n  return {\n    validate(data) { /* returns { isValid, errors } */ },\n    sanitize(data) { /* returns sanitized object */ }\n  };\n}",
+    "example": "export function createSchemaValidator(schema) {\n  return {\n    validate(data) { /* returns { isValid, errors } */ },\n    sanitize(data) { /* returns sanitized object */ }\n  };\n}",
+    "task": "Export `createSchemaValidator(schema)` with `.validate(data)` returning `{ isValid, errors }` and `.sanitize(data)` returning transformed values (e.g. trimmed strings, uppercase, default values).",
+    "solutionStub": "export function createSchemaValidator(schema) {\n  // Implement validator & sanitizer\n};",
+    "exportedName": "schema_validator_sanitizer"
+  },
+  {
+    "id": 250,
+    "dir": "250-csv-json-bidirectional-parser",
+    "title": "250 — CSV to JSON Bidirectional Parser",
+    "concept": "Robust text processing requires parsing structured CSV strings with quoted delimiters and escaped characters into JSON objects, and serializing JSON records back to standard CSV format.",
+    "syntax": "export function csvToJson(csv) { /* ... */ }\nexport function jsonToCsv(jsonArray) { /* ... */ }",
+    "example": "export function csvToJson(csv) { /* ... */ }\nexport function jsonToCsv(jsonArray) { /* ... */ }",
+    "task": "Export `csvToJson(csvString)` and `jsonToCsv(jsonArray)` supporting header rows, quoted values containing commas/newlines, and escaped quotes (`\"\"`).",
+    "solutionStub": "export function csvToJson(csv) {\n  // Parse CSV to JSON\n};\n\nexport function jsonToCsv(arr) {\n  // Serialize JSON to CSV\n};",
+    "exportedName": "csv_json_bidirectional_parser"
+  },
+  {
+    "id": 251,
+    "dir": "251-data-dedup-merge-engine",
+    "title": "251 — Data Deduplication & Conflict Merge Engine",
+    "concept": "Merging asynchronous data streams often produces duplicate entities with conflicting fields. A merge engine groups records by custom key extractors and resolves conflicts via strategy functions.",
+    "syntax": "export function dedupAndMerge(collections, keyFn, mergeFn) {\n  // Returns deduplicated and merged array\n}",
+    "example": "export function dedupAndMerge(collections, keyFn, mergeFn) {\n  // Returns deduplicated and merged array\n}",
+    "task": "Export `dedupAndMerge(collections, keyFn, mergeFn)` that flattens multiple arrays, groups by `keyFn(item)`, and resolves duplicates sequentially using `mergeFn(accumulator, current)`.",
+    "solutionStub": "export function dedupAndMerge(collections, keyFn, mergeFn) {\n  // Merge and deduplicate\n};",
+    "exportedName": "data_dedup_merge_engine"
+  },
+  {
+    "id": 252,
+    "dir": "252-nested-object-path-lens",
+    "title": "252 — Immutable Nested Object Path Lens",
+    "concept": "Functional optics (Lenses) provide composable getters, setters, and modifiers for deeply nested structures without mutating original references.",
+    "syntax": "export function createLens(path) {\n  return {\n    get(obj) { /* ... */ },\n    set(obj, value) { /* ... */ },\n    modify(obj, fn) { /* ... */ }\n  };\n}",
+    "example": "export function createLens(path) {\n  return {\n    get(obj) { /* ... */ },\n    set(obj, value) { /* ... */ },\n    modify(obj, fn) { /* ... */ }\n  };\n}",
+    "task": "Export `createLens(dotPath)` returning `{ get, set, modify }` for immutable reading, writing, and transforming of nested properties.",
+    "solutionStub": "export function createLens(path) {\n  // Implement path lens\n};",
+    "exportedName": "nested_object_path_lens"
+  },
+  {
+    "id": 253,
+    "dir": "253-finite-state-machine",
+    "title": "253 — Finite State Machine (FSM) Engine",
+    "concept": "Finite state machines coordinate complex workflows with deterministic state transitions, transition guards, event payloads, and lifecycle callbacks (`onEnter`/`onExit`).",
+    "syntax": "export function createFSM(config) {\n  return {\n    getState() { /* ... */ },\n    transition(event, payload) { /* ... */ },\n    can(event) { /* ... */ },\n    getHistory() { /* ... */ }\n  };\n}",
+    "example": "export function createFSM(config) {\n  return {\n    getState() { /* ... */ },\n    transition(event, payload) { /* ... */ },\n    can(event) { /* ... */ },\n    getHistory() { /* ... */ }\n  };\n}",
+    "task": "Export `createFSM(config)` supporting transition tables, lifecycle hooks, guard conditions, and state history recording.",
+    "solutionStub": "export function createFSM(config) {\n  // Implement Finite State Machine\n};",
+    "exportedName": "finite_state_machine"
+  },
+  {
+    "id": 254,
+    "dir": "254-wildcard-event-broker",
+    "title": "254 — Wildcard Event Broker (Pub/Sub)",
+    "concept": "An asynchronous publish-subscribe message broker with wildcard pattern matching (`user.*`, `system.**`), one-time handlers (`once`), and cleanup tokens.",
+    "syntax": "export class EventBroker {\n  subscribe(topic, handler) { /* ... returns unsubscribe token */ }\n  once(topic, handler) { /* ... */ }\n  publish(topic, ...args) { /* ... */ }\n}",
+    "example": "export class EventBroker {\n  subscribe(topic, handler) { /* ... returns unsubscribe token */ }\n  once(topic, handler) { /* ... */ }\n  publish(topic, ...args) { /* ... */ }\n}",
+    "task": "Export class `EventBroker` supporting wildcard topics (`*` for single level, `**` for multi-level), `publish()`, `subscribe()`, and `once()`.",
+    "solutionStub": "export class EventBroker {\n  // Implement Event Broker\n};",
+    "exportedName": "wildcard_event_broker"
+  },
+  {
+    "id": 255,
+    "dir": "255-undo-redo-history-manager",
+    "title": "255 — Transactional Undo-Redo History Manager",
+    "concept": "State snapshotting and command history containers allow applications to step backwards and forwards through states with branch truncation and capacity limits.",
+    "syntax": "export class HistoryManager {\n  constructor(initialState, options = {}) { /* ... */ }\n  getState() { /* ... */ }\n  set(newState) { /* ... */ }\n  undo() { /* ... */ }\n  redo() { /* ... */ }\n}",
+    "example": "export class HistoryManager {\n  constructor(initialState, options = {}) { /* ... */ }\n  getState() { /* ... */ }\n  set(newState) { /* ... */ }\n  undo() { /* ... */ }\n  redo() { /* ... */ }\n}",
+    "task": "Export `HistoryManager` class supporting `getState()`, `set(newState)`, `undo()`, `redo()`, `canUndo()`, `canRedo()`, and `getHistory()`.",
+    "solutionStub": "export class HistoryManager {\n  // Implement Undo-Redo Manager\n};",
+    "exportedName": "undo_redo_history_manager"
+  },
+  {
+    "id": 256,
+    "dir": "256-reactive-store-signals",
+    "title": "256 — Reactive Store with Computed Signals",
+    "concept": "Signals and reactive proxies automatically record dependency graphs during evaluation and re-run side effects when underlying properties mutate.",
+    "syntax": "export function createReactiveSignalStore(initialState) {\n  return {\n    state, /* proxy */\n    computed(getterFn) { /* ... */ },\n    effect(sideEffectFn) { /* ... */ }\n  };\n}",
+    "example": "export function createReactiveSignalStore(initialState) {\n  return {\n    state, /* proxy */\n    computed(getterFn) { /* ... */ },\n    effect(sideEffectFn) { /* ... */ }\n  };\n}",
+    "task": "Export `createReactiveSignalStore(initialState)` providing a reactive `state` Proxy, `computed(fn)` signals, and `effect(fn)` subscription runners.",
+    "solutionStub": "export function createReactiveSignalStore(initialState) {\n  // Implement reactive signals store\n};",
+    "exportedName": "reactive_store_signals"
+  },
+  {
+    "id": 257,
+    "dir": "257-observer-middleware-pipeline",
+    "title": "257 — Onion-Architecture Middleware Pipeline",
+    "concept": "Asynchronous middleware pipelines chain functions via `next()` callbacks, enabling request pre-processing, downstream execution, and response post-processing.",
+    "syntax": "export function createPipeline() {\n  return {\n    use(middleware) { /* ... */ },\n    execute(context) { /* ... */ }\n  };\n}",
+    "example": "export function createPipeline() {\n  return {\n    use(middleware) { /* ... */ },\n    execute(context) { /* ... */ }\n  };\n}",
+    "task": "Export `createPipeline()` supporting `use(async (ctx, next) => { ... })` and `execute(context)` using the asynchronous onion execution pattern.",
+    "solutionStub": "export function createPipeline() {\n  // Implement middleware pipeline\n};",
+    "exportedName": "observer_middleware_pipeline"
+  },
+  {
+    "id": 258,
+    "dir": "258-rate-limited-task-queue",
+    "title": "258 — Rate-Limited Async Task Queue",
+    "concept": "Asynchronous task queues balance throughput against API rate limits by enforcing maximum concurrency alongside token/interval throughput constraints.",
+    "syntax": "export class TaskQueue {\n  constructor(options = {}) { /* concurrency, rateLimit */ }\n  add(taskFn) { /* returns promise */ }\n  pause() { /* ... */ }\n  resume() { /* ... */ }\n}",
+    "example": "export class TaskQueue {\n  constructor(options = {}) { /* concurrency, rateLimit */ }\n  add(taskFn) { /* returns promise */ }\n  pause() { /* ... */ }\n  resume() { /* ... */ }\n}",
+    "task": "Export `TaskQueue({ concurrency, rateLimit })` with `.add(asyncFn)` returning a Promise for the task result, plus `.pause()` and `.resume()` controls.",
+    "solutionStub": "export class TaskQueue {\n  // Implement rate-limited task queue\n};",
+    "exportedName": "rate_limited_task_queue"
+  },
+  {
+    "id": 259,
+    "dir": "259-async-cache-ttl",
+    "title": "259 — Async Cache with TTL & Tag Invalidation",
+    "concept": "Caches reduce backend load by holding async results in memory with time-to-live expirations, tag grouping, and async function memoization.",
+    "syntax": "export class AsyncCache {\n  get(key) { /* ... */ }\n  set(key, val, ttl) { /* ... */ }\n  invalidateTag(tag) { /* ... */ }\n  wrap(key, asyncFn, tags) { /* ... */ }\n}",
+    "example": "export class AsyncCache {\n  get(key) { /* ... */ }\n  set(key, val, ttl) { /* ... */ }\n  invalidateTag(tag) { /* ... */ }\n  wrap(key, asyncFn, tags) { /* ... */ }\n}",
+    "task": "Export `AsyncCache` supporting `.get()`, `.set()`, `.wrap(key, fn, tags)`, and `.invalidateTag(tag)`.",
+    "solutionStub": "export class AsyncCache {\n  // Implement Async Cache\n};",
+    "exportedName": "async_cache_ttl"
+  },
+  {
+    "id": 260,
+    "dir": "260-batch-request-dispatcher",
+    "title": "260 — Concurrent Batch Request Dispatcher",
+    "concept": "High-frequency individual calls within an event loop window can be pooled into single batch network requests, resolving callers individually.",
+    "syntax": "export function createBatchDispatcher(batchFn, options = {}) {\n  // returns dispatch(id)\n}",
+    "example": "export function createBatchDispatcher(batchFn, options = {}) {\n  // returns dispatch(id)\n}",
+    "task": "Export `createBatchDispatcher(batchFn, { delayMs, maxBatchSize })` returning a `dispatch(id)` function that pools IDs and calls `batchFn(ids)`.",
+    "solutionStub": "export function createBatchDispatcher(batchFn, options) {\n  // Implement batch dispatcher\n};",
+    "exportedName": "batch_request_dispatcher"
+  },
+  {
+    "id": 261,
+    "dir": "261-circuit-breaker-guard",
+    "title": "261 — Circuit Breaker Resilience Guard",
+    "concept": "Circuit breakers protect distributed services from cascading failures by halting calls when failure rates cross thresholds, testing health in a half-open state.",
+    "syntax": "export function createCircuitBreaker(asyncFn, options) {\n  return wrappedFunction;\n}",
+    "example": "export function createCircuitBreaker(asyncFn, options) {\n  return wrappedFunction;\n}",
+    "task": "Export `createCircuitBreaker(fn, { failureThreshold, recoveryTimeout, fallback })` returning a resilient function with `.getState()`.",
+    "solutionStub": "export function createCircuitBreaker(fn, options) {\n  // Implement circuit breaker\n};",
+    "exportedName": "circuit_breaker_guard"
+  },
+  {
+    "id": 262,
+    "dir": "262-promise-concurrency-pool",
+    "title": "262 — Promise Concurrency Pool Runner",
+    "concept": "Executing hundreds of asynchronous tasks simultaneously exhausts sockets and memory. A concurrency pool maintains a steady worker window preserving result order.",
+    "syntax": "export async function promisePool(taskFns, limit = 2) {\n  // Returns array of results\n}",
+    "example": "export async function promisePool(taskFns, limit = 2) {\n  // Returns array of results\n}",
+    "task": "Export `promisePool(taskFns, limit)` that executes task functions with bounded concurrency and returns results in identical index order.",
+    "solutionStub": "export async function promisePool(taskFns, limit) {\n  // Implement pool runner\n};",
+    "exportedName": "promise_concurrency_pool"
+  },
+  {
+    "id": 263,
+    "dir": "263-markdown-micro-compiler",
+    "title": "263 — Markdown to Semantic HTML Micro-Compiler",
+    "concept": "Text compilers translate markdown formatting tokens (headers, lists, bold, italics, links, and code fences) into valid semantic HTML without external parsers.",
+    "syntax": "export function compileMarkdown(markdown) {\n  return htmlString;\n}",
+    "example": "export function compileMarkdown(markdown) {\n  return htmlString;\n}",
+    "task": "Export `compileMarkdown(str)` converting `#`, `##`, `**`, `*`, `` ` ``, ```` ``` ````, `[text](url)`, and `- ` into standard HTML tags.",
+    "solutionStub": "export function compileMarkdown(md) {\n  // Compile markdown\n};",
+    "exportedName": "markdown_micro_compiler"
+  },
+  {
+    "id": 264,
+    "dir": "264-shunting-yard-evaluator",
+    "title": "264 — Mathematical Infix Shunting-Yard Evaluator",
+    "concept": "Evaluating mathematical expressions with standard operator precedence (`^`, `*`, `/`, `+`, `-`) and parentheses requires Dijkstra's Shunting-Yard token algorithm.",
+    "syntax": "export function evaluateMathExpression(expression) {\n  return resultNumber;\n}",
+    "example": "export function evaluateMathExpression(expression) {\n  return resultNumber;\n}",
+    "task": "Export `evaluateMathExpression(str)` that tokenizes arithmetic expressions and computes the exact numerical result.",
+    "solutionStub": "export function evaluateMathExpression(expr) {\n  // Evaluate math expression\n};",
+    "exportedName": "shunting_yard_evaluator"
+  },
+  {
+    "id": 265,
+    "dir": "265-template-directive-engine",
+    "title": "265 — Template Engine with Loops & Conditionals",
+    "concept": "Template rendering engines combine regex substitution, recursive dot-path resolution, and block directives (`{{#if}}`, `{{#each}}`).",
+    "syntax": "export function renderTemplate(template, data) {\n  return renderedString;\n}",
+    "example": "export function renderTemplate(template, data) {\n  return renderedString;\n}",
+    "task": "Export `renderTemplate(template, data)` supporting `{{var}}`, `{{user.city}}`, `{{#if condition}}...{{/if}}`, and `{{#each list}}...{{this}}...{{/each}}`.",
+    "solutionStub": "export function renderTemplate(tpl, data) {\n  // Implement template engine\n};",
+    "exportedName": "template_directive_engine"
+  },
+  {
+    "id": 266,
+    "dir": "266-token-bucket-rate-limiter",
+    "title": "266 — Token Bucket Rate Limiter",
+    "concept": "Token bucket algorithms manage bursty traffic by accumulating tokens over time up to capacity and consuming tokens per operation.",
+    "syntax": "export class TokenBucket {\n  constructor({ capacity, refillRate }) { /* ... */ }\n  consume(count = 1) { /* returns boolean */ }\n  getTokens() { /* ... */ }\n}",
+    "example": "export class TokenBucket {\n  constructor({ capacity, refillRate }) { /* ... */ }\n  consume(count = 1) { /* returns boolean */ }\n  getTokens() { /* ... */ }\n}",
+    "task": "Export `TokenBucket({ capacity, refillRate })` supporting `consume()`, `getTokens()`, and automatic fractional refill calculations.",
+    "solutionStub": "export class TokenBucket {\n  // Implement token bucket\n};",
+    "exportedName": "token_bucket_rate_limiter"
+  },
+  {
+    "id": 267,
+    "dir": "267-levenshtein-fuzzy-search",
+    "title": "267 — Levenshtein Distance & Fuzzy Search Engine",
+    "concept": "Fuzzy search engines use 2D dynamic programming matrices to determine minimum character edits (insertions, deletions, substitutions) between strings.",
+    "syntax": "export function levenshteinDistance(a, b) { /* ... */ }\nexport function fuzzySearch(query, list, maxDist = 2) { /* ... */ }",
+    "example": "export function levenshteinDistance(a, b) { /* ... */ }\nexport function fuzzySearch(query, list, maxDist = 2) { /* ... */ }",
+    "task": "Export `levenshteinDistance(a, b)` and `fuzzySearch(query, list, maxDistance)` returning ranked matches sorted by edit distance.",
+    "solutionStub": "export function levenshteinDistance(a, b) {\n  // Compute distance\n};\n\nexport function fuzzySearch(query, list, maxDist) {\n  // Fuzzy search\n};",
+    "exportedName": "levenshtein_fuzzy_search"
+  },
+  {
+    "id": 268,
+    "dir": "268-jwt-token-verifier",
+    "title": "268 — JSON Web Token (JWT) Encoder & Verifier",
+    "concept": "JSON Web Tokens authenticate microservices using Base64URL-encoded headers and payloads verified cryptographically with HMAC-SHA256 signatures.",
+    "syntax": "export function createJWT(payload, secret, options = {}) { /* ... */ }\nexport function verifyJWT(token, secret) { /* ... */ }",
+    "example": "export function createJWT(payload, secret, options = {}) { /* ... */ }\nexport function verifyJWT(token, secret) { /* ... */ }",
+    "task": "Export `createJWT(payload, secret, { expiresIn })` and `verifyJWT(token, secret)` using native `node:crypto` HMAC-SHA256.",
+    "solutionStub": "export function createJWT(payload, secret, options) {\n  // Create JWT\n};\n\nexport function verifyJWT(token, secret) {\n  // Verify JWT\n};",
+    "exportedName": "jwt_token_verifier"
+  },
+  {
+    "id": 269,
+    "dir": "269-lossless-text-compressor",
+    "title": "269 — Lossless Text Compressor & Decompressor",
+    "concept": "Dictionary-based replacement coupled with run-length encoding compresses repetitive text payloads reversibly (`decompress(compress(str)) === str`).",
+    "syntax": "export function compressText(str) { /* ... */ }\nexport function decompressText(compressed) { /* ... */ }",
+    "example": "export function compressText(str) { /* ... */ }\nexport function decompressText(compressed) { /* ... */ }",
+    "task": "Export `compressText(str)` and `decompressText(data)` providing exact, lossless roundtrip string compression.",
+    "solutionStub": "export function compressText(str) {\n  // Compress text\n};\n\nexport function decompressText(data) {\n  // Decompress text\n};",
+    "exportedName": "lossless_text_compressor"
+  },
+  {
+    "id": 270,
+    "dir": "270-json-patch-diff-engine",
+    "title": "270 — JSON Patch Diff & Apply Engine (RFC 6902)",
+    "concept": "Object synchronization between clients and servers relies on standard JSON Patch diffing (`add`, `remove`, `replace`) and immutable patch application.",
+    "syntax": "export function jsonDiff(source, target) { /* returns patch array */ }\nexport function applyPatch(source, patch) { /* returns new patched object */ }",
+    "example": "export function jsonDiff(source, target) { /* returns patch array */ }\nexport function applyPatch(source, patch) { /* returns new patched object */ }",
+    "task": "Export `jsonDiff(source, target)` and `applyPatch(source, patch)` supporting standard JSON patch operations.",
+    "solutionStub": "export function jsonDiff(src, target) {\n  // Diff objects\n};\n\nexport function applyPatch(src, patch) {\n  // Apply patch\n};",
+    "exportedName": "json_patch_diff_engine"
+  },
+  {
+    "id": 271,
+    "dir": "271-lru-lfu-cache-engine",
+    "title": "271 — LRU & LFU Dual-Policy Eviction Cache",
+    "concept": "In-memory caching engines support configurable eviction algorithms: Least Recently Used (LRU) and Least Frequently Used (LFU) using access timestamps and frequency counters.",
+    "syntax": "export class CacheEngine {\n  constructor({ capacity = 3, policy = 'LRU' }) { /* ... */ }\n  get(key) { /* ... */ }\n  set(key, value) { /* ... */ }\n}",
+    "example": "export class CacheEngine {\n  constructor({ capacity = 3, policy = 'LRU' }) { /* ... */ }\n  get(key) { /* ... */ }\n  set(key, value) { /* ... */ }\n}",
+    "task": "Export `CacheEngine({ capacity, policy })` supporting `.get()`, `.set()`, and eviction under LRU and LFU policies.",
+    "solutionStub": "export class CacheEngine {\n  // Implement Cache Engine\n};",
+    "exportedName": "lru_lfu_cache_engine"
+  },
+  {
+    "id": 272,
+    "dir": "272-crypto-hash-chain",
+    "title": "272 — Cryptographic Hash Chain & Ledger",
+    "concept": "Cryptographic hash chains link sequential records by embedding the previous block's SHA-256 hash into the current block, enabling tamper verification.",
+    "syntax": "export function createBlock(index, data, prevHash) { /* ... */ }\nexport function verifyChain(chain) { /* returns boolean */ }",
+    "example": "export function createBlock(index, data, prevHash) { /* ... */ }\nexport function verifyChain(chain) { /* returns boolean */ }",
+    "task": "Export `createBlock(index, data, prevHash)` and `verifyChain(chain)` verifying ledger integrity and detecting tampering.",
+    "solutionStub": "export function createBlock(idx, data, prev) {\n  // Create block\n};\n\nexport function verifyChain(chain) {\n  // Verify chain\n};",
+    "exportedName": "crypto_hash_chain"
+  },
+  {
+    "id": 273,
+    "dir": "273-micro-redux-store",
+    "title": "273 — Micro-Redux Architecture & Middleware Container",
+    "concept": "The Redux state pattern enforces unidirectional data flow using pure reducer functions, action dispatching, subscriber notification, and curried middleware chains.",
+    "syntax": "export function createStore(reducer, preloadedState, enhancer) { /* ... */ }\nexport function applyMiddleware(...middlewares) { /* ... */ }",
+    "example": "export function createStore(reducer, preloadedState, enhancer) { /* ... */ }\nexport function applyMiddleware(...middlewares) { /* ... */ }",
+    "task": "Export `createStore(reducer, initialState, enhancer)` and `applyMiddleware(...middlewares)` implementing the complete Redux architecture.",
+    "solutionStub": "export function createStore(reducer, preloadedState, enhancer) {\n  // Implement Redux createStore\n};\n\nexport function applyMiddleware(...middlewares) {\n  // Implement applyMiddleware\n};",
+    "exportedName": "micro_redux_store"
+  },
+  {
+    "id": 274,
+    "dir": "274-in-memory-sql-engine",
+    "title": "274 — In-Memory Relational SQL Query Engine",
+    "concept": "Relational database engines parse and execute structured queries with `SELECT`, `WHERE`, `JOIN` (INNER/LEFT), `GROUP BY`, aggregate functions, and `ORDER BY`.",
+    "syntax": "export function MiniSQL(tables) {\n  return {\n    from(tableName) { /* ... chainable builder */ }\n  };\n}",
+    "example": "export function MiniSQL(tables) {\n  return {\n    from(tableName) { /* ... chainable builder */ }\n  };\n}",
+    "task": "Export `MiniSQL(tables)` supporting `.from()`, `.select()`, `.where()`, `.join(table, onFn, type)`, `.groupBy(key, aggregates)`, and `.execute()`.",
+    "solutionStub": "export function MiniSQL(tables) {\n  // Implement SQL query engine\n};",
+    "exportedName": "in_memory_sql_engine"
+  },
+  {
+    "id": 275,
+    "dir": "275-virtual-dom-reconciler",
+    "title": "275 — Virtual DOM Hyperscript & Tree Reconciliation",
+    "concept": "Virtual DOM trees represent UI hierarchies as lightweight JavaScript node trees, computing minimal diff patches (`REPLACE`, `UPDATE_PROPS`, `REORDER`) between render cycles.",
+    "syntax": "export function h(tag, props, ...children) { /* ... */ }\nexport function diff(oldVNode, newVNode) { /* ... */ }",
+    "example": "export function h(tag, props, ...children) { /* ... */ }\nexport function diff(oldVNode, newVNode) { /* ... */ }",
+    "task": "Export `h(tag, props, ...children)` and `diff(oldVNode, newVNode)` generating virtual tree patches.",
+    "solutionStub": "export function h(tag, props, ...children) {\n  // Create virtual DOM node\n};\n\nexport function diff(oldVNode, newVNode) {\n  // Compute VDOM diff\n};",
+    "exportedName": "virtual_dom_reconciler"
+  },
+  {
+    "id": 276,
+    "dir": "276-dependency-injection-container",
+    "title": "276 — Dependency Injection (IoC) Container",
+    "concept": "Inversion of Control (IoC) containers decouple components by managing service lifetimes (singleton vs transient), instantiating dependency graphs, and detecting circular references.",
+    "syntax": "export class DIContainer {\n  register(name, factory, options) { /* ... */ }\n  resolve(name) { /* ... */ }\n}",
+    "example": "export class DIContainer {\n  register(name, factory, options) { /* ... */ }\n  resolve(name) { /* ... */ }\n}",
+    "task": "Export `DIContainer` class supporting singleton/transient registration, automatic recursive dependency resolution, and circular dependency detection.",
+    "solutionStub": "export class DIContainer {\n  // Implement DI Container\n};",
+    "exportedName": "dependency_injection_container"
+  },
+  {
+    "id": 277,
+    "dir": "277-full-reactive-kanban-engine",
+    "title": "277 — Reactive Kanban Board State Engine",
+    "concept": "A project management state engine coordinates column lists, card migrations, reordering invariants, transactional undo/redo, and search filters.",
+    "syntax": "export class KanbanEngine {\n  constructor(initialBoard) { /* ... */ }\n  addCard(colId, card) { /* ... */ }\n  moveCard(cardId, toColId, targetIndex) { /* ... */ }\n  undo() { /* ... */ }\n}",
+    "example": "export class KanbanEngine {\n  constructor(initialBoard) { /* ... */ }\n  addCard(colId, card) { /* ... */ }\n  moveCard(cardId, toColId, targetIndex) { /* ... */ }\n  undo() { /* ... */ }\n}",
+    "task": "Export `KanbanEngine` class supporting column management, card additions, drag-and-drop card migrations across columns, full undo/redo, and search filters.",
+    "solutionStub": "export class KanbanEngine {\n  // Implement Kanban Engine\n};",
+    "exportedName": "full_reactive_kanban_engine"
   }
 ];

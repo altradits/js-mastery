@@ -12,10 +12,11 @@ const appStatusbar = document.getElementById("app-statusbar");
 
 // Developer Rank & Gamification Helpers
 export function getDeveloperRank(completedCount) {
-  if (completedCount >= 235) return { title: "Grandmaster", tier: "V", badge: "GM" };
-  if (completedCount >= 200) return { title: "Engine Sorcerer", tier: "IV", badge: "SRC" };
+  if (completedCount >= 265) return { title: "Grandmaster", tier: "V", badge: "GM" };
+  if (completedCount >= 235) return { title: "Systems Architect", tier: "IV", badge: "ARC" };
+  if (completedCount >= 200) return { title: "Engine Sorcerer", tier: "III", badge: "SRC" };
   if (completedCount >= 170) return { title: "Async Warlord", tier: "III", badge: "WAR" };
-  if (completedCount >= 140) return { title: "Runtime Architect", tier: "II", badge: "ARC" };
+  if (completedCount >= 140) return { title: "Runtime Architect", tier: "II", badge: "RUN" };
   if (completedCount >= 100) return { title: "Algorithm Master", tier: "I", badge: "MST" };
   if (completedCount >= 60)  return { title: "Function Crafter", tier: "III", badge: "CRF" };
   if (completedCount >= 20)  return { title: "Syntax Crafter", tier: "II", badge: "SYN" };
@@ -26,7 +27,7 @@ export function getDifficultyStars(challengeId) {
   if (challengeId <= 20) return "★☆☆☆☆";
   if (challengeId <= 50) return "★★☆☆☆";
   if (challengeId <= 110) return "★★★☆☆";
-  if (challengeId <= 170) return "★★★★☆";
+  if (challengeId <= 200) return "★★★★☆";
   return "★★★★★";
 }
 
@@ -88,7 +89,7 @@ let selectedWagers = {
   gauntlet: 0
 };
 
-// Curriculum Tiers Definition (Acts I - IX)
+// Curriculum Tiers Definition (Acts I - X)
 const CURRICULUM_MODULES = [
   { act: "Act I", name: "Foundations & Control Flow", range: [1, 20] },
   { act: "Act II", name: "Data Structures & Algorithms", range: [21, 50] },
@@ -98,7 +99,8 @@ const CURRICULUM_MODULES = [
   { act: "Act VI", name: "Async, Promises & Streams", range: [141, 170] },
   { act: "Act VII", name: "Real-World Modules & Utilities", range: [171, 200] },
   { act: "Act VIII", name: "Piscine Algorithms & Logic", range: [201, 216] },
-  { act: "Act IX", name: "Checkpoint Capstone Mini-Projects", range: [217, 247] }
+  { act: "Act IX", name: "Checkpoint Capstone Mini-Projects", range: [217, 247] },
+  { act: "Act X", name: "Advanced Systems & Production Engineering", range: [248, 277] }
 ];
 
 // View Tracking State

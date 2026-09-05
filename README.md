@@ -1,10 +1,10 @@
 # ⚡ Code Royale: JavaScript Piscine Practice & Battle Royale Arena
 
 [![Live Production Web App](https://img.shields.io/badge/Live%20App-https%3A%2F%2Fjs--mastery--livid.vercel.app-00F0FF?style=for-the-badge&logo=vercel&logoColor=white)](https://js-mastery-livid.vercel.app/)
-[![Challenges](https://img.shields.io/badge/Atomic%20Challenges-247%20Complete-00FF88?style=for-the-badge)](https://js-mastery-livid.vercel.app/)
+[![Challenges](https://img.shields.io/badge/Atomic%20Challenges-277%20Complete-00FF88?style=for-the-badge)](https://js-mastery-livid.vercel.app/)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Native%20ESM)-FBBF24?style=for-the-badge)](https://nodejs.org/)
 
-An interactive, zero-dependency, native JavaScript drill engine, browser code arena, and capstone project runtime designed to take you from absolute ground zero to full mastery of JavaScript language mechanics through **247 bite-sized micro-lessons and cumulative mini-projects**.
+An interactive, zero-dependency, native JavaScript drill engine, browser code arena, and capstone project runtime designed to take you from absolute ground zero to full mastery of JavaScript language mechanics through **277 bite-sized micro-lessons and cumulative mini-projects**.
 
 👉 **Play Live in Browser:** **[https://js-mastery-livid.vercel.app/](https://js-mastery-livid.vercel.app/)**
 
@@ -16,10 +16,10 @@ An interactive, zero-dependency, native JavaScript drill engine, browser code ar
 
 Experience JavaScript coding as a competitive esports arena and interactive learning workspace:
 
-- 🔥 **Sequential "Piscine Gauntlet" (Beginner to Legend)**: Practice from Challenge #01 (`01-constant-variable`) through #247 in strict sequence against adaptive rival coders with sudden-death timers and coin bounties.
+- 🔥 **Sequential "Piscine Gauntlet" (Beginner to Legend)**: Practice from Challenge #01 (`01-constant-variable`) through #277 in strict sequence against adaptive rival coders with sudden-death timers and coin bounties.
 - ⚔️ **8-Player Battle Royale**: 8 developers enter, 3 elimination rounds, and the last programmer standing claims the 8x jackpot pot.
 - 🎯 **1v1 High-Stakes Duel**: Sudden-death head-to-head match where the fastest coder to pass assertions wins double stakes.
-- 🗺️ **Interactive 247-Level Curriculum Map across 9 Acts**: Browse all 9 learning modules, track unlocked/completed levels, and jump directly into any challenge.
+- 🗺️ **Interactive 277-Level Curriculum Map across 10 Acts**: Browse all 10 learning modules, track unlocked/completed levels, and jump directly into any challenge.
 - 🚀 **7 Cumulative Capstone Mini-Projects (Act 9)**: Put modular skills together to write complex engines (Matrix search, Sort analyzers, Curried pipelines, Reactive Proxies, and Async schedulers).
 - 👤 **Persistent Player Profiles & Accounts**: Choose your hacker avatar, track MMR, coin balances, and level progression in `localStorage`.
 - 🛡️ **In-Browser Safe Sandbox**: Real-time evaluation of ES Module code with loop timeout protection and virtual assertion console.
@@ -51,7 +51,7 @@ npm test
 npm run app
 # or: npm run serve
 
-# 5. Reset all 247 challenge files to starter comment stubs:
+# 5. Reset all 277 challenge files to starter comment stubs:
 npm run reset
 ```
 
@@ -78,7 +78,27 @@ Act 9 transitions learners from micro-drills to building modular production-grad
 
 ---
 
-## 🗺️ 247-Stage Complete JavaScript Curriculum (Acts 1–9)
+
+---
+
+## 🏛️ Act 10: Multi-Concept Production Subsystems & Grand Capstones (Challenges 248–277)
+
+Act 10 challenges combine 3 to 5 core JavaScript primitives (closures, proxies, async queues, AST parsing, cryptography, dynamic programming, and state machines) into fully integrated production engines:
+
+1. **Track 1: Data Pipelines & Query Engines** (`fluentQuery`, `validateSchema`, `csvToJson`, `deduplicateRecords`, `createLens`):
+   Composable query builders, schema sanitization, CSV parsing, and deep immutable path lenses.
+2. **Track 2: State Machines & Event Brokers** (`createStateMachine`, `createEventBroker`, `createHistoryManager`, `createSignalStore`, `createPipeline`):
+   Deterministic FSM with transition guards, wildcard pub/sub bus, multi-step undo/redo, reactive signal dependency graphs, and onion-model middleware.
+3. **Track 3: Resilience, Queues & Concurrency** (`createTaskQueue`, `createAsyncCache`, `createBatchDispatcher`, `createCircuitBreaker`, `promisePool`):
+   Token-bucket rate limiting, TTL cache with thundering-herd defense, automatic batch dispatching, circuit breaker fault tolerance, and bounded parallel concurrency.
+4. **Track 4: Compilers, Parsers & Math Models** (`compileMarkdown`, `evaluateExpression`, `renderTemplate`, `createTokenBucket`, `fuzzySearch`):
+   Zero-dependency markdown parser, Dijkstra's Shunting-Yard arithmetic engine, Handlebars-style template interpolation, and Levenshtein distance fuzzy search.
+5. **Track 5: Security, Encoding & Cache Policies** (`verifyJWT`, `compressText`, `createJsonPatch`, `createDualCache`, `createHashChain`):
+   HMAC-SHA256 JWT verifier, RLE & frequency text compression, RFC 6902 JSON patch engine, LRU/LFU dual eviction cache, and cryptographic blockchain audit chains.
+6. **Track 6: Culminating Capstones** (`createReduxStore`, `createSqlEngine`, `createVNode` & diffing, `createContainer`, `createKanbanEngine`):
+   Micro-Redux unidirectional state, in-memory relational SQL engine (SELECT, JOIN, GROUP BY, ORDER BY), Virtual DOM diffing & reconciliation, Inversion of Control (IoC) DI container, and full reactive Kanban project management engine.
+
+## 🗺️ 277-Stage Complete JavaScript Curriculum (Acts 1–10)
 
 | # | Challenge Folder | Concept | Directory |
 |---|---|---|---|
@@ -329,6 +349,36 @@ Act 9 transitions learners from micro-drills to building modular production-grad
 | `245` | [245-transform-keys](challenges/245-transform-keys) | 245 — Checkpoint: Recursive Key Transformer | `245-transform-keys` |
 | `246` | [246-trap-object](challenges/246-trap-object) | 246 — Checkpoint: Trap Object Interceptor | `246-trap-object` |
 | `247` | [247-zoo-race](challenges/247-zoo-race) | 247 — Checkpoint: Zoo Race Physics Simulation | `247-zoo-race` |
+| `248` | [248-fluent-query-builder](challenges/248-fluent-query-builder) | 248 — Multi-Concept: Fluent Query Builder (Pipelines & Aggregation) | `248-fluent-query-builder` |
+| `249` | [249-schema-validator-sanitizer](challenges/249-schema-validator-sanitizer) | 249 — Multi-Concept: Schema Validator & Sanitizer (Recursion & Types) | `249-schema-validator-sanitizer` |
+| `250` | [250-csv-json-bidirectional-parser](challenges/250-csv-json-bidirectional-parser) | 250 — Multi-Concept: Bidirectional CSV/JSON Parser (Streaming & Parsing) | `250-csv-json-bidirectional-parser` |
+| `251` | [251-data-dedup-merge-engine](challenges/251-data-dedup-merge-engine) | 251 — Multi-Concept: Deduplication & Merge Engine (Composite Keys) | `251-data-dedup-merge-engine` |
+| `252` | [252-nested-object-path-lens](challenges/252-nested-object-path-lens) | 252 — Multi-Concept: Nested Object Path Lens (Immutability & Traversal) | `252-nested-object-path-lens` |
+| `253` | [253-finite-state-machine](challenges/253-finite-state-machine) | 253 — Multi-Concept: Finite State Machine (Guards & Lifecycle Hooks) | `253-finite-state-machine` |
+| `254` | [254-wildcard-event-broker](challenges/254-wildcard-event-broker) | 254 — Multi-Concept: Wildcard Event Broker (Pub/Sub & Glob Patterns) | `254-wildcard-event-broker` |
+| `255` | [255-undo-redo-history-manager](challenges/255-undo-redo-history-manager) | 255 — Multi-Concept: Undo/Redo History Manager (Stacks & Snapshots) | `255-undo-redo-history-manager` |
+| `256` | [256-reactive-store-signals](challenges/256-reactive-store-signals) | 256 — Multi-Concept: Reactive Store & Signals (Dependency Tracking) | `256-reactive-store-signals` |
+| `257` | [257-observer-middleware-pipeline](challenges/257-observer-middleware-pipeline) | 257 — Multi-Concept: Async Middleware Pipeline (Onion Model Execution) | `257-observer-middleware-pipeline` |
+| `258` | [258-rate-limited-task-queue](challenges/258-rate-limited-task-queue) | 258 — Multi-Concept: Rate-Limited Task Queue (Concurrency & Windows) | `258-rate-limited-task-queue` |
+| `259` | [259-async-cache-ttl](challenges/259-async-cache-ttl) | 259 — Multi-Concept: Async Cache with TTL (Thundering Herd Defense) | `259-async-cache-ttl` |
+| `260` | [260-batch-request-dispatcher](challenges/260-batch-request-dispatcher) | 260 — Multi-Concept: Batch Request Dispatcher (Debouncing & Promises) | `260-batch-request-dispatcher` |
+| `261` | [261-circuit-breaker-guard](challenges/261-circuit-breaker-guard) | 261 — Multi-Concept: Circuit Breaker Guard (Resilience & Probing) | `261-circuit-breaker-guard` |
+| `262` | [262-promise-concurrency-pool](challenges/262-promise-concurrency-pool) | 262 — Multi-Concept: Promise Concurrency Pool (Bounded Parallelism) | `262-promise-concurrency-pool` |
+| `263` | [263-markdown-micro-compiler](challenges/263-markdown-micro-compiler) | 263 — Multi-Concept: Markdown Micro-Compiler (AST & HTML Rendering) | `263-markdown-micro-compiler` |
+| `264` | [264-shunting-yard-evaluator](challenges/264-shunting-yard-evaluator) | 264 — Multi-Concept: Shunting-Yard Evaluator (Infix/RPN Math Engine) | `264-shunting-yard-evaluator` |
+| `265` | [265-template-directive-engine](challenges/265-template-directive-engine) | 265 — Multi-Concept: Template Directive Engine (Interpolation & Loops) | `265-template-directive-engine` |
+| `266` | [266-token-bucket-rate-limiter](challenges/266-token-bucket-rate-limiter) | 266 — Multi-Concept: Token Bucket Rate Limiter (Burst Leaky Bucket) | `266-token-bucket-rate-limiter` |
+| `267` | [267-levenshtein-fuzzy-search](challenges/267-levenshtein-fuzzy-search) | 267 — Multi-Concept: Levenshtein Fuzzy Search (Dynamic Programming) | `267-levenshtein-fuzzy-search` |
+| `268` | [268-jwt-token-verifier](challenges/268-jwt-token-verifier) | 268 — Multi-Concept: JWT Token Verifier & Signer (Crypto HMAC-SHA256) | `268-jwt-token-verifier` |
+| `269` | [269-lossless-text-compressor](challenges/269-lossless-text-compressor) | 269 — Multi-Concept: Lossless Text Compressor (RLE & Frequency Coding) | `269-lossless-text-compressor` |
+| `270` | [270-json-patch-diff-engine](challenges/270-json-patch-diff-engine) | 270 — Multi-Concept: JSON Patch & Diff Engine (RFC 6902 Sync) | `270-json-patch-diff-engine` |
+| `271` | [271-lru-lfu-cache-engine](challenges/271-lru-lfu-cache-engine) | 271 — Multi-Concept: LRU/LFU Dual Cache Engine (Eviction Policies) | `271-lru-lfu-cache-engine` |
+| `272` | [272-crypto-hash-chain](challenges/272-crypto-hash-chain) | 272 — Multi-Concept: Cryptographic Hash Chain (Immutable Ledger) | `272-crypto-hash-chain` |
+| `273` | [273-micro-redux-store](challenges/273-micro-redux-store) | 273 — Capstone: Micro Redux Store (Unidirectional State & Reducers) | `273-micro-redux-store` |
+| `274` | [274-in-memory-sql-engine](challenges/274-in-memory-sql-engine) | 274 — Capstone: In-Memory SQL Engine (SELECT, JOIN, GROUP BY) | `274-in-memory-sql-engine` |
+| `275` | [275-virtual-dom-reconciler](challenges/275-virtual-dom-reconciler) | 275 — Capstone: Virtual DOM Reconciler & Diff Tree (VDOM Engine) | `275-virtual-dom-reconciler` |
+| `276` | [276-dependency-injection-container](challenges/276-dependency-injection-container) | 276 — Capstone: Dependency Injection Container (IoC & Lifecycles) | `276-dependency-injection-container` |
+| `277` | [277-full-reactive-kanban-engine](challenges/277-full-reactive-kanban-engine) | 277 — Grand Capstone: Reactive Kanban State Engine (Full Production System) | `277-full-reactive-kanban-engine` |
 
 ---
 

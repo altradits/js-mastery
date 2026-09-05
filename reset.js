@@ -241,6 +241,9 @@ for (const dir of allDirs) {
     const exerciseContent = fs.readFileSync(exercisePath, "utf8");
     fs.writeFileSync(solPath, exerciseContent, "utf8");
     resetCount++;
+  } else {
+    fs.writeFileSync(solPath, `// Challenge ${dir}\n// Write your solution below:\n`, "utf8");
+    resetCount++;
   }
 }
 
