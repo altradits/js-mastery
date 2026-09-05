@@ -116,10 +116,12 @@ html, body {
   border-color: #4c4c4c;
 }
 
-/* App Main Container: Fixed Viewport Height */
+/* App Main Container: Fixed Viewport Height with 100dvh Support */
 .app-container {
   height: calc(100vh - 38px - 24px);
+  height: calc(100dvh - 38px - 24px);
   max-height: calc(100vh - 38px - 24px);
+  max-height: calc(100dvh - 38px - 24px);
   width: 100%;
   margin: 0 auto;
   padding: 8px 10px;
@@ -1083,3 +1085,250 @@ html, body {
   border-radius: 2px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* ------------------------------------------------------------- */
+/* ARENA MOBILE TABS (Segmented Control for Mobile)              */
+/* ------------------------------------------------------------- */
+.arena-mobile-tabs {
+  display: none;
+}
+
+/* ------------------------------------------------------------- */
+/* RESPONSIVE DESIGN & MEDIA QUERIES                             */
+/* ------------------------------------------------------------- */
+
+/* Tablet Breakpoint (<= 1024px) */
+@media (max-width: 1024px) {
+  .arena-split-layout {
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    gap: 6px;
+  }
+
+  .statusbar-group-center {
+    display: none;
+  }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media (max-width: 768px) {
+  html, body {
+    font-size: 13px;
+  }
+
+  .navbar {
+    height: auto;
+    min-height: 40px;
+    padding: 6px 10px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .nav-group-left {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .nav-group-right {
+    gap: 6px;
+  }
+
+  .nav-challenge-title {
+    display: none;
+  }
+
+  .app-container {
+    height: calc(100dvh - 42px - 26px);
+    max-height: calc(100dvh - 42px - 26px);
+    padding: 6px;
+  }
+
+  .view-tabs {
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .tab-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .modes-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .gauntlet-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .btn-gauntlet-play {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .curriculum-module {
+    padding: 10px 12px;
+  }
+
+  .challenge-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 5px;
+  }
+
+  /* Mobile Arena Segmented View System */
+  .arena-mobile-tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #1f1f1f;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 3px;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+
+  .mobile-tab-btn {
+    flex: 1;
+    padding: 6px 8px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    background: transparent;
+    border: none;
+    border-radius: 2px;
+    color: #858585;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-tab-btn.active {
+    background: #2d2d2d;
+    color: #ffffff;
+  }
+
+  .arena-split-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  /* Dynamic Mobile Tab Switching in Arena */
+  .arena-split-layout[data-active-tab="mission"] .instructions-panel {
+    display: flex;
+    height: 100%;
+    flex: 1;
+  }
+
+  .arena-split-layout[data-active-tab="mission"] .editor-workspace {
+    display: none;
+  }
+
+  .arena-split-layout[data-active-tab="editor"] .instructions-panel {
+    display: none;
+  }
+
+  .arena-split-layout[data-active-tab="editor"] .editor-workspace {
+    display: flex;
+    height: 100%;
+    flex: 1;
+  }
+
+  .arena-split-layout[data-active-tab="editor"] .editor-container {
+    display: flex;
+    height: 100%;
+    flex: 1;
+  }
+
+  .arena-split-layout[data-active-tab="editor"] .terminal-container {
+    display: none;
+  }
+
+  .arena-split-layout[data-active-tab="terminal"] .instructions-panel {
+    display: none;
+  }
+
+  .arena-split-layout[data-active-tab="terminal"] .editor-workspace {
+    display: flex;
+    height: 100%;
+    flex: 1;
+  }
+
+  .arena-split-layout[data-active-tab="terminal"] .editor-container {
+    display: none;
+  }
+
+  .arena-split-layout[data-active-tab="terminal"] .terminal-container {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    max-height: 100%;
+  }
+
+  .instructions-panel {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .statusbar {
+    height: 26px;
+    padding: 0 8px;
+    font-size: 10px;
+  }
+
+  .statusbar-group-right .statusbar-item:not(#statusbar-profile) {
+    display: none;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-card {
+    padding: 18px 16px;
+    max-width: 92vw;
+  }
+}
+
+/* Small Phones (<= 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 17px;
+  }
+
+  .hero-subtitle {
+    font-size: 12px;
+  }
+
+  .challenge-grid {
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 4px;
+  }
+
+  .node-title {
+    font-size: 10px;
+  }
+
+  .nav-brand-text {
+    font-size: 12px;
+  }
+
+  .nav-btn, .nav-btn-icon, .nav-badge, .nav-stat-item {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  .quest-bounties {
+    gap: 6px;
+    font-size: 10px;
+  }
+}
+

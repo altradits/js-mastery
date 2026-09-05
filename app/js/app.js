@@ -557,7 +557,14 @@ function renderArenaView(match) {
       .trim();
 
     appRoot.innerHTML = `
-      <div class="arena-split-layout">
+      <!-- Mobile Segmented Tabs Switcher -->
+      <div class="arena-mobile-tabs" id="arena-mobile-tabs">
+        <button class="mobile-tab-btn active" data-tab="mission">📋 Mission</button>
+        <button class="mobile-tab-btn" data-tab="editor">💻 Editor</button>
+        <button class="mobile-tab-btn" data-tab="terminal">⚡ Output</button>
+      </div>
+
+      <div class="arena-split-layout" id="arena-split-layout" data-active-tab="mission">
         <!-- Left: Focused & Resourceful Instructions Panel -->
         <div class="instructions-panel">
           <!-- Gamified Quest Meta Header -->
@@ -632,6 +639,7 @@ function renderArenaView(match) {
                 <span class="editor-badge">ESM</span>
               </div>
               <div class="editor-controls">
+                <button class="btn-editor-format" id="btn-format-code" title="Auto-format code (Prettier)">Format</button>
                 <span>Quest #${levelNumber}</span>
               </div>
             </div>
@@ -639,6 +647,13 @@ function renderArenaView(match) {
             <div class="editor-body">
               <div class="line-numbers" id="editor-lines">1<br>2<br>3<br>4<br>5</div>
               <textarea class="code-textarea" id="code-input" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="// Type your JavaScript code here...">${cleanStarterCode}</textarea>
+            </div>
+
+            <!-- Mobile Quick Action Bar inside editor -->
+            <div class="arena-mobile-action-bar">
+              <button class="btn-mobile-action btn-mobile-format" id="btn-mobile-format" title="Auto-format code">Format</button>
+              <button class="btn-mobile-action btn-mobile-test" id="btn-mobile-test" title="Run assertions">▶ Test</button>
+              <button class="btn-mobile-action btn-mobile-submit" id="btn-mobile-submit" title="Submit solution">🚀 Submit</button>
             </div>
           </div>
 
@@ -796,6 +811,53 @@ function renderArenaView(match) {
 
     document.getElementById("btn-terminal-test")?.addEventListener("click", handleTestRun);
     document.getElementById("btn-terminal-submit")?.addEventListener("click", handleSubmit);
+
+    async function handleFormat() {
+      const current = textarea.value;
+      const formatted = await formatJavaScriptCode(current);
+      if (formatted && formatted !== current) {
+        textarea.value = formatted;
+        const count = textarea.value.split("\n").length;
+        linesEl.innerHTML = Array.from({ length: Math.max(5, count) }, (_, i) => i + 1).join("<br>");
+      }
+    }
+
+    document.getElementById("btn-format-code")?.addEventListener("click", handleFormat);
+    document.getElementById("btn-mobile-format")?.addEventListener("click", handleFormat);
+
+    // Mobile Arena Segmented Tab Switcher
+    const mobileTabs = document.querySelectorAll(".mobile-tab-btn");
+    const arenaSplit = document.getElementById("arena-split-layout");
+    mobileTabs.forEach(tabBtn => {
+      tabBtn.addEventListener("click", () => {
+        mobileTabs.forEach(b => b.classList.remove("active"));
+        tabBtn.classList.add("active");
+        const target = tabBtn.getAttribute("data-tab");
+        if (arenaSplit) {
+          arenaSplit.setAttribute("data-active-tab", target);
+        }
+        if (target === "editor") {
+          setTimeout(() => textarea.focus(), 50);
+        }
+      });
+    });
+
+    // Mobile Action Bar buttons
+    document.getElementById("btn-mobile-test")?.addEventListener("click", () => {
+      handleTestRun();
+      if (window.innerWidth <= 768) {
+        const terminalTab = document.querySelector('.mobile-tab-btn[data-tab="terminal"]');
+        if (terminalTab) terminalTab.click();
+      }
+    });
+
+    document.getElementById("btn-mobile-submit")?.addEventListener("click", () => {
+      handleSubmit();
+      if (window.innerWidth <= 768) {
+        const terminalTab = document.querySelector('.mobile-tab-btn[data-tab="terminal"]');
+        if (terminalTab) terminalTab.click();
+      }
+    });
 
     const btnClear = document.getElementById("btn-clear-terminal");
     if (btnClear) {

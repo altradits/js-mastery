@@ -274,3 +274,146 @@
   font-size: 11px;
   margin-top: 3px;
 }
+
+/* ------------------------------------------------------------- */
+/* MOBILE RESPONSIVE ADAPTATIONS                                 */
+/* ------------------------------------------------------------- */
+.arena-mobile-action-bar {
+  display: none;
+}
+
+.btn-editor-format {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 500;
+  color: #cccccc;
+  background: #2d2d2d;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #3c3c3c;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-editor-format:hover {
+  color: #ffffff;
+  background: #37373d;
+  border-color: #4c4c4c;
+}
+
+@media (max-width: 768px) {
+  .editor-workspace {
+    gap: 6px;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .editor-container {
+    min-height: 0;
+    flex: 1;
+    border-radius: var(--radius-sm);
+  }
+
+  .editor-header {
+    height: 34px;
+    padding: 0 8px;
+  }
+
+  .editor-title {
+    font-size: 11px;
+  }
+
+  .line-numbers {
+    width: 32px;
+    padding: 8px 4px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .code-textarea {
+    padding: 8px 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  .terminal-container {
+    min-height: 0;
+    flex: 1;
+    max-height: 100%;
+    height: 100%;
+  }
+
+  .terminal-header {
+    height: 34px;
+    padding: 0 8px;
+  }
+
+  .btn-terminal-action {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  .terminal-body {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Mobile Action Bar */
+  .arena-mobile-action-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: #1f1f1f;
+    border-top: 1px solid var(--border-subtle);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    flex-shrink: 0;
+  }
+
+  .btn-mobile-action {
+    flex: 1;
+    padding: 8px 6px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid #3c3c3c;
+    background: #2d2d2d;
+    color: #cccccc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 36px;
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-mobile-action:active {
+    transform: scale(0.98);
+  }
+
+  .btn-mobile-action.btn-mobile-test {
+    background: #0e639c;
+    border-color: #1177bb;
+    color: #ffffff;
+  }
+
+  .btn-mobile-action.btn-mobile-submit {
+    background: #2d4530;
+    border-color: #3e6342;
+    color: #89d185;
+  }
+
+  .btn-mobile-action.btn-mobile-format {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    background: #252526;
+    color: #9cdcfe;
+  }
+}
+
